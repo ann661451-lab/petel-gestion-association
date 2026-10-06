@@ -1,106 +1,88 @@
-// ==========================================
+// =====================================================
 // PETEL ASSOCIATION - APPLICATION
 // Solidarité & Développement
-// ==========================================
+// =====================================================
+
+// -----------------------------------------------------
+// SUPABASE
+// -----------------------------------------------------
+
+const SUPABASE_URL = "COLLE_ICI_TON_PROJECT_URL";
+const SUPABASE_PUBLISHABLE_KEY = "COLLE_ICI_TA_PUBLISHABLE_KEY";
+
+let supabaseClient = null;
+
+// Chargement de Supabase
+async function initSupabase() {
+  try {
+    const { createClient } = await import(
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    );
+
+    supabaseClient = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    console.log("Supabase connecté.");
+
+    await verifierSession();
+
+  } catch (error) {
+    console.error("Erreur Supabase :", error);
+    afficherMessage("Erreur de connexion à Supabase.");
+  }
+}
+
+// -----------------------------------------------------
+// INITIALISATION
+// -----------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Petel Association - Application");
 
-  console.log("Petel Association - Application démarrée");
+  initSupabase();
+});
 
-  // ------------------------------------------
-  // CONFIGURATION
-  // ------------------------------------------
+// -----------------------------------------------------
+// MESSAGE
+// -----------------------------------------------------
 
-  const APP_NAME = "Petel Association";
-  const ASSOCIATION_NAME = "Solidarité & Développement";
+function afficherMessage(message) {
+  const element = document.getElementById("message");
 
-  // ------------------------------------------
-  // BOUTON DE CONNEXION
-  // ------------------------------------------
+  if (element) {
+    element.textContent = message;
+  }
+}
 
-  const loginForm = document.querySelector("form");
+// -----------------------------------------------------
+// CONNEXION
+// -----------------------------------------------------
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+window.login = async function () {
 
-      const emailInput =
-        document.querySelector('input[type="email"]');
-
-      const passwordInput =
-        document.querySelector('input[type="password"]');
-
-      const email = emailInput ? emailInput.value.trim() : "";
-      const password = passwordInput ? passwordInput.value : "";
-
-      if (!email || !password) {
-        alert("Veuillez remplir votre adresse e-mail et votre mot de passe.");
-        return;
-      }
-
-      // Pour le moment : démonstration de connexion.
-      // La vraie connexion Supabase sera ajoutée ensuite.
-
-      localStorage.setItem("petel_user_email", email);
-      localStorage.setItem("petel_user_connected", "true");
-
-      alert("Connexion réussie !");
-
-      afficherAccueil();
-    });
+  if (!supabaseClient) {
+    afficherMessage("Connexion à Supabase en cours...");
+    return;
   }
 
-  // ------------------------------------------
-  // AFFICHAGE DE L'ACCUEIL
-  // ------------------------------------------
+  const emailElement = document.getElementById("email");
+  const passwordElement = document.getElementById("password");
 
-  function afficherAccueil() {
+  if (!emailElement || !passwordElement) {
+    afficherMessage("Champs de connexion introuvables.");
+    return;
+  }
 
-    document.body.innerHTML = `
-      <div class="app">
+  const email = emailElement.value.trim();
+  const password = passwordElement.value;
 
-        <header class="app-header">
-          <h1>${APP_NAME}</h1>
-          <p>${ASSOCIATION_NAME}</p>
-        </header>
+  if (!email || !password) {
+    afficherMessage("Veuillez remplir tous les champs.");
+    return;
+  }
 
-        <main class="dashboard">
+  afficherMessage("Connexion en cours...");
 
-          <h2>Tableau de bord</h2>
-
-          <div class="cards">
-
-            <div class="card">
-              <h3>👥 Membres</h3>
-              <p id="members-count">0</p>
-            </div>
-
-            <div class="card">
-              <h3>💰 Cotisations</h3>
-              <p id="contributions-total">0 FCFA</p>
-            </div>
-
-            <div class="card">
-              <h3>💸 Dépenses</h3>
-              <p id="expenses-total">0 FCFA</p>
-            </div>
-
-            <div class="card">
-              <h3>🏦 Caisse</h3>
-              <p id="cash-balance">0 FCFA</p>
-            </div>
-
-          </div>
-
-          <div class="menu">
-
-            <button onclick="ouvrirMembres()">
-              👥 Membres
-            </button>
-
-            <button onclick="ouvrirFinances()">
-              💰 Finances
-            </button>
-
-            <button onclick="ouvrirMessages()">
-              💬
+  const { data, error } =
