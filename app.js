@@ -7,8 +7,8 @@
 // SUPABASE
 // -----------------------------------------------------
 
-const SUPABASE_URL = "COLLE_ICI_TON_PROJECT_URL";
-const SUPABASE_PUBLISHABLE_KEY = "COLLE_ICI_TA_PUBLISHABLE_KEY";
+const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
 let supabaseClient = null;
 
