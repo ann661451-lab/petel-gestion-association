@@ -4,27 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Petel Association</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <h1>Petel Association</h1>
-  <h2>Solidarité & Développement</h2>
+  <div class="app">
 
-  <p>Bienvenue dans l'application de gestion de l'association.</p>
+    <div class="logo">PA</div>
 
-  <hr>
+    <h1>Petel Association</h1>
+    <p class="subtitle">Solidarité & Développement</p>
 
-  <h3>Connexion</h3>
+    <div class="card">
+      <h2>Connexion</h2>
 
-  <form>
-    <label>Email</label><br>
-    <input type="email" placeholder="Votre email"><br><br>
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" placeholder="Votre adresse e-mail">
 
-    <label>Mot de passe</label><br>
-    <input type="password" placeholder="Votre mot de passe"><br><br>
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="Votre mot de passe">
 
-    <button type="button">Se connecter</button>
-  </form>
+      <button onclick="login()">Se connecter</button>
 
+      <p id="message"></p>
+
+      <a href="#" onclick="forgotPassword()">Mot de passe oublié ?</a>
+    </div>
+
+    <p class="footer">
+      © 2026 Petel Association<br>
+      Solidarité & Développement
+    </p>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
