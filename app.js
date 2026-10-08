@@ -85,4 +85,57 @@ window.login = async function () {
 
   afficherMessage("Connexion en cours...");
 
-  const { data, error } =
+  const { data, error } =await supabaseClient.auth.signInWithPassword({
+  email: email,
+  password: password
+});
+
+if (error) {
+  afficherMessage("Erreur : " + error.message);
+  return;
+}
+
+afficherMessage("Connexion réussie !");
+
+setTimeout(function () {
+  window.location.href = "index.html";
+}, 1000);
+
+};
+
+// -------------------------------------------
+// VERIFICATION DE SESSION
+// -------------------------------------------
+
+async function verifierSession() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    console.log("Utilisateur connecté.");
+  }
+}
+
+// -------------------------------------------
+// MOT DE PASSE OUBLIE
+// -------------------------------------------
+
+window.forgotPassword = async function () {
+  const emailElement = document.getElementById("email");
+
+  if (!emailElement || !emailElement.value.trim()) {
+    afficherMessage("Entrez votre adresse e-mail.");
+    return;
+  }
+
+  const email = emailElement.value.trim();
+
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(email);
+
+  if (error) {
+    afficherMessage("Erreur : " + error.message);
+    return;
+  }
+
+  afficherMessage("E-mail de réinitialisation envoyé.");
+};
