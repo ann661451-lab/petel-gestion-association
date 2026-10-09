@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#116b45">
+
+  <title>Gestion des membres - Petel Association</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f6f4;
+      color: #24332b;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #116b45;
+      color: white;
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 24px auto;
+      padding: 0 14px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      font-size: 19px;
+      margin-bottom: 14px;
+      color: #116b45;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    input, select, button {
+      font: inherit;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d4ded7;
+      border-radius: 7px;
+      background: white;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 11px 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: #116b45;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5eee8;
+      color: #116b45;
+    }
+
+    .btn-danger {
+      background: #b42318;
+      color: white;
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 7px;
+      margin-bottom: 14px;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    .status.success {
+      display: block;
+      background: #e3f7e9;
+      color: #176536;
+    }
+
+    .status.error {
+      display: block;
+      background: #fde8e7;
+      color: #a21c16;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #e6ece8;
+    }
+
+    th {
+      background: #f0f6f2;
+      color: #116b45;
+      font-size: 13px;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      background: #e5eee8;
+      color: #116b45;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 24px;
+      color: #65756a;
+    }
+
+    .actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .actions button {
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 19px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .toolbar > * {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Petel Association</h1>
+    <p>Solidarité & Développement</p>
+    <p>Gestion et consultation des membres</p>
+  </header>
+
+  <main class="container">
+    <div id="statusMessage" class="status"></div>
+
+    <section class="card">
+      <h2>Liste des membres</h2>
+
+      <div class="toolbar">
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Rechercher un membre..."
+          aria-label="Rechercher un membre"
+        >
+
+        <button
+          type="button"
+          class="btn-secondary"
+          id="refreshButton"
+        >
+          Actualiser la liste
+        </button>
+      </div>
+
+      <p id="memberCount">Chargement des membres...</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Prénom</th>
+              <th>Nom</th>
+              <th>Téléphone</th>
+              <th>Statut</th>
+              <th class="admin-only hidden">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="membersTableBody">
+            <tr>
+              <td colspan="5" class="empty">
+                Chargement des données...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="card admin-only hidden" id="memberFormSection">
+      <h2 id="formTitle">Ajouter un membre</h2>
+
+      <form id="memberForm">
+        <input type="hidden" id="memberId">
+
+        <div style="margin-bottom: 12px;">
+          <label for="firstName">Prénom</label>
+          <input
+            type="text"
+            id="firstName"
+            placeholder="Prénom du membre"
+            required
+          >
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label for="lastName">Nom</label>
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Nom du membre"
+            required
+          >
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label for="phone">Téléphone</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Numéro de téléphone"
+            required
+          >
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label for="memberStatus">Statut du membre</label>
+          <select id="memberStatus" required>
+            <option value="Actif">Actif</option>
+            <option value="Inactif">Inactif</option>
+            <option value="Honneur">Membre d'honneur</option>
+          </select>
+        </div>
+
+        <div class="toolbar">
+          <button type="submit" class="btn-primary" id="saveButton">
+            Enregistrer le membre
+          </button>
+
+          <button
+            type="button"
+            class="btn-secondary"
+            id="cancelButton"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Accès à l'administration</h2>
+
+      <p id="authDescription">
+        Connecte-toi avec ton compte administrateur pour gérer les membres.
+      </p>
+
+      <form id="loginForm">
+        <div style="margin-bottom: 12px;">
+          <label for="email">Adresse e-mail</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="admin@exemple.com"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label for="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <div class="toolbar">
+          <button type="submit" class="btn-primary" id="loginButton">
+            Se connecter
+          </button>
+
+          <button
+            type="button"
+            class="btn-secondary hidden"
+            id="logoutButton"
+          >
+            Se déconnecter
+          </button>
+        </div>
+      </form>
+
+      <p id="userRole">Mode consultation</p>
+    </section>
+            </main>
+            <script type="module">
+  import { createClient } from
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  // Configuration Supabase
+  // Utilise les valeurs déjà configurées dans ton application.
+  const SUPABASE_URL = "TON_URL_SUPABASE";
+  const SUPABASE_PUBLISHABLE_KEY = "TA_CLE_PUBLISHABLE";
+
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  // Nom de la table des membres dans Supabase
+  const TABLE_NAME = "members";
+
+  // Ces variables seront définies après vérification du compte.
+  let currentUser = null;
+  let isAdmin = false;
+  let members = [];
+
+  const statusMessage =
+    document.getElementById("statusMessage");
+
+  const membersTableBody =
+    document.getElementById("membersTableBody");
+
+  const memberCount =
+    document.getElementById("memberCount");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const memberForm =
+    document.getElementById("memberForm");
+
+  const memberFormSection =
+    document.getElementById("memberFormSection");
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+  const userRole =
+    document.getElementById("userRole");
+
+  const authDescription =
+    document.getElementById("authDescription");
+
+  // Afficher un message à l'écran.
+  function showMessage(message, type = "success") {
+    statusMessage.textContent = message;
+    statusMessage.className = "status " + type;
+  }
+
+  // Masquer les éléments réservés à l'administrateur.
+  function updateAdminInterface() {
+    document.querySelectorAll(".admin-only").forEach(element => {
+      element.classList.toggle("hidden", !isAdmin);
+    });
+
+    logoutButton.classList.toggle("hidden", !currentUser);
+
+    loginButton.classList.toggle("hidden", !!currentUser);
+
+    document.getElementById("email").disabled = !!currentUser;
+    document.getElementById("password").disabled = !!currentUser;
+
+    userRole.textContent = isAdmin
+      ? "Administrateur connecté"
+      : currentUser
+        ? "Membre connecté — consultation uniquement"
+        : "Mode consultation";
+
+    authDescription.textContent = currentUser
+      ? "Compte connecté : " + currentUser.email
+      : "Connecte-toi avec ton compte administrateur pour gérer les membres.";
+  }
+
+  // Réinitialiser le formulaire.
+  function resetMemberForm() {
+    memberForm.reset();
+    document.getElementById("memberId").value = "";
+    document.getElementById("formTitle").textContent =
+      "Ajouter un membre";
+    document.getElementById("saveButton").textContent =
+      "Enregistrer le membre";
+  }
+
+  document.getElementById("cancelButton").addEventListener(
+    "click",
+    resetMemberForm
+  );
+
+  // Vérifier les informations de configuration.
+  function validateConfiguration() {
+    if (
+      !SUPABASE_URL.startsWith("https://") ||
+      SUPABASE_URL === "TON_URL_SUPABASE" ||
+      SUPABASE_PUBLISHABLE_KEY === "TA_CLE_PUBLISHABLE"
+    ) {
+      showMessage(
+        "Configure l'URL Supabase et la clé Publishable avant de continuer.",
+        "error"
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  // Vérifier le rôle réel de l'utilisateur connecté.
+  // La table user_roles doit être créée dans Supabase.
+  async function checkAdminRole(userId) {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erreur de vérification du rôle :", error);
+      isAdmin = false;
+      return false;
+    }
+
+    isAdmin = data?.role === "admin";
+    return isAdmin;
+  }
+              
+  // Charger les membres depuis Supabase.
+  async function loadMembers() {
+    if (!validateConfiguration()) return;
+
+    membersTableBody.innerHTML = "";
+    memberCount.textContent = "Chargement des membres...";
+
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select("id, prenom, nom, telephone, statut")
+      .order("nom", { ascending: true });
+
+    if (error) {
+      console.error("Erreur de chargement :", error);
+
+      memberCount.textContent = "Impossible de charger les membres.";
+
+      showMessage(
+        "Erreur Supabase : vérifie la table members, les colonnes et les règles RLS.",
+        "error"
+      );
+
+      membersTableBody.innerHTML = "";
+
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+
+      cell.colSpan = 5;
+      cell.className = "empty";
+      cell.textContent = "Les données ne sont pas disponibles.";
+
+      row.appendChild(cell);
+      membersTableBody.appendChild(row);
+
+      return;
+    }
+
+    members = data || [];
+    renderMembers();
+  }
+
+  // Afficher les données sans interpréter le texte comme du HTML.
+  function renderMembers() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    const filteredMembers = members.filter(member => {
+      const values = [
+        member.prenom,
+        member.nom,
+        member.telephone,
+        member.statut
+      ];
+
+      return values.some(value =>
+        String(value ?? "").toLowerCase().includes(query)
+      );
+    });
+
+    membersTableBody.innerHTML = "";
+
+    memberCount.textContent =
+      filteredMembers.length +
+      (filteredMembers.length > 1
+        ? " membres affichés"
+        : " membre affiché");
+
+    if (filteredMembers.length === 0) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+
+      cell.colSpan = 5;
+      cell.className = "empty";
+      cell.textContent = "Aucun membre trouvé.";
+
+      row.appendChild(cell);
+      membersTableBody.appendChild(row);
+
+      return;
+    }
+
+    filteredMembers.forEach(member => {
+      const row = document.createElement("tr");
+
+      addCell(row, member.prenom);
+      addCell(row, member.nom);
+      addCell(row, member.telephone);
+
+      const statusCell = document.createElement("td");
+      const badge = document.createElement("span");
+
+      badge.className = "badge";
+      badge.textContent = member.statut || "Non renseigné";
+
+      statusCell.appendChild(badge);
+      row.appendChild(statusCell);
+
+      const actionsCell = document.createElement("td");
+      actionsCell.className = "admin-only";
+
+      if (isAdmin) {
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "btn-secondary";
+        editButton.textContent = "Modifier";
+
+        editButton.addEventListener("click", () => {
+          editMember(member);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "btn-danger";
+        deleteButton.textContent = "Supprimer";
+
+        deleteButton.addEventListener("click", () => {
+          deleteMember(member);
+        });
+
+        actions.append(editButton, deleteButton);
+        actionsCell.appendChild(actions);
+      }
+
+      row.appendChild(actionsCell);
+      membersTableBody.appendChild(row);
+    });
+  }
+
+  function addCell(row, value) {
+    const cell = document.createElement("td");
+    cell.textContent = value ?? "";
+    row.appendChild(cell);
+  }
+
+  // Préparer le formulaire de modification.
+  function editMember(member) {
+    if (!isAdmin) {
+      showMessage(
+        "Seul l'administrateur peut modifier un membre.",
+        "error"
+      );
+      return;
+    }
+
+    document.getElementById("memberId").value = member.id;
+    document.getElementById("firstName").value =
+      member.prenom || "";
+    document.getElementById("lastName").value =
+      member.nom || "";
+    document.getElementById("phone").value =
+      member.telephone || "";
+    document.getElementById("memberStatus").value =
+      member.statut || "Actif";
+
+    document.getElementById("formTitle").textContent =
+      "Modifier un membre";
+    document.getElementById("saveButton").textContent =
+      "Enregistrer les modifications";
+
+    memberFormSection.classList.remove("hidden");
+
+    memberFormSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  // Recherche instantanée.
+  searchInput.addEventListener("input", renderMembers);
+
+  // Actualiser la liste.
+  document.getElementById("refreshButton").addEventListener(
+    "click",
+    loadMembers
+  );  // Connexion de l'utilisateur.
+  loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!validateConfiguration()) return;
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    loginButton.disabled = true;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    loginButton.disabled = false;
+
+    if (error) {
+      showMessage("Connexion impossible : " + error.message, "error");
+      return;
+    }
+
+    currentUser = data.user;
+    await checkAdminRole(currentUser.id);
+    updateAdminInterface();
+
+    loginForm.reset();
+
+    showMessage(
+      isAdmin
+        ? "Bienvenue, administrateur."
+        : "Connexion réussie. Tu peux consulter les membres.",
+      "success"
+    );
+
+    await loadMembers();
+  });
+
+  // Déconnexion.
+  logoutButton.addEventListener("click", async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      showMessage("Erreur de déconnexion.", "error");
+      return;
+    }
+
+    currentUser = null;
+    isAdmin = false;
+
+    updateAdminInterface();
+    resetMemberForm();
+    showMessage("Déconnexion réussie.", "success");
+
+    await loadMembers();
+  });
+
+  // Vérifier la session au chargement de la page.
+  async function initializeApp() {
+    updateAdminInterface();
+
+    if (!validateConfiguration()) return;
+
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) {
+      showMessage("Impossible de vérifier la session.", "error");
+      return;
+    }
+
+    currentUser = data.session?.user || null;
+
+    if (currentUser) {
+      await checkAdminRole(currentUser.id);
+    }
+
+    updateAdminInterface();
+    await loadMembers();
+  }
+
+  // Ajouter ou modifier un membre.
+  memberForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!isAdmin || !currentUser) {
+      showMessage(
+        "Connecte-toi avec un compte administrateur.",
+        "error"
+      );
+      return;
+    }
+
+    const id = document.getElementById("memberId").value;
+
+    const memberData = {
+      prenom: document.getElementById("firstName").value.trim(),
+      nom: document.getElementById("lastName").value.trim(),
+      telephone: document.getElementById("phone").value.trim(),
+      statut: document.getElementById("memberStatus").value
+    };
+
+    if (
+      !memberData.prenom ||
+      !memberData.nom ||
+      !memberData.telephone
+    ) {
+      showMessage("Remplis tous les champs obligatoires.", "error");
+      return;
+    }
+
+    const saveButton = document.getElementById("saveButton");
+    saveButton.disabled = true;
+
+    let result;
+
+    if (id) {
+      result = await supabase
+        .from(TABLE_NAME)
+        .update(memberData)
+        .eq("id", id)
+        .select();
+    } else {
+      result = await supabase
+        .from(TABLE_NAME)
+        .insert(memberData)
+        .select();
+    }
+
+    saveButton.disabled = false;
+
+    if (result.error) {
+      showMessage(
+        "Enregistrement impossible : " + result.error.message,
+        "error"
+      );
+      return;
+    }
+
+    resetMemberForm();
+
+    showMessage(
+      id ? "Membre modifié avec succès." : "Membre ajouté avec succès.",
+      "success"
+    );
+
+    await loadMembers();
+  });
+
+  // Supprimer un membre.
+  async function deleteMember(member) {
+    if (!isAdmin || !currentUser) {
+      showMessage("Action réservée à l'administrateur.", "error");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Veux-tu vraiment supprimer " +
+      member.prenom + " " + member.nom + " ?"
+    );
+
+    if (!confirmed) return;
+
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .delete()
+      .eq("id", member.id)
+      .select("id");
+
+    if (error) {
+      showMessage(
+        "Suppression impossible : " + error.message,
+        "error"
+      );
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      showMessage(
+        "Aucune suppression confirmée. Vérifie les droits d'accès.",
+        "error"
+      );
+      return;
+    }
+
+    showMessage("Membre supprimé avec succès.", "success");
+    await loadMembers();
+  }
+
+  // Démarrer l'application.
+  initializeApp();
+</script>
+
+</body>
+</html>
