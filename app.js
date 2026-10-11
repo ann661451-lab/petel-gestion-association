@@ -23,7 +23,7 @@ async function initSupabase() {
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
-
+window.supabaseClient = supabaseClient;
     console.log("Supabase connecté.");
 
     await verifierSession();
