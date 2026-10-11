@@ -92,57 +92,6 @@ window.login = async function () {
       return;
     }
 
-    afficherMessage("Connexion réussie !");
-
-    window.location.href = "dashboard.html";
-  } catch (error) {
-    console.error("Erreur JavaScript :", error);
-    afficherMessage("Erreur : " + (error.message || "problème inattendu"));
-  }
-};
-    = async function () {
-
-  if (!supabaseClient) {
-    afficherMessage("Connexion à Supabase en cours...");
-    return;
-  }
-
-  const emailElement = document.getElementById("email");
-  const passwordElement = document.getElementById("password");
-
-  if (!emailElement || !passwordElement) {
-    afficherMessage("Champs de connexion introuvables.");
-    return;
-  }
-
-  const email = emailElement.value.trim();
-  const password = passwordElement.value;
-
-  if (!email || !password) {
-    afficherMessage("Veuillez remplir tous les champs.");
-    return;
-  }
-
-  afficherMessage("Connexion en cours...");
-
-  const { data, error } =await supabaseClient.auth.signInWithPassword({
-  email: email,
-  password: password
-});
-
-if (error) {
-  afficherMessage("Erreur : " + error.message);
-  return;
-}
-
-afficherMessage("Connexion réussie !");
-
-setTimeout(function () {
-  window.location.href = "dashboard.html";
-}, 1000);
-
-};
-
 // -------------------------------------------
 // VERIFICATION DE SESSION
 // -------------------------------------------
