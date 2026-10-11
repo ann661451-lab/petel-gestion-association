@@ -24,10 +24,8 @@ async function initSupabase() {
       SUPABASE_PUBLISHABLE_KEY
     );
 window.supabaseClient = supabaseClient;
-    console.log("Supabase connecté.");
-window.supabaseClient = supabaseClient;
-    await verifierSession();
-
+console.log("Client Supabase initialisé.");
+await verifierSession();
   } catch (error) {
     console.error("Erreur Supabase :", error);
     afficherMessage("Erreur de connexion à Supabase.");
