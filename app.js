@@ -87,11 +87,11 @@ window.login = async function () {
       return;
     }
 
-    if (!data.session) {
-      afficherMessage("Aucune session créée. Réessaie.");
-      return;
-    }
-
+if (data.session) {
+    afficherMessage("Connexion réussie !");
+    window.location.href = "dashboard.html";
+    return;
+}
 // -------------------------------------------
 // VERIFICATION DE SESSION
 // -------------------------------------------
