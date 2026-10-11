@@ -60,7 +60,49 @@ function afficherMessage(message) {
 // CONNEXION
 // -----------------------------------------------------
 
+
 window.login = async function () {
+  try {
+    if (!supabaseClient) {
+      afficherMessage("Supabase n'est pas encore prêt. Actualise la page.");
+      return;
+    }
+
+    const email = document.getElementById("email")?.value.trim();
+    const password = document.getElementById("password")?.value;
+
+    if (!email || !password) {
+      afficherMessage("Entre ton adresse e-mail et ton mot de passe.");
+      return;
+    }
+
+    afficherMessage("Connexion en cours...");
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      afficherMessage("Erreur de connexion : " + error.message);
+      console.error("Erreur Supabase :", error);
+      return;
+    }
+
+    if (!data.session) {
+      afficherMessage("Aucune session créée. Réessaie.");
+      return;
+    }
+
+    afficherMessage("Connexion réussie !");
+
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    console.error("Erreur JavaScript :", error);
+    afficherMessage("Erreur : " + (error.message || "problème inattendu"));
+  }
+};
+    = async function () {
 
   if (!supabaseClient) {
     afficherMessage("Connexion à Supabase en cours...");
