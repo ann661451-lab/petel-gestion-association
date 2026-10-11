@@ -25,7 +25,7 @@ async function initSupabase() {
     );
 window.supabaseClient = supabaseClient;
     console.log("Supabase connecté.");
-
+window.supabaseClient = supabaseClient;
     await verifierSession();
 
   } catch (error) {
