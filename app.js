@@ -38,11 +38,7 @@ await verifierSession();
 
 document.addEventListener("DOMContentLoaded", async function () {
   console.log("Petel Association - Application");
-
   await initSupabase();
-});
-
-  initSupabase();
 });
 
 // -----------------------------------------------------
