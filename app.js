@@ -127,3 +127,13 @@ window.forgotPassword = async function () {
 
   afficherMessage("E-mail de réinitialisation envoyé.");
 };
+document.addEventListener("DOMContentLoaded", function () {
+  const bouton = document.getElementById("loginButton");
+
+  if (bouton) {
+    bouton.addEventListener("click", function () {
+      window.login();
+    });
+  }
+});
+    
