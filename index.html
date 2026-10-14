@@ -26,15 +26,14 @@
       <input type="password" id="password" placeholder="Votre mot de passe">
 
 
-<button type="button" id="loginButton">Se connecter</button>
-
+<button type="button" id="loginButton" onclick="window.login()">Se connecter</button>
+<p id="message" role="status"></p>
     <p class="footer">
       © 2026 Petel Association<br>
       Solidarité & Développement
     </p>
 
   </div>
-<script src="app.js"
-onload="document.getElementById('message').textContent = typeof window.login === 'function' ? 'OK : fonction login disponible' : 'ERREUR : fonction login introuvable';"
-onerror="document.getElementById('message').textContent = 'ERREUR : app.js ne se charge pas';">
-</script>
+<script src="app.js"></script>
+</body>
+</html>
