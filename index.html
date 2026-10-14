@@ -37,7 +37,7 @@
     </p>
 
   </div>
-
-  <script src="app.js"></script>
-</body>
-</html>
+<script src="app.js"
+onload="document.getElementById('message').textContent = typeof window.login === 'function' ? 'OK : fonction login disponible' : 'ERREUR : fonction login introuvable';"
+onerror="document.getElementById('message').textContent = 'ERREUR : app.js ne se charge pas';">
+</script>
