@@ -390,7 +390,7 @@
           window.supabaseClient ||
           window.sb ||
           window.supabaseInstance;
-
+console.log("Client Supabase détecté :", !!existing);
         if (existing && typeof existing.from === "function") {
           return existing;
         }
