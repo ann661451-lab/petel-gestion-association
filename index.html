@@ -4,17 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Petel Association</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-
   <div class="app">
-
     <div class="logo">PA</div>
 
     <h1>Petel Association</h1>
-    <p class="subtitle">Solidarité & Développement</p>
+    <p class="subtitle">Solidarité &amp; Développement</p>
 
     <div class="card">
       <h2>Connexion</h2>
@@ -25,14 +22,21 @@
       <label for="password">Mot de passe</label>
       <input type="password" id="password" placeholder="Votre mot de passe">
 
-<button type="button" id="loginButton">Se connecter</button>
+      <button type="button" id="loginButton">Se connecter</button>
 
-    <p class="footer">
-      © 2026 Petel Association<br>
-      Solidarité & Développement
-    </p>
+      <p id="message" role="status" aria-live="polite"></p>
 
+      <p class="footer">
+        © 2026 Petel Association<br>
+        Solidarité &amp; Développement
+      </p>
+    </div>
   </div>
-<script src="./app.js?v=2" onload="document.getElementById('message').textContent='app.js chargé';" onerror="document.getElementById('message').textContent='ERREUR : app.js introuvable';"></script>
+
+  <script
+    src="./app.js?v=2"
+    onload="document.getElementById('message').textContent='app.js chargé';"
+    onerror="document.getElementById('message').textContent='Erreur : app.js introuvable';">
+  </script>
 </body>
 </html>
