@@ -828,7 +828,28 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener("DOMContentLoaded", async function () {
+  if (window.supabaseClient) {
+    init();
+    return;
+  }
+
+  let essais = 0;
+
+  const attente = setInterval(function () {
+    essais++;
+
+    if (window.supabaseClient) {
+      clearInterval(attente);
+      init();
+    } else if (essais >= 50) {
+      clearInterval(attente);
+      const notice = document.getElementById("notice");
+      notice.textContent = "Le client Supabase ne se charge pas. Vérifie app.js.";
+      notice.className = "notice show error";
+    }
+  }, 200);
+});
   })();
   </script>
 </body>
