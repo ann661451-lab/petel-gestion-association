@@ -3,18 +3,33 @@
 // Solidarité & Développement
 // =====================================================
 
-// -----------------------------------------------------
-// SUPABASE
-// -----------------------------------------------------
-
 const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
 let supabaseClient = null;
+let initialisationEnCours = null;
 
-// Chargement de Supabase
+// -----------------------------------------------------
+// MESSAGE
+// -----------------------------------------------------
+
+function afficherMessage(message) {
+  const element = document.getElementById("message");
+  if (element) {
+    element.textContent = message;
+  }
+}
+
+// -----------------------------------------------------
+// INITIALISATION SUPABASE
+// -----------------------------------------------------
+
 async function initSupabase() {
-  try {
+  if (supabaseClient) return supabaseClient;
+
+  if (initialisationEnCours) return initialisationEnCours;
+
+  initialisationEnCours = (async () => {
     const { createClient } = await import(
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
     );
@@ -23,33 +38,39 @@ async function initSupabase() {
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
-window.supabaseClient = supabaseClient;
-console.log("Client Supabase initialisé.");
-await verifierSession();
+
+    window.supabaseClient = supabaseClient;
+    console.log("Client Supabase initialisé.");
+
+    return supabaseClient;
+  })();
+
+  try {
+    return await initialisationEnCours;
   } catch (error) {
+    initialisationEnCours = null;
     console.error("Erreur Supabase :", error);
-    afficherMessage("Erreur de connexion à Supabase.");
+    afficherMessage("Impossible de charger Supabase. Vérifie ta connexion Internet.");
+    throw error;
   }
 }
 
 // -----------------------------------------------------
-// INITIALISATION
+// VÉRIFICATION DE SESSION
 // -----------------------------------------------------
 
-document.addEventListener("DOMContentLoaded", async function () {
-  console.log("Petel Association - Application");
-  await initSupabase();
-});
+async function verifierSession() {
+  if (!supabaseClient) return;
 
-// -----------------------------------------------------
-// MESSAGE
-// -----------------------------------------------------
+  const { data, error } = await supabaseClient.auth.getSession();
 
-function afficherMessage(message) {
-  const element = document.getElementById("message");
+  if (error) {
+    console.error("Erreur de session :", error);
+    return;
+  }
 
-  if (element) {
-    element.textContent = message;
+  if (data.session) {
+    console.log("Utilisateur connecté.");
   }
 }
 
@@ -57,16 +78,20 @@ function afficherMessage(message) {
 // CONNEXION
 // -----------------------------------------------------
 
-
 window.login = async function () {
   try {
-    if (!supabaseClient) {
-      afficherMessage("Supabase n'est pas encore prêt. Actualise la page.");
+    afficherMessage("Vérification des informations...");
+
+    const emailElement = document.getElementById("email");
+    const passwordElement = document.getElementById("password");
+
+    if (!emailElement || !passwordElement) {
+      afficherMessage("Erreur : champs de connexion introuvables.");
       return;
     }
 
-    const email = document.getElementById("email")?.value.trim();
-    const password = document.getElementById("password")?.value;
+    const email = emailElement.value.trim();
+    const password = passwordElement.value;
 
     if (!email || !password) {
       afficherMessage("Entre ton adresse e-mail et ton mot de passe.");
@@ -75,65 +100,82 @@ window.login = async function () {
 
     afficherMessage("Connexion en cours...");
 
+    await initSupabase();
+
     const { data, error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password
+      email: email,
+      password: password
     });
 
     if (error) {
+      console.error("Erreur de connexion :", error);
       afficherMessage("Erreur de connexion : " + error.message);
-      console.error("Erreur Supabase :", error);
       return;
     }
 
-if (data.session) {
-    afficherMessage("Connexion réussie !");
-    window.location.href = "dashboard.html";
-    return;
-}
-// -------------------------------------------
-// VERIFICATION DE SESSION
-// -------------------------------------------
+    if (data.session) {
+      afficherMessage("Connexion réussie !");
+      window.location.href = "./dashboard.html";
+      return;
+    }
 
-async function verifierSession() {
-  const { data } = await supabaseClient.auth.getSession();
-
-  if (data.session) {
-    console.log("Utilisateur connecté.");
+    afficherMessage("Connexion non confirmée. Réessaie.");
+  } catch (error) {
+    console.error("Erreur pendant la connexion :", error);
+    afficherMessage("Échec de la connexion. Vérifie Internet et réessaie.");
   }
-}
+};
 
-// -------------------------------------------
-// MOT DE PASSE OUBLIE
-// -------------------------------------------
+// -----------------------------------------------------
+// MOT DE PASSE OUBLIÉ
+// -----------------------------------------------------
 
 window.forgotPassword = async function () {
-  const emailElement = document.getElementById("email");
+  try {
+    const emailElement = document.getElementById("email");
 
-  if (!emailElement || !emailElement.value.trim()) {
-    afficherMessage("Entrez votre adresse e-mail.");
-    return;
+    if (!emailElement || !emailElement.value.trim()) {
+      afficherMessage("Entre ton adresse e-mail.");
+      return;
+    }
+
+    await initSupabase();
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(
+      emailElement.value.trim()
+    );
+
+    if (error) {
+      afficherMessage("Erreur : " + error.message);
+      return;
+    }
+
+    afficherMessage("E-mail de réinitialisation envoyé.");
+  } catch (error) {
+    console.error("Erreur de réinitialisation :", error);
+    afficherMessage("Impossible d'envoyer l'e-mail pour le moment.");
   }
-
-  const email = emailElement.value.trim();
-
-  const { error } =
-    await supabaseClient.auth.resetPasswordForEmail(email);
-
-  if (error) {
-    afficherMessage("Erreur : " + error.message);
-    return;
-  }
-
-  afficherMessage("E-mail de réinitialisation envoyé.");
 };
+
+// -----------------------------------------------------
+// ÉVÉNEMENTS DE LA PAGE
+// -----------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", function () {
   const bouton = document.getElementById("loginButton");
 
-  if (bouton) {
-    bouton.addEventListener("click", function () {
-      window.login();
-    });
+  if (!bouton) {
+    console.error("Bouton loginButton introuvable.");
+    return;
   }
+
+  bouton.addEventListener("click", function () {
+    window.login();
+  });
+
+  initSupabase()
+    .then(() => verifierSession())
+    .catch((error) => {
+      console.error("Initialisation Supabase impossible :", error);
+    });
 });
-    
