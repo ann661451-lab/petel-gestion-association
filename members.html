@@ -387,6 +387,7 @@
       function getSupabaseClient() {
         // Priorité au client déjà créé par app.js.
         const existing =
+          console.log("Client Supabase détecté :", !!existing);
           window.supabaseClient ||
           window.sb ||
           window.supabaseInstance;
