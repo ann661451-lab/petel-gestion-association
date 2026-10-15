@@ -731,4 +731,105 @@
           return;
         }
 
-        $("loginForm").addEv
+        entListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (busy) return;
+        clearNotice();
+        setBusy(true);
+
+        try {
+          const email = $("loginEmail").value.trim();
+          const password = $("loginPassword").value;
+
+          if (!email || !password) {
+            notify("Entre ton adresse e-mail et ton mot de passe.", "error");
+            return;
+          }
+
+          const { data, error } = await db.auth.signInWithPassword({
+            email,
+            password
+          });
+
+          if (error) throw error;
+
+          if (!data.session || !data.user) {
+            throw new Error("La connexion n'a pas été confirmée.");
+          }
+
+          await openSession(data.user);
+        } catch (error) {
+          showLoggedOut();
+          notify("Connexion impossible : " + error.message, "error");
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      $("logoutButton").addEventListener("click", async function () {
+        if (busy) return;
+        setBusy(true);
+
+        try {
+          const { error } = await db.auth.signOut();
+          if (error) throw error;
+
+          showLoggedOut();
+          clearNotice();
+          notify("Tu es déconnecté.", "success");
+        } catch (error) {
+          notify("Déconnexion impossible : " + error.message, "error");
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      $("refreshButton").addEventListener("click", async function () {
+        if (busy) return;
+        clearNotice();
+        setBusy(true);
+
+        try {
+          await loadMembers();
+          notify("Liste actualisée.", "success");
+        } catch (error) {
+          notify(error.message, "error");
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      $("searchInput").addEventListener("input", renderMembers);
+
+      $("memberForm").addEventListener("submit", saveMember);
+
+      $("cancelEditButton").addEventListener("click", resetForm);
+
+      db.auth.onAuthStateChange((event, session) => {
+        if (event === "SIGNED_OUT" || !session) {
+          showLoggedOut();
+        }
+      });
+
+      try {
+        const { data, error } = await db.auth.getSession();
+
+        if (error) throw error;
+
+        if (data.session) {
+          await openSession(data.session.user);
+        } else {
+          showLoggedOut();
+        }
+      } catch (error) {
+        showLoggedOut();
+        notify("Vérification de session impossible : " + error.message, "error");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  })();
+  </script>
+</body>
+</html>
