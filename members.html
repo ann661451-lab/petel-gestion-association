@@ -374,9 +374,10 @@
 
       async function waitForClient() {
         for (let i = 0; i < 100; i++) {
-          const candidate = window.supabaseClient ||
-                            window.sb ||
-                            window.supabaseInstance;
+          const candidate = window.membersSupabaseClient ||
+                  window.supabaseClient ||
+                  window.sb ||
+                  window.supabaseInstance;;
 
           if (candidate &&
               candidate.auth &&
