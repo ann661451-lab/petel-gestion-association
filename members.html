@@ -395,25 +395,6 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip
     "Client Supabase introuvable. Vérifie la clé Publishable et le chargement de Supabase."
   );
 }
-        for (let i = 0; i < 100; i++) {
-          const candidate = window.membersSupabaseClient ||
-                  window.supabaseClient ||
-                  window.sb ||
-                  window.supabaseInstance;;
-
-          if (candidate &&
-              candidate.auth &&
-              typeof candidate.from === "function") {
-            return candidate;
-          }
-
-          await new Promise(resolve => setTimeout(resolve, 100));
-        }
-
-        throw new Error(
-          "Client Supabase introuvable. Vérifiez le chargement de app.js."
-        );
-      }
 
       async function checkAdmin(user) {
         /*
