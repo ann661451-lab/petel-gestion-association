@@ -297,7 +297,21 @@
   </main>
 
   <!-- Bibliothèque Supabase : le client existant de app.js est réutilisé. -->
-  <script src="./app.js" defer></script>
+
+<script type="module">
+  import { createClient } from
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY = "COLLE_TA_CLE_PUBLISHABLE_EXISTANTE_ICI";
+
+  window.membersSupabaseClient = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+</script>
+
 
   <script>
     (() => {
