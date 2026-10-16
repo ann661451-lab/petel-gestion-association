@@ -522,9 +522,8 @@ $("memberStatus").value = member.status || "Actif";
         if (!isAdmin) return;
 
         const confirmed = window.confirm(
-          "Supprimer " + (member.prenom || "") + " " +
-          (member.nom || "") + " ? Cette action est définitive."
-        );
+          "Supprimer " + (member.first_name || "") + " " +
+(member.last_name || "") + " ? Cette action est définitive."
 
         if (!confirmed) return;
 
