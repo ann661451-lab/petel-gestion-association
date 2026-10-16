@@ -590,11 +590,11 @@ $("memberStatus").value = member.status || "Actif";
 
         const id = $("memberId").value;
         const record = {
-          prenom: $("firstName").value.trim(),
-          nom: $("lastName").value.trim(),
-          telephone: $("phone").value.trim(),
-          statut: $("memberStatus").value
-        };
+  first_name: $("firstName").value.trim(),
+  last_name: $("lastName").value.trim(),
+  phone: $("phone").value.trim(),
+  status: $("memberStatus").value
+};
 
         try {
           let result;
