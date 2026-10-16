@@ -421,8 +421,8 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip
 
         const { data, error } = await db
           .from("members")
-          .select("id, prenom, nom, telephone, statut")
-          .order("nom", { ascending: true });
+.select("id, first_name, last_name, phone, status")
+.order("last_name", { ascending: true });
 
         if (error) throw error;
 
@@ -462,11 +462,10 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip
         members.forEach(member => {
           const tr = document.createElement("tr");
 
-          tr.appendChild(makeCell(member.prenom));
-          tr.appendChild(makeCell(member.nom));
-          tr.appendChild(makeCell(member.telephone));
-          tr.appendChild(makeCell(member.statut));
-
+          tr.appendChild(makeCell(member.first_name));
+tr.appendChild(makeCell(member.last_name));
+tr.appendChild(makeCell(member.phone));
+tr.appendChild(makeCell(member.status));
           if (isAdmin) {
             const actions = document.createElement("td");
 
@@ -505,10 +504,10 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip
         }
 
         $("memberId").value = member.id;
-        $("firstName").value = member.prenom || "";
-        $("lastName").value = member.nom || "";
-        $("phone").value = member.telephone || "";
-        $("memberStatus").value = member.statut || "Actif";
+      $("firstName").value = member.first_name || "";
+$("lastName").value = member.last_name || "";
+$("phone").value = member.phone || "";
+$("memberStatus").value = member.status || "Actif";
         $("formTitle").textContent = "Modifier un membre";
         $("saveMemberButton").textContent = "Enregistrer les modifications";
         $("cancelEditButton").classList.remove("hidden");
