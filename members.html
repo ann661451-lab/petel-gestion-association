@@ -547,27 +547,6 @@ async function deleteMember(member) {
     setBusy(false);
   }
 }
-
-        try {
-          const { error } = await db
-            .from("members")
-            .delete()
-            .eq("id", member.id);
-
-          if (error) throw error;
-
-          resetForm();
-          await loadMembers();
-          message("Membre supprimé.", "success");
-        } catch (error) {
-          console.error(error);
-          message("Suppression impossible : " + error.message, "error");
-        } finally {
-          setBusy(false);
-        }
-      }
-
-      loginForm.addEventListener("submit", async event => {
         event.preventDefault();
         if (busy) return;
 
