@@ -547,32 +547,34 @@ async function deleteMember(member) {
     setBusy(false);
   }
 }
-        event.preventDefault();
-        if (busy) return;
+        loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
 
-        setBusy(true);
-        message("Connexion en cours...", "info");
+  if (busy) return;
 
-        try {
-          const email = $("membersLoginEmail").value.trim();
-          const password = $("membersLoginPassword").value;
+  setBusy(true);
+  message("Connexion en cours...", "info");
 
-          const { data, error } = await db.auth.signInWithPassword({
-            email,
-            password
-          });
+  try {
+    const email = $("membersLoginEmail").value.trim();
+    const password = $("membersLoginPassword").value;
 
-          if (error) throw error;
+    const { data, error } = await db.auth.signInWithPassword({
+      email,
+      password
+    });
 
-          currentUser = data.user;
-          await startSession();
-        } catch (error) {
-          console.error(error);
-          message("Connexion impossible : " + error.message, "error");
-        } finally {
-          setBusy(false);
-        }
-      });
+    if (error) throw error;
+
+    currentUser = data.user;
+    await startSession();
+  } catch (error) {
+    console.error(error);
+    message("Connexion impossible : " + error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+});
 
       memberForm.addEventListener("submit", async event => {
         event.preventDefault();
