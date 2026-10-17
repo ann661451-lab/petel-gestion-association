@@ -3,25 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#116149">
   <title>Membres - Petel Association</title>
+  <meta name="theme-color" content="#116149">
 
   <style>
     :root {
       --green: #116149;
-      --dark: #0b4435;
+      --dark-green: #0b4435;
       --light: #f2f7f4;
       --red: #b42318;
-      --border: #dce6df;
+      --border: #d8e4dc;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--light);
-      color: #18342b;
+      padding: 16px;
       font-family: Arial, sans-serif;
+      background: var(--light);
+      color: #1f2933;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 950px;
+      margin: 0 auto;
     }
 
     header {
@@ -29,6 +36,8 @@
       color: white;
       padding: 22px 16px;
       text-align: center;
+      border-radius: 12px;
+      margin-bottom: 18px;
     }
 
     header h1 {
@@ -38,24 +47,19 @@
 
     header p { margin: 0; }
 
-    main {
-      max-width: 1000px;
-      margin: 22px auto;
-      padding: 0 14px 35px;
-    }
-
     .card {
       background: white;
-      padding: 20px;
-      margin-bottom: 18px;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      box-shadow: 0 2px 9px #0000000d;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
 
     h2 {
       font-size: 20px;
+      color: var(--dark-green);
       margin-top: 0;
-      color: var(--dark);
     }
 
     label {
@@ -65,136 +69,128 @@
     }
 
     input, select {
+      display: block;
       width: 100%;
       padding: 12px;
-      border: 1px solid #bdcec4;
-      border-radius: 7px;
+      border: 1px solid #bdcfc3;
+      border-radius: 8px;
       font-size: 16px;
       background: white;
     }
 
-    button, .link-button {
-      display: inline-block;
+    button {
       padding: 11px 15px;
       border: 0;
-      border-radius: 7px;
+      border-radius: 8px;
       background: var(--green);
       color: white;
       font-size: 15px;
+      font-weight: bold;
       cursor: pointer;
-      text-decoration: none;
-      margin: 5px 4px 5px 0;
+      margin: 8px 5px 0 0;
     }
 
-    button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .secondary { background: #52665c; }
-    .danger { background: var(--red); }
+    button.secondary { background: #52665b; }
+    button.danger { background: var(--red); }
+    button:disabled { opacity: .6; cursor: wait; }
 
     .hidden { display: none !important; }
 
     .notice {
       padding: 12px;
-      border-radius: 7px;
       margin: 12px 0;
+      border-radius: 8px;
       overflow-wrap: anywhere;
     }
 
-    .error {
-      background: #ffeded;
-      color: #8b1717;
-    }
-
-    .success {
-      background: #e5f7eb;
-      color: #176438;
-    }
-
-    .info {
-      background: #eaf2ff;
-      color: #174b80;
-    }
+    .notice.info { background: #e7f1ff; color: #164785; }
+    .notice.success { background: #e3f6e9; color: #14532d; }
+    .notice.error { background: #fee8e7; color: #8c1d18; }
 
     .toolbar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
+    .table-wrap { overflow-x: auto; }
 
     table {
-      border-collapse: collapse;
       width: 100%;
-      min-width: 600px;
+      border-collapse: collapse;
+      margin-top: 12px;
       background: white;
     }
 
     th, td {
-      padding: 12px 10px;
+      padding: 11px;
       text-align: left;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     th {
-      background: #eaf2ed;
-      color: var(--dark);
+      background: #e7f1eb;
+      color: var(--dark-green);
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 14px;
+    .actions { min-width: 150px; }
+
+    #memberForm { margin-top: 15px; }
+
+    footer {
+      text-align: center;
+      color: #53645a;
+      font-size: 13px;
+      padding: 10px;
     }
 
-    .form-actions { margin-top: 14px; }
-
-    #connectionStatus {
-      overflow-wrap: anywhere;
-    }
-
-    @media (max-width: 560px) {
-      .form-grid { grid-template-columns: 1fr; }
-      .card { padding: 15px; }
+    @media (max-width: 600px) {
+      body { padding: 9px; }
       header h1 { font-size: 20px; }
+      .card { padding: 13px; }
+      button { width: 100%; margin-right: 0; }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Petel Association</h1>
-    <p>Solidarité &amp; Développement — Gestion des membres</p>
-  </header>
+  <div class="container">
+    <header>
+      <h1>Petel Association</h1>
+      <p>Solidarité &amp; Développement — Gestion des membres</p>
+    </header>
 
-  <main>
     <div id="notice" class="notice info" role="status">
-      Initialisation de la page...
+      Initialisation de la connexion...
     </div>
 
-    <section id="loginSection" class="card hidden">
+    <section id="loginSection" class="card">
       <h2>Connexion</h2>
-      <p>Connectez-vous pour consulter la liste des membres.</p>
 
-      <form id="membersLoginForm">
-        <label for="membersLoginEmail">Adresse e-mail</label>
-        <input id="membersLoginEmail" type="email"
-               autocomplete="username" required>
+      <form id="loginForm">
+        <label for="loginEmail">Adresse e-mail</label>
+        <input
+          id="loginEmail"
+          type="email"
+          autocomplete="username"
+          required
+          placeholder="Votre adresse e-mail"
+        >
 
-        <label for="membersLoginPassword">Mot de passe</label>
-        <input id="membersLoginPassword" type="password"
-               autocomplete="current-password" required>
+        <label for="loginPassword">Mot de passe</label>
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="Votre mot de passe"
+        >
 
-        <button id="membersLoginSubmit" type="submit">
-          Se connecter
+        <button id="loginButton" type="submit" disabled>
+          Préparation...
         </button>
       </form>
     </section>
@@ -203,69 +199,53 @@
       <div class="card">
         <div class="toolbar">
           <div>
-            <h2>Liste des membres</h2>
-            <p id="userInfo">Compte connecté</p>
-            <p id="roleInfo">Rôle : vérification...</p>
+            <h2 style="margin-bottom:6px">Liste des membres</h2>
+            <div id="userInfo"></div>
           </div>
-          <div>
-            <button id="refreshButton" type="button" class="secondary">
-              Actualiser
-            </button>
-            <button id="logoutButton" type="button" class="danger">
-              Déconnexion
-            </button>
-          </div>
+          <button id="logoutButton" class="secondary" type="button">
+            Se déconnecter
+          </button>
         </div>
-      </div>
 
-      <section id="adminSection" class="card hidden">
-        <h2 id="formTitle">Ajouter un membre</h2>
+        <div id="adminArea" class="hidden">
+          <hr>
+          <h2 id="formTitle">Ajouter un membre</h2>
 
-        <form id="memberForm">
-          <input id="memberId" type="hidden">
+          <form id="memberForm">
+            <input id="memberId" type="hidden">
 
-          <div class="form-grid">
-            <div>
-              <label for="firstName">Prénom</label>
-              <input id="firstName" type="text" maxlength="100" required>
-            </div>
+            <label for="firstName">Prénom</label>
+            <input id="firstName" type="text" maxlength="100" required>
 
-            <div>
-              <label for="lastName">Nom</label>
-              <input id="lastName" type="text" maxlength="100" required>
-            </div>
+            <label for="lastName">Nom</label>
+            <input id="lastName" type="text" maxlength="100" required>
 
-            <div>
-              <label for="phone">Téléphone</label>
-              <input id="phone" type="tel" maxlength="30">
-            </div>
+            <label for="phone">Téléphone</label>
+            <input id="phone" type="tel" maxlength="40">
 
-            <div>
-              <label for="memberStatus">Statut</label>
-              <select id="memberStatus" required>
-                <option value="Actif">Actif</option>
-                <option value="Inactif">Inactif</option>
-                <option value="Suspendu">Suspendu</option>
-              </select>
-            </div>
-          </div>
+            <label for="status">Statut</label>
+            <select id="status" required>
+              <option value="Actif">Actif</option>
+              <option value="Inactif">Inactif</option>
+              <option value="Honneur">Membre d'honneur</option>
+            </select>
 
-          <div class="form-actions">
-            <button id="saveMemberButton" type="submit">
-              Enregistrer
+            <button id="saveButton" type="submit">
+              Enregistrer le membre
             </button>
-            <button id="cancelEditButton" type="button"
-                    class="secondary hidden">
+
+            <button id="cancelButton" class="secondary hidden"
+              type="button">
               Annuler la modification
             </button>
-          </div>
-        </form>
-      </section>
+          </form>
+        </div>
 
-      <section class="card">
-        <div class="toolbar">
-          <h2>Les membres de l'association</h2>
-          <span id="memberCount">0 membre</span>
+        <div class="toolbar" style="margin-top:18px">
+          <strong id="memberCount">0 membre</strong>
+          <button id="refreshButton" class="secondary" type="button">
+            Actualiser la liste
+          </button>
         </div>
 
         <div class="table-wrap">
@@ -276,430 +256,443 @@
                 <th>Nom</th>
                 <th>Téléphone</th>
                 <th>Statut</th>
-                <th id="actionsHeading" class="hidden">Actions</th>
+                <th id="actionsHeader" class="hidden">Actions</th>
               </tr>
             </thead>
-            <tbody id="membersTableBody">
-              <tr>
-                <td colspan="5">Chargement...</td>
-              </tr>
+            <tbody id="membersBody">
+              <tr><td colspan="5">En attente des données...</td></tr>
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
     </section>
 
-    <p>
-      <a class="link-button secondary" href="./index.html">
-        Retour à l'accueil
-      </a>
-    </p>
-  </main>
+    <footer>
+      Petel Association Solidarité &amp; Développement
+    </footer>
+  </div>
 
-  <!-- Bibliothèque Supabase : le client existant de app.js est réutilisé. -->
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-<script type="module">
-  import { createClient } from
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    const SUPABASE_URL =
+      "https://evbpmafgciphyfzmkctc.supabase.co";
 
-  const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+    const notice = document.getElementById("notice");
+    const loginSection = document.getElementById("loginSection");
+    const appSection = document.getElementById("appSection");
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+    const userInfo = document.getElementById("userInfo");
+    const adminArea = document.getElementById("adminArea");
+    const memberForm = document.getElementById("memberForm");
+    const membersBody = document.getElementById("membersBody");
+    const memberCount = document.getElementById("memberCount");
+    const refreshButton = document.getElementById("refreshButton");
+    const cancelButton = document.getElementById("cancelButton");
+    const saveButton = document.getElementById("saveButton");
+    const actionsHeader = document.getElementById("actionsHeader");
 
-  window.membersSupabaseClient = createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-</script>
+    let db = null;
+    let currentUser = null;
+    let isAdmin = false;
+    let busy = false;
 
-
-  <script>
-    (() => {
-      "use strict";
-
-      const $ = (id) => document.getElementById(id);
-
-      const notice = $("notice");
-      const loginSection = $("loginSection");
-      const appSection = $("appSection");
-      const adminSection = $("adminSection");
-      const loginForm = $("membersLoginForm");
-      const loginSubmit = $("membersLoginSubmit");
-      const memberForm = $("memberForm");
-      const tableBody = $("membersTableBody");
-
-      let db = null;
-      let currentUser = null;
-      let isAdmin = false;
-      let members = [];
-      let busy = false;
-
-      function message(text, type = "info") {
-        notice.textContent = text;
-        notice.className = "notice " + type;
-        notice.classList.remove("hidden");
-      }
-
-      function setBusy(value) {
-        busy = value;
-        loginSubmit.disabled = value;
-        $("saveMemberButton").disabled = value;
-        $("refreshButton").disabled = value;
-      }
-
-      function showLogin() {
-        loginSection.classList.remove("hidden");
-        appSection.classList.add("hidden");
-        adminSection.classList.add("hidden");
-      }
-
-      function showApp() {
-        loginSection.classList.add("hidden");
-        appSection.classList.remove("hidden");
-        adminSection.classList.toggle("hidden", !isAdmin);
-        $("actionsHeading").classList.toggle("hidden", !isAdmin);
-        $("userInfo").textContent = currentUser?.email || "Compte connecté";
-        $("roleInfo").textContent = isAdmin
-          ? "Rôle : administrateur"
-          : "Rôle : lecteur";
-      }
-
-      function normalizeRole(value) {
-        return String(value || "")
-          .trim()
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-      }
-
-      async function waitForClient() {
-  for (let i = 0; i < 100; i++) {
-    const candidate =
-      window.membersSupabaseClient ||
-      window.supabaseClient ||
-      window.sb ||
-      window.supabaseInstance;
-
-    if (
-      candidate &&
-      candidate.auth &&
-      typeof candidate.from === "function"
-    ) {
-      return candidate;
+    function showMessage(text, type = "info") {
+      notice.textContent = text;
+      notice.className = "notice " + type;
+      notice.classList.remove("hidden");
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
-  }
+    function setBusy(value) {
+      busy = value;
+      loginButton.disabled = value || !db;
+      loginButton.textContent = value
+        ? "Patientez..."
+        : "Se connecter";
+      saveButton.disabled = value;
+      logoutButton.disabled = value;
+      refreshButton.disabled = value;
+    }
 
-  throw new Error(
-    "Client Supabase introuvable. Vérifie la clé Publishable et le chargement de Supabase."
-  );
-}
+    function showLoggedOut() {
+      currentUser = null;
+      isAdmin = false;
+      appSection.classList.add("hidden");
+      loginSection.classList.remove("hidden");
+      adminArea.classList.add("hidden");
+      actionsHeader.classList.add("hidden");
+      loginButton.disabled = !db;
+      loginButton.textContent = "Se connecter";
+      membersBody.replaceChildren();
+      memberCount.textContent = "0 membre";
+      userInfo.textContent = "";
+    }
 
-      async function checkAdmin(user) {
-        /*
-         * Hypothèse : profiles.id correspond à auth.users.id,
-         * et profiles.role contient admin/administrateur ou lecteur.
-         * Adaptez cette requête si votre structure est différente.
-         */
-        const { data, error } = await db
-          .from("profiles")
-          .select("role")
-          .eq("id", user.id)
-          .maybeSingle();
+    function cell(text) {
+      const td = document.createElement("td");
+      td.textContent = text == null ? "" : String(text);
+      return td;
+    }
 
-        if (error) throw error;
+    async function getRole(user) {
+      const { data, error } = await db
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
 
-        const role = normalizeRole(data?.role);
-        return role === "admin" || role === "administrateur";
-      }
+      if (error) throw error;
 
-      async function loadMembers() {
-        message("Chargement des membres...", "info");
-        tableBody.innerHTML =
-          '<tr><td colspan="5">Chargement...</td></tr>';
+      return String(data?.role || "").toLowerCase();
+    }
 
+    async function loadMembers() {
+      showMessage("Chargement des membres...", "info");
+      refreshButton.disabled = true;
+
+      try {
         const { data, error } = await db
           .from("members")
-.select("id, first_name, last_name, phone, status")
-.order("last_name", { ascending: true });
+          .select("id, first_name, last_name, phone, status")
+          .order("last_name", { ascending: true });
 
         if (error) throw error;
 
-        members = data || [];
-        renderMembers();
-        message("Liste des membres actualisée.", "success");
-      }
+        membersBody.replaceChildren();
 
-      function safeText(value) {
-        return value === null || value === undefined || value === ""
-          ? "—"
-          : String(value);
-      }
-
-      function makeCell(value) {
-        const td = document.createElement("td");
-        td.textContent = safeText(value);
-        return td;
-      }
-
-      function renderMembers() {
-        tableBody.replaceChildren();
-
-        $("memberCount").textContent =
-          members.length + (members.length > 1 ? " membres" : " membre");
-
-        if (!members.length) {
+        if (!data || data.length === 0) {
           const tr = document.createElement("tr");
-          const td = document.createElement("td");
+          const td = cell("Aucun membre enregistré.");
           td.colSpan = isAdmin ? 5 : 4;
-          td.textContent = "Aucun membre trouvé.";
           tr.appendChild(td);
-          tableBody.appendChild(tr);
-          return;
-        }
+          membersBody.appendChild(tr);
+        } else {
+          for (const member of data) {
+            const tr = document.createElement("tr");
+            tr.appendChild(cell(member.first_name));
+            tr.appendChild(cell(member.last_name));
+            tr.appendChild(cell(member.phone));
+            tr.appendChild(cell(member.status));
 
-        members.forEach(member => {
-          const tr = document.createElement("tr");
+            if (isAdmin) {
+              const td = document.createElement("td");
+              td.className = "actions";
 
-          tr.appendChild(makeCell(member.first_name));
-tr.appendChild(makeCell(member.last_name));
-tr.appendChild(makeCell(member.phone));
-tr.appendChild(makeCell(member.status));
-          if (isAdmin) {
-            const actions = document.createElement("td");
+              const edit = document.createElement("button");
+              edit.type = "button";
+              edit.textContent = "Modifier";
+              edit.addEventListener("click", () => editMember(member));
 
-            const editButton = document.createElement("button");
-            editButton.type = "button";
-            editButton.textContent = "Modifier";
-            editButton.className = "secondary";
-            editButton.addEventListener("click", () => editMember(member));
+              const del = document.createElement("button");
+              del.type = "button";
+              del.className = "danger";
+              del.textContent = "Supprimer";
+              del.addEventListener("click", () => deleteMember(member));
 
-            const deleteButton = document.createElement("button");
-            deleteButton.type = "button";
-            deleteButton.textContent = "Supprimer";
-            deleteButton.className = "danger";
-            deleteButton.addEventListener("click", () => deleteMember(member));
+              td.append(edit, del);
+              tr.appendChild(td);
+            }
 
-            actions.append(editButton, deleteButton);
-            tr.appendChild(actions);
+            membersBody.appendChild(tr);
           }
+        }
 
-          tableBody.appendChild(tr);
+        memberCount.textContent =
+          data.length + (data.length > 1 ? " membres" : " membre");
+
+        showMessage("Liste des membres chargée.", "success");
+      } catch (error) {
+        console.error("Erreur de chargement :", error);
+        showMessage(
+          "Impossible de charger les membres. Vérifie la table members et ses règles d'accès Supabase. Détail : " +
+          (error.message || "erreur inconnue"),
+          "error"
+        );
+      } finally {
+        refreshButton.disabled = false;
+      }
+    }
+
+    function editMember(member) {
+      if (!isAdmin) {
+        showMessage("Seul l'administrateur peut modifier les membres.", "error");
+        return;
+      }
+
+      document.getElementById("memberId").value = member.id;
+      document.getElementById("firstName").value = member.first_name || "";
+      document.getElementById("lastName").value = member.last_name || "";
+      document.getElementById("phone").value = member.phone || "";
+
+      const statusSelect = document.getElementById("status");
+      const status = member.status || "Actif";
+
+      if (![...statusSelect.options].some(o => o.value === status)) {
+        const option = document.createElement("option");
+        option.value = status;
+        option.textContent = status;
+        statusSelect.appendChild(option);
+      }
+
+      statusSelect.value = status;
+      document.getElementById("formTitle").textContent = "Modifier un membre";
+      saveButton.textContent = "Enregistrer les modifications";
+      cancelButton.classList.remove("hidden");
+      document.getElementById("firstName").focus();
+    }
+
+    function resetMemberForm() {
+      memberForm.reset();
+      document.getElementById("memberId").value = "";
+      document.getElementById("formTitle").textContent = "Ajouter un membre";
+      saveButton.textContent = "Enregistrer le membre";
+      cancelButton.classList.add("hidden");
+    }
+
+    async function deleteMember(member) {
+      if (!isAdmin) {
+        showMessage("Action réservée à l'administrateur.", "error");
+        return;
+      }
+
+      const confirmed = confirm(
+        "Supprimer " + member.first_name + " " + member.last_name + " ?"
+      );
+
+      if (!confirmed) return;
+
+      try {
+        const { error } = await db
+          .from("members")
+          .delete()
+          .eq("id", member.id);
+
+        if (error) throw error;
+
+        showMessage("Membre supprimé.", "success");
+        await loadMembers();
+      } catch (error) {
+        console.error("Erreur de suppression :", error);
+        showMessage(
+          "Suppression impossible. Vérifie les règles d'accès Supabase. " +
+          (error.message || ""),
+          "error"
+        );
+      }
+    }
+
+    async function openUserSession(user) {
+      currentUser = user;
+
+      try {
+        const role = await getRole(user);
+        isAdmin = role === "admin" || role === "administrateur";
+
+        loginSection.classList.add("hidden");
+        appSection.classList.remove("hidden");
+        adminArea.classList.toggle("hidden", !isAdmin);
+        actionsHeader.classList.toggle("hidden", !isAdmin);
+
+        userInfo.textContent = user.email
+          ? user.email + " — rôle : " +
+            (isAdmin ? "Administrateur" : "Lecteur")
+          : "Rôle : " + (isAdmin ? "Administrateur" : "Lecteur");
+
+        if (isAdmin) {
+          showMessage("Connexion réussie en tant qu'administrateur.", "success");
+        } else {
+          showMessage("Connexion réussie en mode consultation.", "success");
+        }
+
+        await loadMembers();
+      } catch (error) {
+        console.error("Erreur de vérification du rôle :", error);
+        showLoggedOut();
+        showMessage(
+          "Impossible de vérifier votre rôle. Vérifie la table profiles, " +
+          "et assure-toi qu'un profil existe avec id égal à l'identifiant " +
+          "de l'utilisateur connecté. Détail : " + (error.message || ""),
+          "error"
+        );
+      }
+    }
+
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (busy) return;
+
+      if (!db || !db.auth) {
+        showMessage(
+          "Supabase n'est pas encore prêt. Actualise la page puis réessaie.",
+          "error"
+        );
+        return;
+      }
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        showMessage("Saisis ton adresse e-mail et ton mot de passe.", "error");
+        return;
+      }
+
+      setBusy(true);
+      showMessage("Connexion en cours...", "info");
+
+      try {
+        const { data, error } = await db.auth.signInWithPassword({
+          email,
+          password
         });
-      }
 
-      function resetForm() {
-        memberForm.reset();
-        $("memberId").value = "";
-        $("formTitle").textContent = "Ajouter un membre";
-        $("saveMemberButton").textContent = "Enregistrer";
-        $("cancelEditButton").classList.add("hidden");
-      }
-
-      function editMember(member) {
-        if (!isAdmin) {
-          message("Vous n'avez pas le droit de modifier les membres.", "error");
-          return;
-        }
-
-        $("memberId").value = member.id;
-      $("firstName").value = member.first_name || "";
-$("lastName").value = member.last_name || "";
-$("phone").value = member.phone || "";
-$("memberStatus").value = member.status || "Actif";
-        $("formTitle").textContent = "Modifier un membre";
-        $("saveMemberButton").textContent = "Enregistrer les modifications";
-        $("cancelEditButton").classList.remove("hidden");
-
-        $("memberForm").scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-async function deleteMember(member) {
-  if (!isAdmin) return;
-
-  const confirmed = window.confirm(
-    "Supprimer " + (member.first_name || "") + " " +
-    (member.last_name || "") + " ? Cette action est définitive."
-  );
-
-  if (!confirmed) return;
-
-  setBusy(true);
-
-  try {
-    const { error } = await db
-      .from("members")
-      .delete()
-      .eq("id", member.id);
-
-    if (error) throw error;
-
-    resetForm();
-    await loadMembers();
-    message("Membre supprimé.", "success");
-  } catch (error) {
-    console.error(error);
-    message("Suppression impossible : " + error.message, "error");
-  } finally {
-    setBusy(false);
-  }
-}
-        loginForm.addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (busy) return;
-
-  setBusy(true);
-  message("Connexion en cours...", "info");
-
-  try {
-    const email = $("membersLoginEmail").value.trim();
-    const password = $("membersLoginPassword").value;
-
-    const { data, error } = await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) throw error;
-
-    currentUser = data.user;
-    await startSession();
-  } catch (error) {
-    console.error(error);
-    message("Connexion impossible : " + error.message, "error");
-  } finally {
-    setBusy(false);
-  }
-});
-
-      memberForm.addEventListener("submit", async event => {
-        event.preventDefault();
-
-        if (!isAdmin) {
-          message("Seul l'administrateur peut modifier les membres.", "error");
-          return;
-        }
-
-        if (busy) return;
-        setBusy(true);
-
-        const id = $("memberId").value;
-const record = {
-  first_name: $("firstName").value.trim(),
-  last_name: $("lastName").value.trim(),
-  phone: $("phone").value.trim(),
-  status: $("memberStatus").value
-};
-
-        try {
-          let result;
-
-          if (id) {
-            result = await db.from("members").update(record).eq("id", id);
-          } else {
-            result = await db.from("members").insert(record);
-          }
-
-          if (result.error) throw result.error;
-
-          resetForm();
-          await loadMembers();
-          message(id ? "Membre modifié." : "Membre ajouté.", "success");
-        } catch (error) {
-          console.error(error);
-          message(
-            "Enregistrement impossible : " + error.message +
-            ". Vérifiez aussi les règles RLS de Supabase.",
-            "error"
-          );
-        } finally {
-          setBusy(false);
-        }
-      });
-
-      $("cancelEditButton").addEventListener("click", resetForm);
-
-      $("refreshButton").addEventListener("click", async () => {
-        if (busy) return;
-        setBusy(true);
-
-        try {
-          await loadMembers();
-        } catch (error) {
-          console.error(error);
-          message("Actualisation impossible : " + error.message, "error");
-        } finally {
-          setBusy(false);
-        }
-      });
-
-      $("logoutButton").addEventListener("click", async () => {
-        try {
-          const { error } = await db.auth.signOut();
-          if (error) throw error;
-
-          currentUser = null;
-          isAdmin = false;
-          members = [];
-          resetForm();
-          showLogin();
-          message("Vous êtes déconnecté.", "success");
-        } catch (error) {
-          console.error(error);
-          message("Déconnexion impossible : " + error.message, "error");
-        }
-      });
-
-      async function startSession() {
-        const { data, error } = await db.auth.getUser();
         if (error) throw error;
 
         if (!data.user) {
-          currentUser = null;
-          isAdmin = false;
-          showLogin();
-          message("Connectez-vous pour accéder à la liste.", "info");
-          return;
+          throw new Error("Aucun utilisateur retourné par Supabase.");
         }
 
-        currentUser = data.user;
-        isAdmin = await checkAdmin(currentUser);
-        showApp();
+        await openUserSession(data.user);
+      } catch (error) {
+        console.error("Erreur de connexion :", error);
+        showMessage(
+          "Connexion impossible : " +
+          (error.message || "vérifie ton e-mail et ton mot de passe."),
+          "error"
+        );
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    memberForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!isAdmin || !currentUser || busy) {
+        showMessage("Seul l'administrateur connecté peut enregistrer un membre.", "error");
+        return;
+      }
+
+      const id = document.getElementById("memberId").value;
+      const first_name = document.getElementById("firstName").value.trim();
+      const last_name = document.getElementById("lastName").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const status = document.getElementById("status").value;
+
+      if (!first_name || !last_name) {
+        showMessage("Le prénom et le nom sont obligatoires.", "error");
+        return;
+      }
+
+      setBusy(true);
+      showMessage("Enregistrement en cours...", "info");
+
+      try {
+        const record = { first_name, last_name, phone, status };
+
+        let result;
+
+        if (id) {
+          result = await db
+            .from("members")
+            .update(record)
+            .eq("id", id);
+        } else {
+          result = await db
+            .from("members")
+            .insert(record);
+        }
+
+        if (result.error) throw result.error;
+
+        resetMemberForm();
+        showMessage(id ? "Membre modifié." : "Membre ajouté.", "success");
         await loadMembers();
+      } catch (error) {
+        console.error("Erreur d'enregistrement :", error);
+        showMessage(
+          "Enregistrement impossible. Vérifie la structure de members et les règles d'accès. " +
+          (error.message || ""),
+          "error"
+        );
+      } finally {
+        setBusy(false);
       }
+    });
 
-      async function init() {
-        try {
-          message("Connexion au service...", "info");
-          db = await waitForClient();
+    cancelButton.addEventListener("click", resetMemberForm);
 
-          const { data, error } = await db.auth.getSession();
-          if (error) throw error;
+    refreshButton.addEventListener("click", async () => {
+      if (currentUser) await loadMembers();
+    });
 
-          if (data.session) {
-            await startSession();
-          } else {
-            showLogin();
-            message("Veuillez vous connecter.", "info");
-          }
-        } catch (error) {
-          console.error(error);
-          showLogin();
-          message(
-            "Erreur d'initialisation : " + error.message +
-            ". Vérifiez app.js et la configuration Supabase.",
-            "error"
-          );
+    logoutButton.addEventListener("click", async () => {
+      if (!db || busy) return;
+
+      setBusy(true);
+
+      try {
+        const { error } = await db.auth.signOut();
+        if (error) throw error;
+
+        showLoggedOut();
+        showMessage("Déconnexion réussie.", "success");
+      } catch (error) {
+        showMessage("Erreur de déconnexion : " + (error.message || ""), "error");
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    async function init() {
+      showMessage("Initialisation de Supabase...", "info");
+
+      try {
+        db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        if (!db || !db.auth) {
+          throw new Error("Le client Supabase n'a pas pu être créé.");
         }
-      }
 
-      init();
-    })();
+        loginButton.disabled = false;
+        loginButton.textContent = "Se connecter";
+
+        const { data, error } = await db.auth.getSession();
+        if (error) throw error;
+
+        if (data.session && data.session.user) {
+          await openUserSession(data.session.user);
+        } else {
+          showLoggedOut();
+          showMessage("Supabase est prêt. Connecte-toi pour continuer.", "success");
+        }
+
+        db.auth.onAuthStateChange((event, session) => {
+          if (event === "SIGNED_OUT") {
+            showLoggedOut();
+            showMessage("Tu es déconnecté.", "info");
+          }
+        });
+      } catch (error) {
+        console.error("Initialisation Supabase :", error);
+        loginButton.disabled = true;
+        loginButton.textContent = "Connexion indisponible";
+        showMessage(
+          "Erreur d'initialisation Supabase : " +
+          (error.message || "vérifie la connexion Internet, l'URL et la clé Publishable."),
+          "error"
+        );
+      }
+    }
+
+    init();
   </script>
 </body>
-  </html>
-  
+</html>
