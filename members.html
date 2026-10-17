@@ -517,17 +517,36 @@ $("memberStatus").value = member.status || "Actif";
           block: "start"
         });
       }
+async function deleteMember(member) {
+  if (!isAdmin) return;
 
-      async function deleteMember(member) {
-        if (!isAdmin) return;
+  const confirmed = window.confirm(
+    "Supprimer " + (member.first_name || "") + " " +
+    (member.last_name || "") + " ? Cette action est définitive."
+  );
 
-        const confirmed = window.confirm(
-          "Supprimer " + (member.first_name || "") + " " +
-(member.last_name || "") + " ? Cette action est définitive."
+  if (!confirmed) return;
 
-        if (!confirmed) return;
+  setBusy(true);
 
-        setBusy(true);
+  try {
+    const { error } = await db
+      .from("members")
+      .delete()
+      .eq("id", member.id);
+
+    if (error) throw error;
+
+    resetForm();
+    await loadMembers();
+    message("Membre supprimé.", "success");
+  } catch (error) {
+    console.error(error);
+    message("Suppression impossible : " + error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+}
 
         try {
           const { error } = await db
