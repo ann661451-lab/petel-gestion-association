@@ -1,42 +1,88 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Petel Association</title>
+  <meta name="theme-color" content="#087354">
+  <title>Petel Association - Connexion</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div class="app">
-    <div class="logo">PA</div>
+  <main class="app">
+    <div class="logo" aria-label="Petel Association">PA</div>
 
     <h1>Petel Association</h1>
     <p class="subtitle">Solidarité &amp; Développement</p>
 
-    <div class="card">
-      <h2>Connexion</h2>
+    <section class="card">
+      <h2 id="formTitle">Connexion</h2>
 
-      <label for="email">Adresse e-mail</label>
-      <input type="email" id="email" placeholder="Votre adresse e-mail">
+      <div id="message" role="status" aria-live="polite"></div>
 
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="Votre mot de passe">
+      <form id="authForm">
+        <label for="method">Méthode de connexion</label>
+        <select id="method" name="method">
+          <option value="email">Adresse e-mail</option>
+          <option value="phone">Numéro de téléphone</option>
+        </select>
 
-      <button type="button" id="loginButton">Se connecter</button>
+        <label id="identifierLabel" for="identifier">
+          Adresse e-mail
+        </label>
+        <input
+          type="email"
+          id="identifier"
+          name="identifier"
+          placeholder="Votre adresse e-mail"
+          autocomplete="username"
+          required
+        >
 
-      <p id="message" role="status" aria-live="polite"></p>
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Minimum 6 caractères"
+          autocomplete="current-password"
+          minlength="6"
+          required
+        >
+
+        <div id="confirmPasswordGroup" hidden>
+          <label for="confirmPassword">Confirmer le mot de passe</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Répétez le mot de passe"
+            autocomplete="new-password"
+            minlength="6"
+          >
+        </div>
+
+        <button type="submit" id="loginButton">
+          Se connecter
+        </button>
+      </form>
+
+      <button type="button" id="toggleSignup">
+        Créer un compte
+      </button>
+
+      <div class="separator">ou</div>
+
+      <button type="button" id="googleButton">
+        Continuer avec Google
+      </button>
 
       <p class="footer">
         © 2026 Petel Association<br>
         Solidarité &amp; Développement
       </p>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <script
-    src="./app.js?v=2"
-    onload="document.getElementById('message').textContent='app.js chargé';"
-    onerror="document.getElementById('message').textContent='Erreur : app.js introuvable';">
-  </script>
+  <script src="./app.js?v=3"></script>
 </body>
 </html>
