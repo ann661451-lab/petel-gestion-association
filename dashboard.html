@@ -182,51 +182,37 @@
     © 2026 Petel Association Solidarité &amp; Développement
   </footer>
 
-  <script>
-    // Les liens des pages existantes ne sont plus bloqués.
-    // Les autres modules affichent un message tant qu'ils ne sont
-    // pas disponibles.
+  
+<script>
+  // Ouvrir les pages existantes normalement
+  document.querySelectorAll(".menu a").forEach(function(link) {
+    link.addEventListener("click", function(event) {
+      const page = this.getAttribute("href");
 
-    const pagesDisponibles = [
-      "members.html",
-      "contributions.html"
-    ];
+      // Ces deux pages existent déjà
+      const pagesDisponibles = [
+        "members.html",
+        "contributions.html"
+      ];
 
-    document.querySelectorAll(".menu a").forEach(function(link) {
-      link.addEventListener("click", function(event) {
-        const page = this.getAttribute("href")
-          .split("/")
-          .pop();
-
-        if (pagesDisponibles.includes(page)) {
-          return;
-        }
-
-        event.preventDefault();
-
-        const notice = document.getElementById("notice");
-        notice.textContent =
-          "Le module « " +
-          (this.dataset.module || this.textContent.trim()) +
-          " » n'est pas encore configuré.";
-
-        notice.style.display = "block";
-      });
-    });
-
-    // La déconnexion Supabase sera reliée au client d'authentification
-    // dans une étape dédiée. Ce bouton ne prétend pas déconnecter
-    // l'utilisateur tant que cette liaison n'est pas réalisée.
-    document.getElementById("logoutButton").addEventListener(
-      "click",
-      function() {
-        const notice = document.getElementById("notice");
-        notice.textContent =
-          "La déconnexion Supabase doit encore être configurée.";
-        notice.style.display = "block";
+      if (pagesDisponibles.includes(page.replace("./", ""))) {
+        return;
       }
-    );
-  </script>
-</body>
-</html>
 
+      // Les autres modules seront créés ensuite
+      event.preventDefault();
+
+      const notice = document.getElementById("notice");
+      notice.textContent =
+        "Le module « " +
+        (this.dataset.module || this.textContent.trim()) +
+        " » sera disponible après sa création.";
+      notice.style.display = "block";
+    });
+  });
+
+  // Déconnexion provisoire sans Supabase
+  document.getElementById("logoutButton").addEventListener("click", function() {
+    window.location.href = "./index.html";
+  });
+</script>
