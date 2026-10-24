@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cotisations - Petel Association</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7f5;
+      color: #24312b;
+    }
+    header {
+      background: #087f5b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 950px;
+      margin: auto;
+      padding: 18px;
+    }
+    .card {
+      background: white;
+      padding: 18px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .total {
+      font-size: 26px;
+      font-weight: bold;
+      color: #087f5b;
+    }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    th, td {
+      text-align: left;
+      padding: 11px;
+      border-bottom: 1px solid #ddd;
+    }
+    th { background: #e8f4ee; }
+    button, .back {
+      display: inline-block;
+      padding: 12px 16px;
+      background: #087f5b;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #message { white-space: pre-wrap; }
+    .error { color: #b42318; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Petel Association</h1>
+  <p>Solidarité &amp; Développement — Cotisations</p>
+</header>
+
+<main>
+  <p><a class="back" href="./dashboard.html">← Tableau de bord</a></p>
+
+  <section class="card">
+    <h2>Total des cotisations</h2>
+    <div id="total" class="total">Chargement...</div>
+    <p id="nombre">Chargement des cotisations...</p>
+  </section>
+
+  <section class="card">
+    <h2>Liste des cotisations</h2>
+    <p id="message" role="status">Vérification de la connexion...</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Membre</th>
+            <th>Montant</th>
+            <th>Période</th>
+            <th>Date</th>
+            <th>Mode de paiement</th>
+          </tr>
+        </thead>
+        <tbody id="liste"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+const SUPABASE_URL =
+  "https://evbpmafgciphyfzmkctc.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+
+const message = document.getElementById("message");
+const liste = document.getElementById("liste");
+
+function afficherErreur(texte) {
+  message.textContent = texte;
+  message.className = "error";
+}
+
+function fcfa(montant) {
+  return Number(montant || 0).toLocaleString("fr-FR") + " FCFA";
+}
+
+function cellule(valeur) {
+  const td = document.createElement("td");
+  td.textContent = valeur == null || valeur === ""
+    ? "—"
+    : String(valeur);
+  return td;
+}
+
+async function demarrer() {
+  try {
+    const { createClient } = await import(
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    );
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
+    if (!sessionData.session) {
+      afficherErreur("Ta session a expiré. Reconnecte-toi.");
+      return;
+    }
+
+    const { data: profil, error: profilError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", sessionData.session.user.id)
+      .maybeSingle();
+
+    if (profilError) throw profilError;
+
+    if (!profil) {
+      afficherErreur(
+        "Profil introuvable. Vérifie le profil utilisateur dans Supabase."
+      );
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("contributions")
+      .select(`
+        id,
+        member_id,
+        amount,
+        period,
+        payment_method,
+        payment_date,
+        members(first_name, last_name)
+      `)
+      .order("payment_date", { ascending: false });
+
+    if (error) throw error;
+
+    liste.replaceChildren();
+    let total = 0;
+
+    for (const cotisation of data || []) {
+      total += Number(cotisation.amount || 0);
+
+      const tr = document.createElement("tr");
+      const membre = Array.isArray(cotisation.members)
+        ? cotisation.members[0]
+        : cotisation.members;
+
+      const nom = membre
+        ? `${membre.first_name || ""} ${membre.last_name || ""}`.trim()
+        : "Membre non identifié";
+
+      tr.append(
+        cellule(nom),
+        cellule(fcfa(cotisation.amount)),
+        cellule(cotisation.period),
+        cellule(cotisation.payment_date),
+        cellule(cotisation.payment_method)
+      );
+
+      liste.appendChild(tr);
+    }
+
+    document.getElementById("total").textContent = fcfa(total);
+    document.getElementById("nombre").textContent =
+      `${(data || []).length} cotisation(s) enregistrée(s).`;
+
+    message.className = "";
+    message.textContent =
+      profil.role === "admin"
+        ? "Connecté en tant qu'administrateur."
+        : "Mode consultation : les cotisations sont en lecture seule.";
+
+  } catch (error) {
+    console.error("Erreur cotisations :", error);
+    afficherErreur("Impossible de charger les cotisations : " +
+      (error.message || "erreur inconnue"));
+  }
+}
+
+demarrer();
+</script>
+</body>
+</html>
