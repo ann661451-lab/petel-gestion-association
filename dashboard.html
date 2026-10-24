@@ -1,12 +1,14 @@
- 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord - Petel Association</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -22,7 +24,13 @@
       padding: 24px 12px;
     }
 
-    header h1 { margin: 0 0 8px; }
+    header h1 {
+      margin: 0 0 8px;
+    }
+
+    header p {
+      margin-bottom: 0;
+    }
 
     main {
       max-width: 900px;
@@ -30,14 +38,18 @@
       padding: 20px;
     }
 
-    .welcome, .card, .menu a {
+    .welcome,
+    .card,
+    .menu a {
       background: white;
       border-radius: 12px;
       padding: 18px;
       box-shadow: 0 2px 8px #0000000d;
     }
 
-    .welcome { margin-bottom: 18px; }
+    .welcome {
+      margin-bottom: 18px;
+    }
 
     .cards {
       display: grid;
@@ -45,7 +57,10 @@
       gap: 12px;
     }
 
-    .card h3 { font-size: 16px; margin-top: 0; }
+    .card h3 {
+      font-size: 16px;
+      margin-top: 0;
+    }
 
     .number {
       color: #087f5b;
@@ -60,12 +75,16 @@
     }
 
     .menu a {
+      display: block;
       color: #1f2937;
       text-decoration: none;
       font-weight: bold;
+      font-size: 18px;
     }
 
-    .menu a:active { background: #e5f4ec; }
+    .menu a:active {
+      background: #e5f4ec;
+    }
 
     #notice {
       display: none;
@@ -73,6 +92,7 @@
       padding: 12px;
       background: #fff3cd;
       border-radius: 8px;
+      overflow-wrap: anywhere;
     }
 
     .logout {
@@ -84,6 +104,7 @@
       background: #c62828;
       color: white;
       font-size: 16px;
+      cursor: pointer;
     }
 
     footer {
@@ -94,10 +115,13 @@
     }
 
     @media (max-width: 480px) {
-      .cards { grid-template-columns: 1fr; }
+      .cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <h1>Petel Association</h1>
@@ -138,16 +162,16 @@
     </section>
 
     <nav class="menu" aria-label="Modules de l'association">
-      <a href="members.html">👥 Gestion des membres</a>
-      <a href="contributions.html" data-module="Cotisations">💰 Cotisations</a>
-      <a href="expenses.html" data-module="Dépenses">💸 Dépenses</a>
-      <a href="cash.html" data-module="Caisse">🏦 Caisse</a>
-      <a href="reports.html" data-module="Rapports">📊 Rapports</a>
-      <a href="messages.html" data-module="Chat / Réclamations">💬 Chat / Réclamations</a>
-      <a href="settings.html" data-module="Paramètres">⚙️ Paramètres</a>
+      <a href="./members.html">👥 Gestion des membres</a>
+      <a href="./contributions.html">💰 Cotisations</a>
+      <a href="./expenses.html" data-module="Dépenses">💸 Dépenses</a>
+      <a href="./cash.html" data-module="Caisse">🏦 Caisse</a>
+      <a href="./reports.html" data-module="Rapports">📊 Rapports</a>
+      <a href="./messages.html" data-module="Chat / Réclamations">💬 Chat / Réclamations</a>
+      <a href="./settings.html" data-module="Paramètres">⚙️ Paramètres</a>
     </nav>
 
-    <p id="notice" role="status"></p>
+    <p id="notice" role="status" aria-live="polite"></p>
 
     <button class="logout" id="logoutButton" type="button">
       Se déconnecter
@@ -159,27 +183,46 @@
   </footer>
 
   <script>
-    // Empêche les liens vers les pages qui n'existent pas encore
-    document.querySelectorAll("[data-module]").forEach(link => {
+    // Les liens des pages existantes ne sont plus bloqués.
+    // Les autres modules affichent un message tant qu'ils ne sont
+    // pas disponibles.
+
+    const pagesDisponibles = [
+      "members.html",
+      "contributions.html"
+    ];
+
+    document.querySelectorAll(".menu a").forEach(function(link) {
       link.addEventListener("click", function(event) {
+        const page = this.getAttribute("href")
+          .split("/")
+          .pop();
+
+        if (pagesDisponibles.includes(page)) {
+          return;
+        }
+
         event.preventDefault();
 
         const notice = document.getElementById("notice");
         notice.textContent =
-          "Le module « " + this.dataset.module +
-          " » doit encore être créé. Aucune page n'a été ouverte.";
+          "Le module « " +
+          (this.dataset.module || this.textContent.trim()) +
+          " » n'est pas encore configuré.";
+
         notice.style.display = "block";
       });
     });
 
-    // La déconnexion réelle sera reliée au client Supabase
-    // partagé avec app.js dans l'étape suivante.
+    // La déconnexion Supabase sera reliée au client d'authentification
+    // dans une étape dédiée. Ce bouton ne prétend pas déconnecter
+    // l'utilisateur tant que cette liaison n'est pas réalisée.
     document.getElementById("logoutButton").addEventListener(
       "click",
       function() {
         const notice = document.getElementById("notice");
         notice.textContent =
-          "La déconnexion Supabase doit être reliée au client partagé.";
+          "La déconnexion Supabase doit encore être configurée.";
         notice.style.display = "block";
       }
     );
