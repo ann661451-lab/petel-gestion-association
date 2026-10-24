@@ -7,52 +7,74 @@
   <title>Tableau de bord - Petel Association</title>
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f7f5;
       color: #1f2937;
     }
+
     header {
       background: #087f5b;
       color: white;
       text-align: center;
       padding: 24px 12px;
     }
+
     header h1 { margin: 0 0 8px; }
+
     main {
       max-width: 900px;
       margin: auto;
       padding: 20px;
     }
+
     .welcome, .card, .menu a {
       background: white;
       border-radius: 12px;
       padding: 18px;
       box-shadow: 0 2px 8px #0000000d;
     }
+
     .welcome { margin-bottom: 18px; }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
+
     .card h3 { font-size: 16px; margin-top: 0; }
+
     .number {
       color: #087f5b;
       font-size: 24px;
       font-weight: bold;
     }
+
     .menu {
       display: grid;
       gap: 12px;
       margin-top: 22px;
     }
+
     .menu a {
       color: #1f2937;
       text-decoration: none;
       font-weight: bold;
     }
+
+    .menu a:active { background: #e5f4ec; }
+
+    #notice {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      background: #fff3cd;
+      border-radius: 8px;
+    }
+
     .logout {
       width: 100%;
       margin-top: 22px;
@@ -63,12 +85,14 @@
       color: white;
       font-size: 16px;
     }
+
     footer {
       padding: 20px;
       text-align: center;
       color: #666;
       font-size: 13px;
     }
+
     @media (max-width: 480px) {
       .cards { grid-template-columns: 1fr; }
     }
@@ -84,41 +108,48 @@
     <section class="welcome">
       <h2>Bienvenue 👋</h2>
       <p>Tableau de bord de votre association.</p>
+      <p id="userRole">Rôle : vérification en cours...</p>
     </section>
 
     <section class="cards">
       <div class="card">
         <h3>👥 Membres</h3>
-        <div class="number">0</div>
+        <div class="number">—</div>
         <p>Membres enregistrés</p>
       </div>
+
       <div class="card">
         <h3>💰 Cotisations</h3>
-        <div class="number">0 FCFA</div>
+        <div class="number">— FCFA</div>
         <p>Total des cotisations</p>
       </div>
+
       <div class="card">
         <h3>💸 Dépenses</h3>
-        <div class="number">0 FCFA</div>
+        <div class="number">— FCFA</div>
         <p>Total des dépenses</p>
       </div>
+
       <div class="card">
         <h3>🏦 Caisse</h3>
-        <div class="number">0 FCFA</div>
+        <div class="number">— FCFA</div>
         <p>Solde disponible</p>
       </div>
     </section>
 
-    <nav class="menu">
+    <nav class="menu" aria-label="Modules de l'association">
       <a href="members.html">👥 Gestion des membres</a>
-      <a href="contributions.html">💰 Cotisations</a>
-      <a href="expenses.html">💸 Dépenses</a>
-      <a href="reports.html">📊 Rapports</a>
-      <a href="messages.html">💬 Messages</a>
-      <a href="settings.html">⚙️ Paramètres</a>
+      <a href="contributions.html" data-module="Cotisations">💰 Cotisations</a>
+      <a href="expenses.html" data-module="Dépenses">💸 Dépenses</a>
+      <a href="cash.html" data-module="Caisse">🏦 Caisse</a>
+      <a href="reports.html" data-module="Rapports">📊 Rapports</a>
+      <a href="messages.html" data-module="Chat / Réclamations">💬 Chat / Réclamations</a>
+      <a href="settings.html" data-module="Paramètres">⚙️ Paramètres</a>
     </nav>
 
-    <button class="logout" onclick="deconnexion()">
+    <p id="notice" role="status"></p>
+
+    <button class="logout" id="logoutButton" type="button">
       Se déconnecter
     </button>
   </main>
@@ -128,9 +159,31 @@
   </footer>
 
   <script>
-    function deconnexion() {
-      window.location.href = "index.html";
-    }
+    // Empêche les liens vers les pages qui n'existent pas encore
+    document.querySelectorAll("[data-module]").forEach(link => {
+      link.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        const notice = document.getElementById("notice");
+        notice.textContent =
+          "Le module « " + this.dataset.module +
+          " » doit encore être créé. Aucune page n'a été ouverte.";
+        notice.style.display = "block";
+      });
+    });
+
+    // La déconnexion réelle sera reliée au client Supabase
+    // partagé avec app.js dans l'étape suivante.
+    document.getElementById("logoutButton").addEventListener(
+      "click",
+      function() {
+        const notice = document.getElementById("notice");
+        notice.textContent =
+          "La déconnexion Supabase doit être reliée au client partagé.";
+        notice.style.display = "block";
+      }
+    );
   </script>
 </body>
 </html>
+
