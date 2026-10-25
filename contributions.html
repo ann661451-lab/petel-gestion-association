@@ -1,223 +1,335 @@
-
 <!DOCTYPE html>
-<!-- Mise a jour publication GitHub Pages -->
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cotisations - Petel Association</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f7f5;
       color: #24312b;
     }
+
     header {
       background: #087f5b;
       color: white;
-      padding: 20px;
+      padding: 22px 15px;
       text-align: center;
     }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 23px;
+    }
+
+    header p {
+      margin: 0;
+    }
+
     main {
       max-width: 950px;
       margin: auto;
       padding: 18px;
     }
+
     .card {
       background: white;
       padding: 18px;
       margin-bottom: 16px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px #0001;
+      box-shadow: 0 2px 8px #00000010;
     }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 16px;
+      color: #087f5b;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
     .total {
+      color: #087f5b;
       font-size: 26px;
       font-weight: bold;
-      color: #087f5b;
+      margin: 10px 0;
+      overflow-wrap: anywhere;
     }
-    .table-wrap { overflow-x: auto; }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       background: white;
     }
+
     th, td {
       text-align: left;
-      padding: 11px;
+      padding: 11px 9px;
       border-bottom: 1px solid #ddd;
     }
-    th { background: #e8f4ee; }
-    button, .back {
-      display: inline-block;
+
+    th {
+      background: #e8f4ee;
+      color: #174b38;
+    }
+
+    .notice {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding: 10px 0;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    .success {
+      color: #087f5b;
+    }
+
+    .info {
+      color: #555;
+    }
+
+    button {
       padding: 12px 16px;
       background: #087f5b;
       color: white;
       border: 0;
       border-radius: 8px;
-      text-decoration: none;
       cursor: pointer;
     }
-    #message { white-space: pre-wrap; }
-    .error { color: #b42318; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
   </style>
 </head>
+
 <body>
-<header>
-  <h1>Petel Association</h1>
-  <p>Solidarité &amp; Développement — Cotisations</p>
-</header>
+  <header>
+    <h1>Petel Association</h1>
+    <p>Solidarité &amp; Développement — Cotisations</p>
+  </header>
 
-<main>
-  <p><a class="back" href="./dashboard.html">← Tableau de bord</a></p>
+  <main>
+    <a class="back" href="./dashboard.html">← Retour au tableau de bord</a>
 
-  <section class="card">
-    <h2>Total des cotisations</h2>
-    <div id="total" class="total">Chargement...</div>
-    <p id="nombre">Chargement des cotisations...</p>
-  </section>
+    <section class="card">
+      <h2>Total des cotisations</h2>
+      <div id="total" class="total">Chargement...</div>
+      <p id="nombre">Chargement des cotisations...</p>
+    </section>
 
-  <section class="card">
-    <h2>Liste des cotisations</h2>
-    <p id="message" role="status">Vérification de la connexion...</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Membre</th>
-            <th>Montant</th>
-            <th>Période</th>
-            <th>Date</th>
-            <th>Mode de paiement</th>
-          </tr>
-        </thead>
-        <tbody id="liste"></tbody>
-      </table>
-    </div>
-  </section>
-</main>
+    <section class="card">
+      <h2>Liste des cotisations</h2>
+      <p id="notice" class="notice info" role="status" aria-live="polite">
+        Connexion en cours...
+      </p>
 
-<script type="module">
-const SUPABASE_URL =
-  "https://evbpmafgciphyfzmkctc.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Membre</th>
+              <th>Montant</th>
+              <th>Période</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="liste">
+            <tr>
+              <td colspan="4">Chargement...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-const message = document.getElementById("message");
-const liste = document.getElementById("liste");
+  <footer>
+    © 2026 Petel Association Solidarité &amp; Développement
+  </footer>
 
-function afficherErreur(texte) {
-  message.textContent = texte;
-  message.className = "error";
-}
+  <script type="module">
+    import { createClient }
+      from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-function fcfa(montant) {
-  return Number(montant || 0).toLocaleString("fr-FR") + " FCFA";
-}
+    const SUPABASE_URL =
+      "https://evbpmafgciphyfzmkctc.supabase.co";
 
-function cellule(valeur) {
-  const td = document.createElement("td");
-  td.textContent = valeur == null || valeur === ""
-    ? "—"
-    : String(valeur);
-  return td;
-}
-
-async function demarrer() {
-  try {
-    const { createClient } = await import(
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
-    );
+    // Remplace cette valeur par la clé publique existante dans app.js.
+    const SUPABASE_PUBLISHABLE_KEY =
+      "COLLE_ICI_TA_CLE_PUBLIQUE_SUPABASE";
 
     const supabase = createClient(
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
 
-    const { data: sessionData, error: sessionError } =
-      await supabase.auth.getSession();
+    const liste = document.getElementById("liste");
+    const totalElement = document.getElementById("total");
+    const nombreElement = document.getElementById("nombre");
+    const notice = document.getElementById("notice");
 
-    if (sessionError) throw sessionError;
-
-    if (!sessionData.session) {
-      afficherErreur("Ta session a expiré. Reconnecte-toi.");
-      return;
+    function afficherMessage(texte, type = "info") {
+      notice.textContent = texte;
+      notice.className = "notice " + type;
     }
 
-    const { data: profil, error: profilError } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", sessionData.session.user.id)
-      .maybeSingle();
-
-    if (profilError) throw profilError;
-
-    if (!profil) {
-      afficherErreur(
-        "Profil introuvable. Vérifie le profil utilisateur dans Supabase."
-      );
-      return;
+    function formaterCFA(montant) {
+      return Number(montant || 0).toLocaleString("fr-FR") + " FCFA";
     }
 
-    const { data, error } = await supabase
-      .from("contributions")
-      .select(`
-        id,
-        member_id,
-        amount,
-        period,
-        payment_method,
-        payment_date,
-        members(first_name, last_name)
-      `)
-      .order("payment_date", { ascending: false });
+    function formaterDate(date) {
+      if (!date) return "—";
 
-    if (error) throw error;
+      const valeur = String(date).slice(0, 10);
+      const morceaux = valeur.split("-");
 
-    liste.replaceChildren();
-    let total = 0;
+      if (morceaux.length !== 3) return valeur;
 
-    for (const cotisation of data || []) {
-      total += Number(cotisation.amount || 0);
-
-      const tr = document.createElement("tr");
-      const membre = Array.isArray(cotisation.members)
-        ? cotisation.members[0]
-        : cotisation.members;
-
-      const nom = membre
-        ? `${membre.first_name || ""} ${membre.last_name || ""}`.trim()
-        : "Membre non identifié";
-
-      tr.append(
-        cellule(nom),
-        cellule(fcfa(cotisation.amount)),
-        cellule(cotisation.period),
-        cellule(cotisation.payment_date),
-        cellule(cotisation.payment_method)
-      );
-
-      liste.appendChild(tr);
+      return `${morceaux[2]}/${morceaux[1]}/${morceaux[0]}`;
     }
 
-    document.getElementById("total").textContent = fcfa(total);
-    document.getElementById("nombre").textContent =
-      `${(data || []).length} cotisation(s) enregistrée(s).`;
+    async function demarrer() {
+      try {
+        if (
+          !SUPABASE_PUBLISHABLE_KEY ||
+          SUPABASE_PUBLISHABLE_KEY ===
+            "COLLE_ICI_TA_CLE_PUBLIQUE_SUPABASE"
+        ) {
+          throw new Error(
+            "Ajoute la clé publique Supabase déjà utilisée dans app.js."
+          );
+        }
 
-    message.className = "";
-    message.textContent =
-      profil.role === "admin"
-        ? "Connecté en tant qu'administrateur."
-        : "Mode consultation : les cotisations sont en lecture seule.";
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
 
-  } catch (error) {
-    console.error("Erreur cotisations :", error);
-    afficherErreur("Impossible de charger les cotisations : " +
-      (error.message || "erreur inconnue"));
-  }
-}
+        if (sessionError) throw sessionError;
 
-demarrer();
-</script>
+        if (!sessionData.session) {
+          afficherMessage(
+            "Connecte-toi d'abord depuis la page principale.",
+            "error"
+          );
+          liste.innerHTML =
+            '<tr><td colspan="4">Connexion nécessaire.</td></tr>';
+          totalElement.textContent = "—";
+          nombreElement.textContent = "";
+          return;
+        }
+
+        const { data: profil, error: profilError } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", sessionData.session.user.id)
+          .maybeSingle();
+
+        if (profilError) throw profilError;
+
+        if (!profil) {
+          throw new Error(
+            "Profil introuvable. Vérifie le profil utilisateur dans Supabase."
+          );
+        }
+
+        const { data, error } = await supabase
+          .from("contributions")
+          .select(`
+            id,
+            member_id,
+            amount,
+            period,
+            payment_date,
+            members(first_name, last_name)
+          `)
+          .order("payment_date", { ascending: false });
+
+        if (error) throw error;
+
+        liste.replaceChildren();
+
+        let total = 0;
+
+        for (const cotisation of data || []) {
+          total += Number(cotisation.amount || 0);
+
+          const membre = Array.isArray(cotisation.members)
+            ? cotisation.members[0]
+            : cotisation.members;
+
+          const nom = membre
+            ? `${membre.first_name || ""} ${membre.last_name || ""}`.trim()
+            : "Membre non identifié";
+
+          const ligne = document.createElement("tr");
+
+          const valeurs = [
+            nom,
+            formaterCFA(cotisation.amount),
+            cotisation.period || "—",
+            formaterDate(cotisation.payment_date)
+          ];
+
+          for (const valeur of valeurs) {
+            const cellule = document.createElement("td");
+            cellule.textContent = valeur;
+            ligne.appendChild(cellule);
+          }
+
+          liste.appendChild(ligne);
+        }
+
+        if (!data || data.length === 0) {
+          liste.innerHTML =
+            '<tr><td colspan="4">Aucune cotisation enregistrée.</td></tr>';
+        }
+
+        totalElement.textContent = formaterCFA(total);
+        nombreElement.textContent =
+          `${(data || []).length} cotisation(s) enregistrée(s).`;
+
+        afficherMessage(
+          profil.role === "admin"
+            ? "Connecté en tant qu’administrateur."
+            : "Mode consultation : les cotisations sont en lecture seule.",
+          "success"
+        );
+
+      } catch (erreur) {
+        console.error("Erreur cotisations :", erreur);
+
+        afficherMessage(
+          "Impossible de charger les cotisations : " +
+          (erreur.message || "erreur inconnue"),
+          "error"
+        );
+
+        totalElement.textContent = "—";
+        nombreElement.textContent = "";
+
+        liste.innerHTML =
+          '<tr><td colspan="4">Erreur de chargement.</td></tr>';
+      }
+    }
+
+    demarrer();
+  </script>
 </body>
 </html>
