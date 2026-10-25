@@ -1,125 +1,89 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cotisations - Petel Association</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f7f5;
       color: #24312b;
     }
-
     header {
       background: #087f5b;
       color: white;
       padding: 22px 15px;
       text-align: center;
     }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: 23px;
-    }
-
-    header p {
-      margin: 0;
-    }
-
-    main {
-      max-width: 950px;
-      margin: auto;
-      padding: 18px;
-    }
-
-    .card {
-      background: white;
-      padding: 18px;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #00000010;
-    }
-
+    header h1 { margin: 0 0 8px; font-size: 25px; }
+    header p { margin: 0; }
+    main { max-width: 1000px; margin: auto; padding: 18px; }
     .back {
       display: inline-block;
       margin-bottom: 16px;
       color: #087f5b;
+      font-weight: bold;
       text-decoration: none;
-      font-weight: bold;
     }
-
-    .total {
-      color: #087f5b;
-      font-size: 26px;
-      font-weight: bold;
-      margin: 10px 0;
-      overflow-wrap: anywhere;
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px #00000010;
     }
-
-    .table-wrap {
+    h2 { margin-top: 0; }
+    .total { color: #087f5b; font-size: 30px; font-weight: bold; }
+    .notice { white-space: pre-wrap; margin: 12px 0; }
+    .error { color: #b42318; }
+    .success { color: #087f5b; }
+    .info { color: #475467; }
+    label { display: block; margin: 12px 0 6px; font-weight: bold; }
+    input, select {
       width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
+      padding: 12px;
+      border: 1px solid #ccd5d0;
+      border-radius: 8px;
+      font-size: 16px;
       background: white;
     }
-
-    th, td {
-      text-align: left;
-      padding: 11px 9px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background: #e8f4ee;
-      color: #174b38;
-    }
-
-    .notice {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      padding: 10px 0;
-    }
-
-    .error {
-      color: #b42318;
-    }
-
-    .success {
-      color: #087f5b;
-    }
-
-    .info {
-      color: #555;
-    }
-
     button {
-      padding: 12px 16px;
-      background: #087f5b;
-      color: white;
       border: 0;
       border-radius: 8px;
+      padding: 11px 14px;
+      margin: 8px 5px 0 0;
+      background: #087f5b;
+      color: white;
+      font-size: 15px;
       cursor: pointer;
     }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
+    button.secondary { background: #53645c; }
+    button.danger { background: #b42318; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .table-wrap { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+    }
+    th { background: #e8f4ee; color: #174b38; }
+    .actions { min-width: 145px; }
+    .hidden { display: none !important; }
+    footer { text-align: center; color: #666; padding: 25px 12px; }
+    @media (max-width: 480px) {
+      main { padding: 12px; }
+      .card { padding: 16px; }
+      th, td { padding: 10px 8px; }
+      .total { font-size: 26px; }
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>Petel Association</h1>
@@ -129,19 +93,49 @@
   <main>
     <a class="back" href="./dashboard.html">← Retour au tableau de bord</a>
 
+    <p id="notice" class="notice info" role="status" aria-live="polite">
+      Connexion à Supabase...
+    </p>
+
     <section class="card">
       <h2>Total des cotisations</h2>
-      <div id="total" class="total">Chargement...</div>
-      <p id="nombre">Chargement des cotisations...</p>
+      <div id="total" class="total">—</div>
+      <p id="nombre">Chargement...</p>
+    </section>
+
+    <section id="formCard" class="card hidden">
+      <h2 id="formTitle">Ajouter une cotisation</h2>
+      <form id="contributionForm">
+        <input id="contributionId" type="hidden">
+
+        <label for="member">Membre</label>
+        <select id="member" required>
+          <option value="">Choisir un membre</option>
+        </select>
+
+        <label for="amount">Montant (FCFA)</label>
+        <input id="amount" type="number" min="1" step="1" required>
+
+        <label for="period">Période</label>
+        <input id="period" type="text" placeholder="Ex. Octobre 2026" required>
+
+        <label for="paymentDate">Date de cotisation</label>
+        <input id="paymentDate" type="date" required>
+
+        <button id="saveButton" type="submit">Enregistrer</button>
+        <button id="cancelButton" type="button" class="secondary">
+          Annuler
+        </button>
+      </form>
     </section>
 
     <section class="card">
       <h2>Liste des cotisations</h2>
-      <p id="notice" class="notice info" role="status" aria-live="polite">
-        Connexion en cours...
-      </p>
+      <button id="addButton" class="hidden" type="button">
+        + Ajouter une cotisation
+      </button>
 
-      <div class="table-wrap">
+      <div class="table-wrap" style="margin-top:15px">
         <table>
           <thead>
             <tr>
@@ -149,21 +143,18 @@
               <th>Montant</th>
               <th>Période</th>
               <th>Date</th>
+              <th id="actionsHeader" class="hidden">Actions</th>
             </tr>
           </thead>
           <tbody id="liste">
-            <tr>
-              <td colspan="4">Chargement...</td>
-            </tr>
+            <tr><td colspan="5">Chargement des cotisations...</td></tr>
           </tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <footer>
-    © 2026 Petel Association Solidarité &amp; Développement
-  </footer>
+  <footer>© 2026 Petel Association Solidarité &amp; Développement</footer>
 
   <script type="module">
     import { createClient }
@@ -172,66 +163,262 @@
     const SUPABASE_URL =
       "https://evbpmafgciphyfzmkctc.supabase.co";
 
-    // Remplace cette valeur par la clé publique existante dans app.js.
+    // Remplace cette valeur par la clé PUBLIQUE de app.js.
     const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+      "COLLE_ICI_TA_CLE_PUBLIQUE";
 
     const supabase = createClient(
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
 
-    const liste = document.getElementById("liste");
-    const totalElement = document.getElementById("total");
-    const nombreElement = document.getElementById("nombre");
-    const notice = document.getElementById("notice");
+    const $ = id => document.getElementById(id);
+    const notice = $("notice");
+    const liste = $("liste");
 
-    function afficherMessage(texte, type = "info") {
+    let role = "";
+    let membres = [];
+    let cotisations = [];
+    let enregistrement = false;
+
+    function message(texte, type = "info") {
       notice.textContent = texte;
       notice.className = "notice " + type;
     }
 
-    function formaterCFA(montant) {
-      return Number(montant || 0).toLocaleString("fr-FR") + " FCFA";
+    function fcfa(valeur) {
+      return Number(valeur || 0).toLocaleString("fr-FR") + " FCFA";
     }
 
-    function formaterDate(date) {
+    function dateFr(date) {
       if (!date) return "—";
+      const d = new Date(date + "T00:00:00");
+      return Number.isNaN(d.getTime())
+        ? date
+        : d.toLocaleDateString("fr-FR");
+    }
 
-      const valeur = String(date).slice(0, 10);
-      const morceaux = valeur.split("-");
+    function creerCellule(texte) {
+      const td = document.createElement("td");
+      td.textContent = texte ?? "";
+      return td;
+    }
 
-      if (morceaux.length !== 3) return valeur;
+    function nomMembre(m) {
+      return [m?.first_name, m?.last_name]
+        .filter(Boolean).join(" ") || "Membre non identifié";
+    }
 
-      return `${morceaux[2]}/${morceaux[1]}/${morceaux[0]}`;
+    function peutGerer() {
+      return ["admin", "moderateur"].includes(
+        String(role).trim().toLowerCase()
+      );
+    }
+
+    function afficherFormulaire(c = null) {
+      if (!peutGerer()) return;
+
+      $("contributionForm").reset();
+      $("contributionId").value = c?.id ?? "";
+      $("formTitle").textContent = c
+        ? "Modifier une cotisation"
+        : "Ajouter une cotisation";
+      $("member").value = c?.member_id ?? "";
+      $("amount").value = c?.amount ?? "";
+      $("period").value = c?.period ?? "";
+      $("paymentDate").value = c?.payment_date ?? "";
+      $("formCard").classList.remove("hidden");
+      $("formCard").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function fermerFormulaire() {
+      $("formCard").classList.add("hidden");
+      $("contributionForm").reset();
+      $("contributionId").value = "";
+    }
+
+    async function chargerMembres() {
+      const { data, error } = await supabase
+        .from("members")
+        .select("id, first_name, last_name")
+        .order("first_name");
+
+      if (error) throw error;
+      membres = data || [];
+
+      $("member").replaceChildren();
+      const choix = document.createElement("option");
+      choix.value = "";
+      choix.textContent = "Choisir un membre";
+      $("member").appendChild(choix);
+
+      for (const m of membres) {
+        const option = document.createElement("option");
+        option.value = m.id;
+        option.textContent = nomMembre(m);
+        $("member").appendChild(option);
+      }
+    }
+
+    async function chargerCotisations() {
+      const { data, error } = await supabase
+        .from("contributions")
+        .select("id, member_id, amount, period, payment_date, members(first_name, last_name)")
+        .order("payment_date", { ascending: false });
+
+      if (error) throw error;
+      cotisations = data || [];
+      afficherCotisations();
+    }
+
+    function afficherCotisations() {
+      liste.replaceChildren();
+
+      let total = 0;
+      for (const c of cotisations) total += Number(c.amount || 0);
+
+      $("total").textContent = fcfa(total);
+      $("nombre").textContent =
+        cotisations.length + " cotisation(s) enregistrée(s).";
+
+      if (!cotisations.length) {
+        const tr = document.createElement("tr");
+        const td = creerCellule("Aucune cotisation enregistrée.");
+        td.colSpan = peutGerer() ? 5 : 4;
+        tr.appendChild(td);
+        liste.appendChild(tr);
+        return;
+      }
+
+      for (const c of cotisations) {
+        const tr = document.createElement("tr");
+        const m = Array.isArray(c.members) ? c.members[0] : c.members;
+
+        tr.appendChild(creerCellule(nomMembre(m)));
+        tr.appendChild(creerCellule(fcfa(c.amount)));
+        tr.appendChild(creerCellule(c.period || "—"));
+        tr.appendChild(creerCellule(dateFr(c.payment_date)));
+
+        if (peutGerer()) {
+          const td = document.createElement("td");
+          td.className = "actions";
+
+          const modifier = document.createElement("button");
+          modifier.type = "button";
+          modifier.textContent = "Modifier";
+          modifier.addEventListener("click", () => afficherFormulaire(c));
+
+          const supprimer = document.createElement("button");
+          supprimer.type = "button";
+          supprimer.textContent = "Supprimer";
+          supprimer.className = "danger";
+          supprimer.addEventListener("click", () => supprimerCotisation(c));
+
+          td.append(modifier, supprimer);
+          tr.appendChild(td);
+        }
+
+        liste.appendChild(tr);
+      }
+    }
+
+    async function sauvegarderCotisation(event) {
+      event.preventDefault();
+      if (!peutGerer() || enregistrement) return;
+
+      const id = $("contributionId").value;
+      const member_id = $("member").value;
+      const amount = Number($("amount").value);
+      const period = $("period").value.trim();
+      const payment_date = $("paymentDate").value;
+
+      if (!member_id || !Number.isFinite(amount) || amount <= 0 ||
+          !period || !payment_date) {
+        message("Vérifie tous les champs avant d'enregistrer.", "error");
+        return;
+      }
+
+      const payload = { member_id, amount, period, payment_date };
+      enregistrement = true;
+      $("saveButton").disabled = true;
+
+      try {
+        let result;
+
+        if (id) {
+          result = await supabase
+            .from("contributions")
+            .update(payload)
+            .eq("id", id);
+        } else {
+          result = await supabase
+            .from("contributions")
+            .insert(payload);
+        }
+
+        if (result.error) throw result.error;
+
+        fermerFormulaire();
+        await chargerCotisations();
+        message(
+          id ? "Cotisation modifiée." : "Cotisation ajoutée.",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+        message(
+          "Enregistrement impossible : " + (error.message || "erreur inconnue") +
+          "\nVérifie les politiques RLS et les champs de la table contributions.",
+          "error"
+        );
+      } finally {
+        enregistrement = false;
+        $("saveButton").disabled = false;
+      }
+    }
+
+    async function supprimerCotisation(c) {
+      if (!peutGerer()) return;
+
+      if (!confirm(
+        "Confirmer la suppression de la cotisation de " +
+        nomMembre(Array.isArray(c.members) ? c.members[0] : c.members) +
+        " (" + fcfa(c.amount) + ") ?"
+      )) return;
+
+      try {
+        const { error } = await supabase
+          .from("contributions")
+          .delete()
+          .eq("id", c.id);
+
+        if (error) throw error;
+
+        await chargerCotisations();
+        message("Cotisation supprimée.", "success");
+      } catch (error) {
+        console.error(error);
+        message(
+          "Suppression impossible : " + (error.message || "erreur inconnue"),
+          "error"
+        );
+      }
     }
 
     async function demarrer() {
       try {
-        if (
-          !SUPABASE_PUBLISHABLE_KEY ||
-          SUPABASE_PUBLISHABLE_KEY ===
-            "COLLE_ICI_TA_CLE_PUBLIQUE_SUPABASE"
-        ) {
-          throw new Error(
-            "Ajoute la clé publique Supabase déjà utilisée dans app.js."
-          );
+        if (SUPABASE_PUBLISHABLE_KEY === "COLLE_ICI_TA_CLE_PUBLIQUE") {
+          throw new Error("Ajoute la clé publique Supabase de app.js dans ce fichier.");
         }
 
         const { data: sessionData, error: sessionError } =
           await supabase.auth.getSession();
 
         if (sessionError) throw sessionError;
-
         if (!sessionData.session) {
-          afficherMessage(
-            "Connecte-toi d'abord depuis la page principale.",
-            "error"
-          );
+          message("Connecte-toi d'abord depuis la page d'accueil.", "error");
           liste.innerHTML =
-            '<tr><td colspan="4">Connexion nécessaire.</td></tr>';
-          totalElement.textContent = "—";
-          nombreElement.textContent = "";
+            '<tr><td colspan="5">Connexion requise.</td></tr>';
           return;
         }
 
@@ -242,94 +429,44 @@
           .maybeSingle();
 
         if (profilError) throw profilError;
-
         if (!profil) {
-          throw new Error(
-            "Profil introuvable. Vérifie le profil utilisateur dans Supabase."
-          );
+          throw new Error("Profil utilisateur introuvable dans Supabase.");
         }
 
-        const { data, error } = await supabase
-          .from("contributions")
-          .select(`
-            id,
-            member_id,
-            amount,
-            period,
-            payment_date,
-            members(first_name, last_name)
-          `)
-          .order("payment_date", { ascending: false });
+        role = String(profil.role || "").trim().toLowerCase();
 
-        if (error) throw error;
-
-        liste.replaceChildren();
-
-        let total = 0;
-
-        for (const cotisation of data || []) {
-          total += Number(cotisation.amount || 0);
-
-          const membre = Array.isArray(cotisation.members)
-            ? cotisation.members[0]
-            : cotisation.members;
-
-          const nom = membre
-            ? `${membre.first_name || ""} ${membre.last_name || ""}`.trim()
-            : "Membre non identifié";
-
-          const ligne = document.createElement("tr");
-
-          const valeurs = [
-            nom,
-            formaterCFA(cotisation.amount),
-            cotisation.period || "—",
-            formaterDate(cotisation.payment_date)
-          ];
-
-          for (const valeur of valeurs) {
-            const cellule = document.createElement("td");
-            cellule.textContent = valeur;
-            ligne.appendChild(cellule);
-          }
-
-          liste.appendChild(ligne);
+        if (peutGerer()) {
+          $("addButton").classList.remove("hidden");
+          $("actionsHeader").classList.remove("hidden");
+          $("formCard").classList.remove("hidden");
+          fermerFormulaire();
+          message("Connecté avec le rôle : " + role + ".", "success");
+        } else {
+          message("Mode consultation : les cotisations sont en lecture seule.", "info");
         }
 
-        if (!data || data.length === 0) {
-          liste.innerHTML =
-            '<tr><td colspan="4">Aucune cotisation enregistrée.</td></tr>';
-        }
-
-        totalElement.textContent = formaterCFA(total);
-        nombreElement.textContent =
-          `${(data || []).length} cotisation(s) enregistrée(s).`;
-
-        afficherMessage(
-          profil.role === "admin"
-            ? "Connecté en tant qu’administrateur."
-            : "Mode consultation : les cotisations sont en lecture seule.",
-          "success"
-        );
-
-      } catch (erreur) {
-        console.error("Erreur cotisations :", erreur);
-
-        afficherMessage(
+        await chargerMembres();
+        await chargerCotisations();
+      } catch (error) {
+        console.error(error);
+        message(
           "Impossible de charger les cotisations : " +
-          (erreur.message || "erreur inconnue"),
+          (error.message || "erreur inconnue"),
           "error"
         );
-
-        totalElement.textContent = "—";
-        nombreElement.textContent = "";
-
+        $("total").textContent = "—";
+        $("nombre").textContent = "Chargement impossible.";
         liste.innerHTML =
-          '<tr><td colspan="4">Erreur de chargement.</td></tr>';
+          '<tr><td colspan="5">Erreur de chargement.</td></tr>';
       }
     }
+
+    $("addButton").addEventListener("click", () => afficherFormulaire());
+    $("cancelButton").addEventListener("click", fermerFormulaire);
+    $("contributionForm").addEventListener("submit", sauvegarderCotisation);
 
     demarrer();
   </script>
 </body>
 </html>
+
