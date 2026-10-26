@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caisse - Petel Association</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#24312b}
+header{background:#087f5b;color:white;padding:22px 16px;text-align:center}
+main{max-width:950px;margin:auto;padding:16px}
+a{color:#087f5b;font-weight:bold;text-decoration:none}
+.card{background:white;padding:20px;border-radius:16px;margin:16px 0;box-shadow:0 3px 14px #0000000b}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:#e7f5ef;padding:16px;border-radius:12px}
+.stat strong{display:block;font-size:22px;color:#087f5b;margin-top:8px;overflow-wrap:anywhere}
+label{display:block;font-weight:bold;margin-top:12px}
+input,select,textarea,button{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd5d0;border-radius:9px;font-size:16px}
+button{background:#087f5b;color:white;border:0;font-weight:bold;cursor:pointer}
+button.secondary{background:#586761}
+button:disabled{opacity:.5}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #ddd;vertical-align:top}
+th{background:#e7f5ef;color:#174b38}
+.table-wrap{overflow-x:auto}
+.notice{padding:12px;border-radius:8px;background:#fff3cd;margin:12px 0;overflow-wrap:anywhere}
+.hidden{display:none!important}
+footer{text-align:center;color:#666;padding:25px 10px}
+</style>
+</head>
+<body>
+<header>
+<h1>🏦 Petel Association</h1>
+<p>Solidarité &amp; Développement — Gestion de la caisse</p>
+</header>
+
+<main>
+<p><a href="./dashboard.html">← Retour au tableau de bord</a></p>
+<div id="notice" class="notice">Connexion en cours…</div>
+
+<section class="card">
+<h2>Résumé de la caisse</h2>
+<div class="stats">
+<div class="stat">Total des entrées<strong id="totalIn">0 FCFA</strong></div>
+<div class="stat">Total des sorties<strong id="totalOut">0 FCFA</strong></div>
+<div class="stat">Solde disponible<strong id="balance">0 FCFA</strong></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Nouvelle opération</h2>
+<form id="cashForm">
+<label for="type">Type d’opération</label>
+<select id="type" required>
+<option value="entrée">Entrée d’argent</option>
+<option value="sortie">Sortie d’argent</option>
+</select>
+
+<label for="amount">Montant (FCFA)</label>
+<input id="amount" type="number" min="1" step="1" required>
+
+<label for="description">Description</label>
+<textarea id="description" rows="2" maxlength="500" placeholder="Ex. Cotisation, achat de matériel…" required></textarea>
+
+<label for="date">Date de l’opération</label>
+<input id="date" type="date" required>
+
+<button id="saveButton" type="submit">Enregistrer l’opération</button>
+</form>
+</section>
+
+<section class="card">
+<h2>Historique des opérations</h2>
+<button id="refreshButton" type="button" class="secondary">Actualiser</button>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Montant</th></tr></thead>
+<tbody id="history"><tr><td colspan="4">Chargement…</td></tr></tbody>
+</table>
+</div>
+</section>
+</main>
+
+<footer>© 2026 Petel Association Solidarité &amp; Développement</footer>
+
+<script type="module">
+import { createClient } from
+'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL = 'https://evbpmafgciphyfzmkctc.supabase.co';
+
+/* Remplace cette valeur par la même clé Publishable déjà utilisée
+   dans app.js. Ne mets jamais une clé secrète ici. */
+const SUPABASE_PUBLISHABLE_KEY = 'COLLE_ICI_TA_CLE_PUBLISHABLE';
+
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const $ = id => document.getElementById(id);
+const fmt = n => new Intl.NumberFormat('fr-FR').format(n) + ' FCFA';
+
+function message(t) { $('notice').textContent = t; }
+function dateAujourdHui() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+$('date').value = dateAujourdHui();
+
+let user = null;
+let role = 'lecteur';
+
+async function initialiser() {
+  const { data, error } = await db.auth.getSession();
+  if (error) throw error;
+  user = data.session?.user;
+  if (!user) {
+    message('Connecte-toi depuis la page d’accueil avant d’utiliser la caisse.');
+    $('cashForm').classList.add('hidden');
+    $('history').innerHTML = '<tr><td colspan="4">Connexion requise.</td></tr>';
+    return;
+  }
+
+  const { data: profil, error: profilErreur } = await db
+    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+
+  if (profilErreur) throw profilErreur;
+  role = profil?.role || 'lecteur';
+
+  if (role !== 'admin') {
+    $('cashForm').classList.add('hidden');
+    message('Mode lecteur : consultation uniquement.');
+  } else {
+    message('Connecté en tant qu’administrateur.');
+  }
+
+  await charger();
+}
+
+async function charger() {
+  const { data, error } = await db
+    .from('cash_transactions')
+    .select('id, transaction_type, amount, description, transaction_date, created_at')
+    .order('transaction_date', { ascending: false })
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  let entrees = 0, sorties = 0;
+  const lignes = [];
+
+  for (const op of (data || [])) {
+    const montant = Number(op.amount) || 0;
+    const type = String(op.transaction_type || '').toLowerCase();
+    if (['entrée','entree','income','in','cotisation'].includes(type)) entrees += montant;
+    else if (['sortie','expense','out','depense','dépense'].includes(type)) sorties += montant;
+
+    const tr = document.createElement('tr');
+    const valeurs = [
+      op.transaction_date || '—',
+      op.transaction_type || '—',
+      op.description || '—',
+      fmt(montant)
+    ];
+    for (const valeur of valeurs) {
+      const td = document.createElement('td');
+      td.textContent = valeur;
+      tr.appendChild(td);
+    }
+    lignes.push(tr);
+  }
+
+  $('totalIn').textContent = fmt(entrees);
+  $('totalOut').textContent = fmt(sorties);
+  $('balance').textContent = fmt(entrees - sorties);
+  $('history').replaceChildren();
+
+  if (!lignes.length) {
+    $('history').innerHTML = '<tr><td colspan="4">Aucune opération enregistrée.</td></tr>';
+  } else {
+    $('history').append(...lignes);
+  }
+}
+
+$('cashForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!user || role !== 'admin') {
+    message('Seul un administrateur peut enregistrer une opération.');
+    return;
+  }
+
+  const amount = Number($('amount').value);
+  const type = $('type').value;
+  const description = $('description').value.trim();
+  const transaction_date = $('date').value;
+
+  if (!Number.isFinite(amount) || amount <= 0 || !description || !transaction_date) {
+    message('Vérifie le montant, la description et la date.');
+    return;
+  }
+
+  $('saveButton').disabled = true;
+  try {
+    const { error } = await db.from('cash_transactions').insert({
+      transaction_type: type,
+      amount,
+      description,
+      transaction_date,
+      created_by: user.id
+    });
+    if (error) throw error;
+
+    $('cashForm').reset();
+    $('date').value = dateAujourdHui();
+    await charger();
+    message('Opération enregistrée avec succès.');
+  } catch (err) {
+    message('Erreur : ' + (err.message || 'impossible d’enregistrer l’opération.'));
+  } finally {
+    $('saveButton').disabled = false;
+  }
+});
+
+$('refreshButton').addEventListener('click', async () => {
+  try { await charger(); message('Caisse actualisée.'); }
+  catch (err) { message('Erreur de chargement : ' + err.message); }
+});
+
+try { await initialiser(); }
+catch (err) {
+  message('Erreur : ' + (err.message || 'connexion impossible à Supabase.'));
+}
+</script>
+</body>
+</html>
