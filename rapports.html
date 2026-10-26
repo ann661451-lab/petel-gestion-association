@@ -167,9 +167,24 @@ function afficherOperations() {
 }
 
 document.getElementById('filtrer').addEventListener('click', afficherOperations);
-document.getElementById('actualiser').addEventListener('click', charger);
-charger().catch(e => {
-  notice.textContent = 'Erreur inattendue : ' + e.message;
+document.getElementById('actualiser').addEventListener('click', () => {
+  Promise.race([
+    charger(),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Délai dépassé : vérifiez la connexion Supabase.')), 10000)
+    )
+  ]).catch(e => {
+    notice.textContent = 'Erreur : ' + e.message;
+  });
+});
+
+Promise.race([
+  charger(),
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Le chargement dépasse 10 secondes.')), 10000)
+  )
+]).catch(e => {
+  notice.textContent = 'Erreur : ' + e.message;
 });
 </script>
 </body>
