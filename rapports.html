@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rapports - Petel Association</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#24312b}
+header{background:#087f5b;color:white;padding:24px 16px;text-align:center}
+main{max-width:950px;margin:auto;padding:18px}
+a{color:#087f5b;font-weight:bold;text-decoration:none}
+.card{background:white;padding:20px;border-radius:18px;margin:16px 0;box-shadow:0 3px 14px #00000008}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:#e7f5ef;padding:16px;border-radius:12px}
+.stat strong{display:block;color:#087f5b;font-size:22px;margin-top:8px}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+input,select,button{width:100%;padding:12px;border:1px solid #ccd5d0;border-radius:9px;font-size:16px}
+button{background:#087f5b;color:white;border:0;font-weight:bold;margin-top:12px}
+.notice{padding:12px;border-radius:9px;background:#fff3cd;margin:12px 0;overflow-wrap:anywhere}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #ddd}
+.table-wrap{overflow-x:auto}
+footer{text-align:center;color:#666;padding:25px 10px}
+</style>
+</head>
+<body>
+<header>
+<h1>📊 Petel Association</h1>
+<p>Solidarité & Développement — Rapports</p>
+</header>
+<main>
+<p><a href="./dashboard.html">← Retour au tableau de bord</a></p>
+<div id="notice" class="notice">Chargement des rapports...</div>
+
+<section class="card">
+<h2>Résumé financier</h2>
+<div class="stats">
+<div class="stat">Total des cotisations<strong id="cotisations">0 FCFA</strong></div>
+<div class="stat">Total des entrées<strong id="entrees">0 FCFA</strong></div>
+<div class="stat">Total des sorties<strong id="sorties">0 FCFA</strong></div>
+<div class="stat">Solde de la caisse<strong id="solde">0 FCFA</strong></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Filtrer les opérations de caisse</h2>
+<label for="debut">Date de début</label>
+<input id="debut" type="date">
+<label for="fin">Date de fin</label>
+<input id="fin" type="date">
+<button id="filtrer">Appliquer le filtre</button>
+<button id="actualiser" type="button">Actualiser les rapports</button>
+</section>
+
+<section class="card">
+<h2>Historique de la caisse</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Montant</th></tr></thead>
+<tbody id="historique"><tr><td colspan="4">Chargement...</td></tr></tbody>
+</table>
+</div>
+<p id="compteur"></p>
+</section>
+</main>
+<footer>© 2026 Petel Association Solidarité & Développement</footer>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL = 'https://evbpmafgciphyfzmkctc.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_b0e21b5a0e5c4c8bb1b05w52My69n9hFQ_IWf0iip';
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const notice = document.getElementById('notice');
+const format = n => Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
+let operations = [];
+
+async function charger() {
+  notice.textContent = 'Chargement des données...';
+  const { data: sessionData, error: sessionError } = await db.auth.getSession();
+  if (sessionError || !sessionData.session) {
+    notice.textContent = 'Connecte-toi d’abord à Petel Association, puis ouvre les rapports.';
+    document.getElementById('historique').innerHTML = '<tr><td colspan="4">Connexion nécessaire.</td></tr>';
+    return;
+  }
+
+  const { data: profil, error: profilError } = await db
+    .from('profiles').select('role')
+    .eq('id', sessionData.session.user.id).maybeSingle();
+
+  if (profilError) {
+    notice.textContent = 'Impossible de vérifier le profil : ' + profilError.message;
+    return;
+  }
+
+  const { data: caisse, error: caisseError } = await db
+    .from('cash_transactions')
+    .select('id, transaction_type, amount, description, transaction_date, created_at')
+    .order('transaction_date', { ascending: false });
+
+  if (caisseError) {
+    notice.textContent = 'Erreur de lecture de la caisse : ' + caisseError.message;
+    return;
+  }
+
+  const { data: cotisations, error: cotisationsError } = await db
+    .from('contributions').select('amount');
+
+  if (cotisationsError) {
+    notice.textContent = 'Erreur de lecture des cotisations : ' + cotisationsError.message;
+    return;
+  }
+
+  operations = caisse || [];
+  const totalCotisations = (cotisations || []).reduce((s, x) => s + Number(x.amount || 0), 0);
+  document.getElementById('cotisations').textContent = format(totalCotisations);
+  afficherOperations();
+
+  notice.textContent = 'Rapports chargés. Connecté en tant que ' + (profil?.role || 'membre') + '.';
+}
+
+function afficherOperations() {
+  const debut = document.getElementById('debut').value;
+  const fin = document.getElementById('fin').value;
+  const liste = operations.filter(op =>
+    (!debut || op.transaction_date >= debut) &&
+    (!fin || op.transaction_date <= fin)
+  );
+
+  let entrees = 0, sorties = 0;
+  for (const op of liste) {
+    const type = String(op.transaction_type || '').toLowerCase();
+    if (type.includes('sortie') || type.includes('expense') || type === 'out') sorties += Number(op.amount || 0);
+    else entrees += Number(op.amount || 0);
+  }
+
+  document.getElementById('entrees').textContent = format(entrees);
+  document.getElementById('sorties').textContent = format(sorties);
+  document.getElementById('solde').textContent = format(entrees - sorties);
+  document.getElementById('compteur').textContent = liste.length + ' opération(s) affichée(s).';
+
+  const tbody = document.getElementById('historique');
+  if (!liste.length) {
+    tbody.innerHTML = '<tr><td colspan="4">Aucune opération pour cette période.</td></tr>';
+    return;
+  }
+
+  tbody.replaceChildren();
+  for (const op of liste) {
+    const tr = document.createElement('tr');
+    const valeurs = [
+      op.transaction_date || '',
+      op.transaction_type || '',
+      op.description || '',
+      format(op.amount)
+    ];
+    for (const valeur of valeurs) {
+      const td = document.createElement('td');
+      td.textContent = valeur;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+}
+
+document.getElementById('filtrer').addEventListener('click', afficherOperations);
+document.getElementById('actualiser').addEventListener('click', charger);
+charger().catch(e => {
+  notice.textContent = 'Erreur inattendue : ' + e.message;
+});
+</script>
+</body>
+</html>
