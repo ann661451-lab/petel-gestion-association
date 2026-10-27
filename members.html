@@ -1,18 +1,17 @@
- 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Petel Association — Membres et cotisations</title>
-  <meta name="theme-color" content="#116149">
+  <meta name="theme-color" content="#087354">
+  <title>Tableau de bord - Petel Association</title>
 
   <style>
     :root {
-      --green: #116149;
+      --green: #087354;
       --dark-green: #0b4435;
       --light: #f2f7f4;
-      --red: #b42318;
       --border: #d8e4dc;
     }
 
@@ -20,1012 +19,328 @@
 
     body {
       margin: 0;
-      padding: 16px;
       font-family: Arial, sans-serif;
       background: var(--light);
-      color: #1f2933;
+      color: #1f2937;
     }
-
-    .container { width: 100%; max-width: 1100px; margin: 0 auto; }
 
     header {
       background: var(--green);
       color: white;
-      padding: 22px 16px;
+      padding: 24px 16px;
       text-align: center;
-      border-radius: 12px;
-      margin-bottom: 18px;
     }
 
-    header h1 { font-size: 23px; margin: 0 0 8px; }
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+    }
+
     header p { margin: 0; }
 
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    }
-
-    h2, h3 { color: var(--dark-green); }
-    h2 { font-size: 20px; margin-top: 0; }
-    h3 { font-size: 17px; margin-top: 22px; }
-
-    label { display: block; font-weight: bold; margin: 12px 0 6px; }
-
-    input, select {
-      display: block;
+    main {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #bdcfc3;
-      border-radius: 8px;
-      font-size: 16px;
+      max-width: 1000px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .welcome, .card, .menu a, .menu .disabled {
       background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 18px #00000008;
     }
 
-    button {
-      padding: 11px 15px;
-      border: 0;
-      border-radius: 8px;
-      background: var(--green);
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 8px 5px 0 0;
+    .welcome h2 {
+      font-size: 27px;
+      margin-top: 0;
     }
 
-    button.secondary { background: #52665b; }
-    button.danger { background: var(--red); }
-    button:disabled { opacity: .6; cursor: wait; }
-
-    .hidden { display: none !important; }
-
-    .notice {
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 8px;
+    .welcome p {
+      font-size: 18px;
       overflow-wrap: anywhere;
     }
 
-    .notice.info { background: #e7f1ff; color: #164785; }
-    .notice.success { background: #e3f6e9; color: #14532d; }
-    .notice.error { background: #fee8e7; color: #8c1d18; }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      background: white;
+    .card h3 {
+      font-size: 19px;
+      margin: 0 0 22px;
     }
 
-    th, td {
-      padding: 11px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
+    .number {
+      color: var(--green);
+      font-size: 29px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+      margin-bottom: 18px;
     }
 
-    th { background: #e7f1eb; color: var(--dark-green); }
-    .actions { min-width: 150px; }
+    .menu {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
 
-    .total-box {
-      background: #e7f1eb;
-      border: 1px solid var(--border);
+    .menu a, .menu .disabled {
+      display: block;
+      margin: 0;
+      color: #1f2937;
+      font-size: 19px;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 20px;
+    }
+
+    .menu a:active { background: #e5f4ec; }
+
+    .menu .disabled {
+      color: #68756e;
+      font-weight: normal;
+    }
+
+    #notice {
+      display: none;
+      padding: 14px;
+      margin-bottom: 16px;
       border-radius: 10px;
-      padding: 16px;
-      margin: 12px 0;
+      overflow-wrap: anywhere;
     }
 
-    .total-box p { margin: 0 0 8px; }
-    .total-box h2 { margin: 0; font-size: 25px; }
+    #notice.error {
+      display: block;
+      background: #ffe8e8;
+      color: #a42323;
+    }
+
+    #notice.success {
+      display: block;
+      background: #e2f5e8;
+      color: #155b37;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: #c62828;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:disabled { opacity: 0.6; }
 
     footer {
+      padding: 20px;
       text-align: center;
-      color: #53645a;
+      color: #666;
       font-size: 13px;
-      padding: 10px;
     }
 
-    @media (max-width: 600px) {
-      body { padding: 9px; }
-      header h1 { font-size: 20px; }
-      .card { padding: 13px; }
-      button { width: 100%; margin-right: 0; }
+    @media (max-width: 480px) {
+      header h1 { font-size: 26px; }
+      main { padding: 16px; }
+      .cards { grid-template-columns: 1fr; }
+      .welcome, .card { padding: 20px; }
     }
   </style>
 </head>
 
 <body>
-<div class="container">
   <header>
     <h1>Petel Association</h1>
-    <p>Solidarité &amp; Développement — Membres et cotisations</p>
+    <p>Solidarité &amp; Développement</p>
   </header>
 
-  <div id="notice" class="notice info" role="status">
-    Initialisation de la connexion...
-  </div>
+  <main>
+    <div id="notice" role="status" aria-live="polite"></div>
 
-  <section id="loginSection" class="card">
-    <h2>Connexion</h2>
-    <form id="loginForm">
-      <label for="loginEmail">Adresse e-mail</label>
-      <input id="loginEmail" type="email" autocomplete="username"
-             required placeholder="Votre adresse e-mail">
-
-      <label for="loginPassword">Mot de passe</label>
-      <input id="loginPassword" type="password"
-             autocomplete="current-password" required
-             placeholder="Votre mot de passe">
-
-      <button id="loginButton" type="submit" disabled>Préparation...</button>
-    </form>
-  </section>
-
-  <section id="appSection" class="hidden">
-    <div class="card">
-      <div class="toolbar">
-        <div>
-          <h2 style="margin-bottom:6px">Liste des membres</h2>
-          <div id="userInfo"></div>
-        </div>
-        <button id="logoutButton" class="secondary" type="button">
-          Se déconnecter
-        </button>
-      </div>
-
-      <div id="adminArea" class="hidden">
-        <hr>
-        <h2 id="formTitle">Ajouter un membre</h2>
-
-        <form id="memberForm">
-          <input id="memberId" type="hidden">
-
-          <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" maxlength="100" required>
-
-          <label for="lastName">Nom</label>
-          <input id="lastName" type="text" maxlength="100" required>
-
-          <label for="phone">Téléphone</label>
-          <input id="phone" type="tel" maxlength="40">
-
-          <label for="status">Statut</label>
-          <select id="status" required>
-            <option value="Actif">Actif</option>
-            <option value="Inactif">Inactif</option>
-            <option value="Honneur">Membre d'honneur</option>
-          </select>
-
-          <button id="saveButton" type="submit">Enregistrer le membre</button>
-          <button id="cancelButton" class="secondary hidden" type="button">
-            Annuler la modification
-          </button>
-        </form>
-      </div>
-
-      <div class="toolbar" style="margin-top:18px">
-        <strong id="memberCount">0 membre</strong>
-        <button id="refreshButton" class="secondary" type="button">
-          Actualiser la liste
-        </button>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Prénom</th>
-              <th>Nom</th>
-              <th>Téléphone</th>
-              <th>Statut</th>
-              <th id="actionsHeader" class="hidden">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="membersBody">
-            <tr><td colspan="5">En attente des données...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <section id="contributionsSection" class="card">
-      <h2>Gestion des cotisations</h2>
-
-      <div class="total-box">
-        <p>Total général des cotisations</p>
-        <h2 id="grandTotal">0 FCFA</h2>
-      </div>
-
-      <h3>Totaux par membre</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Membre</th>
-              <th>Total cotisé</th>
-            </tr>
-          </thead>
-          <tbody id="totalsBody">
-            <tr><td colspan="2">Chargement...</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div id="contributionAdminArea" class="hidden">
-        <hr>
-        <h3 id="contributionFormTitle">Ajouter un paiement</h3>
-
-        <form id="contributionForm">
-          <input id="contributionId" type="hidden">
-
-          <label for="contributionMember">Membre</label>
-          <select id="contributionMember" required></select>
-
-          <label for="contributionAmount">Montant (FCFA)</label>
-          <input id="contributionAmount" type="number"
-                 min="1" step="1" required>
-
-          <label for="contributionPeriod">Période du paiement</label>
-          <input id="contributionPeriod" type="text"
-                 maxlength="100" required
-                 placeholder="Ex. Octobre 2026">
-
-          <label for="contributionDate">Date du paiement</label>
-          <input id="contributionDate" type="date" required>
-
-          <button id="contributionSaveButton" type="submit">
-            Enregistrer le paiement
-          </button>
-          <button id="contributionCancelButton"
-                  class="secondary hidden" type="button">
-            Annuler la modification
-          </button>
-        </form>
-      </div>
-
-      <h3>Historique des paiements</h3>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Membre</th>
-              <th>Montant</th>
-              <th>Période</th>
-              <th>Date</th>
-              <th id="contributionActionsHeader" class="hidden">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="contributionsBody">
-            <tr><td colspan="5">Chargement des paiements...</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <button id="refreshContributionsButton"
-              class="secondary" type="button">
-        Actualiser les cotisations
-      </button>
+    <section class="welcome">
+      <h2>Bienvenue 👋</h2>
+      <p>Tableau de bord de votre association.</p>
+      <p id="userRole">Rôle : vérification en cours...</p>
     </section>
-  </section>
 
-  <footer>Petel Association Solidarité &amp; Développement</footer>
-</div>
+    <section class="cards">
+      <div class="card">
+        <h3>👥 Membres</h3>
+        <div class="number" id="membersCount">Chargement...</div>
+        <p>Membres enregistrés</p>
+      </div>
 
-<script type="module">
-  import { createClient } from
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+      <div class="card">
+        <h3>💰 Cotisations</h3>
+        <div class="number" id="contributionsTotal">— FCFA</div>
+        <p>Total des cotisations</p>
+      </div>
 
-  const SUPABASE_URL =
-    "https://evbpmafgciphyfzmkctc.supabase.co";
+      <div class="card">
+        <h3>💸 Dépenses</h3>
+        <div class="number" id="expensesTotal">— FCFA</div>
+        <p>Total des dépenses</p>
+      </div>
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+      <div class="card">
+        <h3>🏦 Caisse</h3>
+        <div class="number" id="cashBalance">— FCFA</div>
+        <p>Solde disponible</p>
+      </div>
+    </section>
 
-  const $ = id => document.getElementById(id);
+    <nav class="menu" aria-label="Modules de l'association">
+      <a href="./members.html">👥 Gestion des membres</a>
+      <a href="./contributions.html">💰 Cotisations</a>
+      <a href="./caisse.html">🏦 Caisse</a>
+      <a href="./rapports.html">📊 Rapports</a>
+      <div class="disabled">💸 Dépenses — module à vérifier</div>
+      <div class="disabled">💬 Chat / Réclamations — module à vérifier</div>
+      <div class="disabled" id="settingsModule">
+        ⚙️ Paramètres — accès administrateur
+      </div>
+    </nav>
 
-  const notice = $("notice");
-  const loginSection = $("loginSection");
-  const appSection = $("appSection");
-  const loginForm = $("loginForm");
-  const loginButton = $("loginButton");
-  const logoutButton = $("logoutButton");
-  const userInfo = $("userInfo");
-  const adminArea = $("adminArea");
-  const memberForm = $("memberForm");
-  const membersBody = $("membersBody");
-  const memberCount = $("memberCount");
-  const refreshButton = $("refreshButton");
-  const cancelButton = $("cancelButton");
-  const saveButton = $("saveButton");
-  const actionsHeader = $("actionsHeader");
+    <button id="logoutButton" type="button">
+      Se déconnecter
+    </button>
+  </main>
 
-  const contributionAdminArea = $("contributionAdminArea");
-  const contributionForm = $("contributionForm");
-  const contributionSaveButton = $("contributionSaveButton");
-  const contributionCancelButton = $("contributionCancelButton");
-  const contributionActionsHeader = $("contributionActionsHeader");
-  const contributionsBody = $("contributionsBody");
-  const totalsBody = $("totalsBody");
-  const grandTotal = $("grandTotal");
-  const refreshContributionsButton = $("refreshContributionsButton");
-  const contributionMember = $("contributionMember");
+  <footer>
+    © 2026 Petel Association Solidarité &amp; Développement
+  </footer>
 
-  let db = null;
-  let currentUser = null;
-  let isAdmin = false;
-  let busy = false;
-  let memberCache = [];
-  let contributionCache = [];
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  function showMessage(text, type = "info") {
-    notice.textContent = text;
-    notice.className = "notice " + type;
-    notice.classList.remove("hidden");
-  }
+    const SUPABASE_URL =
+      "https://evbpmafgciphyfzmkctc.supabase.co";
 
-  function setBusy(value) {
-    busy = value;
-    loginButton.disabled = value || !db;
-    loginButton.textContent = value ? "Patientez..." : "Se connecter";
-    saveButton.disabled = value;
-    logoutButton.disabled = value;
-    refreshButton.disabled = value;
-    contributionSaveButton.disabled = value;
-    refreshContributionsButton.disabled = value;
-  }
+    // Remplace cette valeur par la clé publique sb_publishable_
+    // déjà utilisée dans ton fichier members.html.
+    const SUPABASE_PUBLISHABLE_KEY =
+      "COLLE_ICI_TA_CLE_PUBLIQUE";
 
-  function money(value) {
-    return new Intl.NumberFormat("fr-FR", {
-      maximumFractionDigits: 0
-    }).format(Number(value) || 0) + " FCFA";
-  }
+    const notice = document.getElementById("notice");
+    const membersCount = document.getElementById("membersCount");
+    const userRole = document.getElementById("userRole");
+    const logoutButton = document.getElementById("logoutButton");
+    const settingsModule = document.getElementById("settingsModule");
 
-  function cell(value) {
-    const td = document.createElement("td");
-    td.textContent = value == null ? "" : String(value);
-    return td;
-  }
-
-  function fullName(member) {
-    return [member.first_name, member.last_name]
-      .filter(Boolean).join(" ");
-  }
-
-  async function getRole(user) {
-    const { data, error } = await db
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (error) throw error;
-    return String(data?.role || "").toLowerCase();
-  }
-
-  async function loadMembers() {
-    showMessage("Chargement des membres...", "info");
-    refreshButton.disabled = true;
-
-    try {
-      const { data, error } = await db
-        .from("members")
-        .select("id, first_name, last_name, phone, status")
-        .order("last_name", { ascending: true });
-
-      if (error) throw error;
-      memberCache = data || [];
-      renderMembers();
-      populateContributionMembers();
-      showMessage("Liste des membres chargée.", "success");
-    } catch (error) {
-      console.error("Chargement des membres :", error);
-      showMessage(
-        "Impossible de charger les membres. Vérifie la table members et ses règles d'accès Supabase. " +
-        (error.message || ""),
-        "error"
-      );
-    } finally {
-      refreshButton.disabled = false;
+    function showMessage(message, type = "error") {
+      notice.textContent = message;
+      notice.className = type;
     }
-  }
 
-  function renderMembers() {
-    membersBody.replaceChildren();
-
-    if (memberCache.length === 0) {
-      const tr = document.createElement("tr");
-      const td = cell("Aucun membre enregistré.");
-      td.colSpan = isAdmin ? 5 : 4;
-      tr.appendChild(td);
-      membersBody.appendChild(tr);
-    } else {
-      for (const member of memberCache) {
-        const tr = document.createElement("tr");
-        tr.appendChild(cell(member.first_name));
-        tr.appendChild(cell(member.last_name));
-        tr.appendChild(cell(member.phone));
-        tr.appendChild(cell(member.status));
-
-        if (isAdmin) {
-          const td = document.createElement("td");
-          td.className = "actions";
-
-          const edit = document.createElement("button");
-          edit.type = "button";
-          edit.textContent = "Modifier";
-          edit.addEventListener("click", () => editMember(member));
-
-          const del = document.createElement("button");
-          del.type = "button";
-          del.className = "danger";
-          del.textContent = "Supprimer";
-          del.addEventListener("click", () => deleteMember(member));
-
-          td.append(edit, del);
-          tr.appendChild(td);
+    async function startDashboard() {
+      try {
+        if (
+          !SUPABASE_PUBLISHABLE_KEY ||
+          SUPABASE_PUBLISHABLE_KEY === "COLLE_ICI_TA_CLE_PUBLIQUE"
+        ) {
+          throw new Error(
+            "Ajoute la clé publique Supabase utilisée dans members.html."
+          );
         }
-        membersBody.appendChild(tr);
-      }
-    }
 
-    memberCount.textContent = memberCache.length +
-      (memberCache.length > 1 ? " membres" : " membre");
-  }
-
-  function editMember(member) {
-    if (!isAdmin) {
-      showMessage("Seul l'administrateur peut modifier les membres.", "error");
-      return;
-    }
-
-    $("memberId").value = member.id;
-    $("firstName").value = member.first_name || "";
-    $("lastName").value = member.last_name || "";
-    $("phone").value = member.phone || "";
-
-    const statusSelect = $("status");
-    const status = member.status || "Actif";
-
-    if (![...statusSelect.options].some(o => o.value === status)) {
-      const option = document.createElement("option");
-      option.value = status;
-      option.textContent = status;
-      statusSelect.appendChild(option);
-    }
-
-    statusSelect.value = status;
-    $("formTitle").textContent = "Modifier un membre";
-    saveButton.textContent = "Enregistrer les modifications";
-    cancelButton.classList.remove("hidden");
-    $("firstName").focus();
-  }
-
-  function resetMemberForm() {
-    memberForm.reset();
-    $("memberId").value = "";
-    $("formTitle").textContent = "Ajouter un membre";
-    saveButton.textContent = "Enregistrer le membre";
-    cancelButton.classList.add("hidden");
-  }
-
-  async function deleteMember(member) {
-    if (!isAdmin) {
-      showMessage("Action réservée à l'administrateur.", "error");
-      return;
-    }
-
-    if (!confirm("Supprimer " + fullName(member) + " ?")) return;
-
-    try {
-      const { error } = await db.from("members")
-        .delete().eq("id", member.id);
-
-      if (error) throw error;
-      showMessage("Membre supprimé.", "success");
-      await loadMembers();
-      await loadContributions();
-    } catch (error) {
-      console.error("Suppression du membre :", error);
-      showMessage(
-        "Suppression impossible. Vérifie les règles Supabase et les paiements associés. " +
-        (error.message || ""),
-        "error"
-      );
-    }
-  }
-
-  function populateContributionMembers(selectedId = "") {
-    contributionMember.replaceChildren();
-
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Choisir un membre";
-    contributionMember.appendChild(placeholder);
-
-    for (const member of memberCache) {
-      const option = document.createElement("option");
-      option.value = member.id;
-      option.textContent = fullName(member);
-      contributionMember.appendChild(option);
-    }
-
-    if (selectedId) contributionMember.value = selectedId;
-  }
-
-  async function loadContributions() {
-    contributionsBody.replaceChildren();
-
-    const loadingRow = document.createElement("tr");
-    const loadingCell = cell("Chargement des paiements...");
-    loadingCell.colSpan = isAdmin ? 5 : 4;
-    loadingRow.appendChild(loadingCell);
-    contributionsBody.appendChild(loadingRow);
-
-    try {
-      const { data, error } = await db
-        .from("contributions")
-        .select("id, member_id, amount, period, payment_date, created_at")
-        .order("payment_date", { ascending: false });
-
-      if (error) throw error;
-      contributionCache = data || [];
-      renderContributions();
-      renderTotals();
-    } catch (error) {
-      console.error("Chargement des cotisations :", error);
-      contributionsBody.replaceChildren();
-      const tr = document.createElement("tr");
-      const td = cell("Impossible de charger les paiements : " +
-        (error.message || "vérifie les règles d'accès Supabase."));
-      td.colSpan = isAdmin ? 5 : 4;
-      tr.appendChild(td);
-      contributionsBody.appendChild(tr);
-
-      totalsBody.replaceChildren();
-      const totalRow = document.createElement("tr");
-      const totalCell = cell("Totaux indisponibles : vérifie l'accès à contributions.");
-      totalCell.colSpan = 2;
-      totalRow.appendChild(totalCell);
-      totalsBody.appendChild(totalRow);
-      grandTotal.textContent = "Indisponible";
-    }
-  }
-
-  function renderContributions() {
-    contributionsBody.replaceChildren();
-
-    if (contributionCache.length === 0) {
-      const tr = document.createElement("tr");
-      const td = cell("Aucun paiement enregistré.");
-      td.colSpan = isAdmin ? 5 : 4;
-      tr.appendChild(td);
-      contributionsBody.appendChild(tr);
-      return;
-    }
-
-    for (const payment of contributionCache) {
-      const member = memberCache.find(m => m.id === payment.member_id);
-      const tr = document.createElement("tr");
-
-      tr.appendChild(cell(member ? fullName(member) : "Membre introuvable"));
-      tr.appendChild(cell(money(payment.amount)));
-      tr.appendChild(cell(payment.period));
-      tr.appendChild(cell(payment.payment_date || ""));
-
-      if (isAdmin) {
-        const td = document.createElement("td");
-        td.className = "actions";
-
-        const edit = document.createElement("button");
-        edit.type = "button";
-        edit.textContent = "Modifier";
-        edit.addEventListener("click", () => editContribution(payment));
-
-        const del = document.createElement("button");
-        del.type = "button";
-        del.className = "danger";
-        del.textContent = "Supprimer";
-        del.addEventListener("click", () => deleteContribution(payment));
-
-        td.append(edit, del);
-        tr.appendChild(td);
-      }
-      contributionsBody.appendChild(tr);
-    }
-  }
-
-  function renderTotals() {
-    const totals = new Map();
-    let general = 0;
-
-    for (const member of memberCache) totals.set(member.id, 0);
-
-    for (const payment of contributionCache) {
-      const amount = Number(payment.amount) || 0;
-      general += amount;
-      totals.set(
-        payment.member_id,
-        (totals.get(payment.member_id) || 0) + amount
-      );
-    }
-
-    grandTotal.textContent = money(general);
-    totalsBody.replaceChildren();
-
-    if (memberCache.length === 0) {
-      const tr = document.createElement("tr");
-      const td = cell("Aucun membre enregistré.");
-      td.colSpan = 2;
-      tr.appendChild(td);
-      totalsBody.appendChild(tr);
-      return;
-    }
-
-    for (const member of memberCache) {
-      const tr = document.createElement("tr");
-      tr.appendChild(cell(fullName(member)));
-      tr.appendChild(cell(money(totals.get(member.id) || 0)));
-      totalsBody.appendChild(tr);
-    }
-  }
-
-  function resetContributionForm() {
-    contributionForm.reset();
-    $("contributionId").value = "";
-    $("contributionFormTitle").textContent = "Ajouter un paiement";
-    contributionSaveButton.textContent = "Enregistrer le paiement";
-    contributionCancelButton.classList.add("hidden");
-    $("contributionDate").value =
-      new Date().toLocaleDateString("en-CA");
-    populateContributionMembers();
-  }
-
-  function editContribution(payment) {
-    if (!isAdmin) {
-      showMessage("Action réservée à l'administrateur.", "error");
-      return;
-    }
-
-    $("contributionId").value = payment.id;
-    populateContributionMembers(payment.member_id);
-    $("contributionAmount").value = payment.amount;
-    $("contributionPeriod").value = payment.period || "";
-    $("contributionDate").value = payment.payment_date ||
-      new Date().toLocaleDateString("en-CA");
-
-    $("contributionFormTitle").textContent = "Modifier un paiement";
-    contributionSaveButton.textContent = "Enregistrer les modifications";
-    contributionCancelButton.classList.remove("hidden");
-    $("contributionFormTitle").scrollIntoView({ behavior: "smooth" });
-  }
-
-  async function deleteContribution(payment) {
-    if (!isAdmin) {
-      showMessage("Action réservée à l'administrateur.", "error");
-      return;
-    }
-
-    if (!confirm("Supprimer ce paiement de " + money(payment.amount) + " ?")) {
-      return;
-    }
-
-    try {
-      const { error } = await db.from("contributions")
-        .delete().eq("id", payment.id);
-
-      if (error) throw error;
-
-      showMessage("Paiement supprimé.", "success");
-      await loadContributions();
-    } catch (error) {
-      console.error("Suppression du paiement :", error);
-      showMessage("Suppression impossible : " + (error.message || ""), "error");
-    }
-  }
-
-  async function openUserSession(user) {
-    currentUser = user;
-
-    try {
-      const role = await getRole(user);
-      isAdmin = role === "admin" || role === "administrateur";
-
-      loginSection.classList.add("hidden");
-      appSection.classList.remove("hidden");
-      adminArea.classList.toggle("hidden", !isAdmin);
-      actionsHeader.classList.toggle("hidden", !isAdmin);
-      contributionAdminArea.classList.toggle("hidden", !isAdmin);
-      contributionActionsHeader.classList.toggle("hidden", !isAdmin);
-
-      userInfo.textContent = (user.email || "Utilisateur connecté") +
-        " — rôle : " + (isAdmin ? "Administrateur" : "Lecteur");
-
-      resetMemberForm();
-      resetContributionForm();
-
-      showMessage(
-        isAdmin
-          ? "Connexion réussie en tant qu'administrateur."
-          : "Connexion réussie en mode consultation.",
-        "success"
-      );
-
-      await loadMembers();
-      await loadContributions();
-    } catch (error) {
-      console.error("Vérification du rôle :", error);
-      showLoggedOut();
-      showMessage(
-        "Impossible de vérifier votre rôle. Vérifie que profiles contient un profil dont id correspond à l'identifiant Supabase de cet utilisateur. " +
-        (error.message || ""),
-        "error"
-      );
-    }
-  }
-
-  function showLoggedOut() {
-    currentUser = null;
-    isAdmin = false;
-    memberCache = [];
-    contributionCache = [];
-
-    appSection.classList.add("hidden");
-    loginSection.classList.remove("hidden");
-    adminArea.classList.add("hidden");
-    actionsHeader.classList.add("hidden");
-    contributionAdminArea.classList.add("hidden");
-    contributionActionsHeader.classList.add("hidden");
-
-    loginButton.disabled = !db;
-    loginButton.textContent = "Se connecter";
-    membersBody.replaceChildren();
-    contributionsBody.replaceChildren();
-    totalsBody.replaceChildren();
-    grandTotal.textContent = "0 FCFA";
-    memberCount.textContent = "0 membre";
-    userInfo.textContent = "";
-    resetMemberForm();
-    resetContributionForm();
-  }
-
-  loginForm.addEventListener("submit", async event => {
-    event.preventDefault();
-    if (busy) return;
-
-    if (!db || !db.auth) {
-      showMessage("Supabase n'est pas prêt. Actualise la page et réessaie.", "error");
-      return;
-    }
-
-    const email = $("loginEmail").value.trim();
-    const password = $("loginPassword").value;
-
-    if (!email || !password) {
-      showMessage("Saisis ton adresse e-mail et ton mot de passe.", "error");
-      return;
-    }
-
-    setBusy(true);
-    showMessage("Connexion en cours...", "info");
-
-    try {
-      const { data, error } = await db.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) throw error;
-      if (!data.user) throw new Error("Aucun utilisateur retourné par Supabase.");
-
-      await openUserSession(data.user);
-    } catch (error) {
-      console.error("Connexion :", error);
-      showMessage("Connexion impossible : " + (error.message || ""), "error");
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  memberForm.addEventListener("submit", async event => {
-    event.preventDefault();
-
-    if (!isAdmin || !currentUser || busy) {
-      showMessage("Seul l'administrateur connecté peut enregistrer un membre.", "error");
-      return;
-    }
-
-    const id = $("memberId").value;
-    const first_name = $("firstName").value.trim();
-    const last_name = $("lastName").value.trim();
-    const phone = $("phone").value.trim();
-    const status = $("status").value;
-
-    if (!first_name || !last_name) {
-      showMessage("Le prénom et le nom sont obligatoires.", "error");
-      return;
-    }
-
-    setBusy(true);
-    showMessage("Enregistrement du membre...", "info");
-
-    try {
-      const record = { first_name, last_name, phone, status };
-      const result = id
-        ? await db.from("members").update(record).eq("id", id)
-        : await db.from("members").insert(record);
-
-      if (result.error) throw result.error;
-
-      resetMemberForm();
-      showMessage(id ? "Membre modifié." : "Membre ajouté.", "success");
-      await loadMembers();
-      await loadContributions();
-    } catch (error) {
-      console.error("Enregistrement du membre :", error);
-      showMessage("Enregistrement impossible : " + (error.message || ""), "error");
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  contributionForm.addEventListener("submit", async event => {
-    event.preventDefault();
-
-    if (!isAdmin || !currentUser || busy) {
-      showMessage("Seul l'administrateur connecté peut gérer les paiements.", "error");
-      return;
-    }
-
-    const id = $("contributionId").value;
-    const member_id = contributionMember.value;
-    const amount = Number($("contributionAmount").value);
-    const period = $("contributionPeriod").value.trim();
-    const payment_date = $("contributionDate").value;
-
-    if (!member_id || !period || !payment_date ||
-        !Number.isFinite(amount) || amount <= 0) {
-      showMessage("Vérifie le membre, le montant, la période et la date.", "error");
-      return;
-    }
-
-    setBusy(true);
-    showMessage("Enregistrement du paiement...", "info");
-
-    try {
-      let result;
-
-      if (id) {
-        result = await db.from("contributions")
-          .update({ member_id, amount, period, payment_date })
-          .eq("id", id);
-      } else {
-        result = await db.from("contributions")
-          .insert({
-            member_id,
-            amount,
-            period,
-            payment_date,
-            created_by: currentUser.id
+        const db = createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const { data: sessionData, error: sessionError } =
+          await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        const user = sessionData.session?.user;
+
+        if (!user) {
+          window.location.replace("./index.html");
+          return;
+        }
+
+        userRole.textContent = "Compte : " + user.email;
+
+        // Vérifier le rôle du compte connecté.
+        const { data: profile, error: profileError } = await db
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profileError) {
+          userRole.textContent += " — rôle non vérifié";
+          console.error("Erreur de lecture du rôle :", profileError);
+        } else {
+          const role = String(profile?.role || "lecteur").toLowerCase();
+          const isAdmin = role === "admin" ||
+                          role === "administrateur";
+
+          userRole.textContent =
+            "Rôle : " + (isAdmin ? "Administrateur" : "Lecteur");
+
+          if (isAdmin) {
+            settingsModule.innerHTML =
+              '<a href="./settings.html">⚙️ Paramètres</a>';
+          }
+        }
+
+        // Compter les membres enregistrés dans Supabase.
+        const { count, error: membersError } = await db
+          .from("members")
+          .select("id", {
+            count: "exact",
+            head: true
           });
-      }
 
-      if (result.error) throw result.error;
-
-      resetContributionForm();
-      showMessage(id ? "Paiement modifié." : "Paiement ajouté.", "success");
-      await loadContributions();
-    } catch (error) {
-      console.error("Enregistrement du paiement :", error);
-      showMessage(
-        "Enregistrement du paiement impossible. Vérifie la table contributions, ses colonnes et les règles d'accès Supabase. " +
-        (error.message || ""),
-        "error"
-      );
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  cancelButton.addEventListener("click", resetMemberForm);
-  contributionCancelButton.addEventListener("click", resetContributionForm);
-
-  refreshButton.addEventListener("click", async () => {
-    if (currentUser && !busy) {
-      setBusy(true);
-      try {
-        await loadMembers();
-        await loadContributions();
-      } finally {
-        setBusy(false);
-      }
-    }
-  });
-
-  refreshContributionsButton.addEventListener("click", async () => {
-    if (currentUser && !busy) {
-      setBusy(true);
-      try {
-        await loadMembers();
-        await loadContributions();
-      } finally {
-        setBusy(false);
-      }
-    }
-  });
-
-  logoutButton.addEventListener("click", async () => {
-    if (!db || busy) return;
-
-    setBusy(true);
-    try {
-      const { error } = await db.auth.signOut();
-      if (error) throw error;
-
-      showLoggedOut();
-      showMessage("Déconnexion réussie.", "success");
-    } catch (error) {
-      showMessage("Erreur de déconnexion : " + (error.message || ""), "error");
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  async function init() {
-    showMessage("Initialisation de Supabase...", "info");
-
-    try {
-      db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-      if (!db || !db.auth) {
-        throw new Error("Le client Supabase n'a pas pu être créé.");
-      }
-
-      loginButton.disabled = false;
-      loginButton.textContent = "Se connecter";
-
-      const { data, error } = await db.auth.getSession();
-      if (error) throw error;
-
-      if (data.session?.user) {
-        await openUserSession(data.session.user);
-      } else {
-        showLoggedOut();
-        showMessage("Supabase est prêt. Connecte-toi pour continuer.", "success");
-      }
-
-      db.auth.onAuthStateChange((event, session) => {
-        if (event === "SIGNED_OUT") {
-          showLoggedOut();
-          showMessage("Tu es déconnecté.", "info");
+        if (membersError) {
+          console.error("Erreur de comptage :", membersError);
+          membersCount.textContent = "Indisponible";
+          showMessage(
+            "Impossible de compter les membres. Vérifie les autorisations de la table members dans Supabase."
+          );
+        } else {
+          membersCount.textContent = String(count ?? 0);
         }
-      });
-    } catch (error) {
-      console.error("Initialisation Supabase :", error);
-      loginButton.disabled = true;
-      loginButton.textContent = "Connexion indisponible";
-      showMessage(
-        "Erreur d'initialisation Supabase : " +
-        (error.message || "Vérifie Internet, l'URL et la clé Publishable."),
-        "error"
-      );
-    }
-  }
 
-  init();
-</script>
+      } catch (error) {
+        console.error("Erreur du tableau de bord :", error);
+        membersCount.textContent = "Erreur";
+        showMessage(error.message || "Erreur de connexion à Supabase.");
+      }
+    }
+
+    logoutButton.addEventListener("click", async () => {
+      logoutButton.disabled = true;
+
+      try {
+        const db = createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const { error } = await db.auth.signOut();
+
+        if (error) throw error;
+
+        window.location.replace("./index.html");
+      } catch (error) {
+        showMessage("Déconnexion impossible : " + error.message);
+        logoutButton.disabled = false;
+      }
+    });
+
+    startDashboard();
+  </script>
 </body>
 </html>
