@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -6,9 +7,7 @@
   <title>Tableau de bord - Petel Association</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -21,16 +20,11 @@
       background: #087f5b;
       color: white;
       text-align: center;
-      padding: 24px 12px;
+      padding: 30px 12px;
     }
 
-    header h1 {
-      margin: 0 0 8px;
-    }
-
-    header p {
-      margin-bottom: 0;
-    }
+    header h1 { margin: 0 0 12px; font-size: 30px; }
+    header p { margin: 0; font-size: 17px; }
 
     main {
       max-width: 900px;
@@ -38,18 +32,15 @@
       padding: 20px;
     }
 
-    .welcome,
-    .card,
-    .menu a {
+    .welcome, .card, .menu a, .menu button {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 18px;
       box-shadow: 0 2px 8px #0000000d;
     }
 
-    .welcome {
-      margin-bottom: 18px;
-    }
+    .welcome { margin-bottom: 18px; }
+    .welcome h2 { font-size: 26px; }
 
     .cards {
       display: grid;
@@ -57,67 +48,61 @@
       gap: 12px;
     }
 
-    .card h3 {
-      font-size: 16px;
-      margin-top: 0;
-    }
-
+    .card h3 { margin-top: 0; font-size: 17px; }
     .number {
       color: #087f5b;
-      font-size: 24px;
+      font-size: 27px;
       font-weight: bold;
+      overflow-wrap: anywhere;
     }
 
     .menu {
       display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-top: 22px;
     }
 
-    .menu a {
+    .menu a, .menu button {
       display: block;
-      color: #1f2937;
+      border: 0;
       text-decoration: none;
+      color: #1f2937;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
     }
 
-    .menu a:active {
+    .menu a:active, .menu button:active {
       background: #e5f4ec;
     }
 
     #notice {
       display: none;
-      margin-top: 15px;
       padding: 12px;
+      margin-top: 15px;
       background: #fff3cd;
       border-radius: 8px;
       overflow-wrap: anywhere;
     }
 
     .logout {
+      display: block;
       width: 100%;
       margin-top: 22px;
-      padding: 15px;
-      border: 0;
+      padding: 14px;
+      border: none;
       border-radius: 10px;
-      background: #c62828;
+      background: #b42318;
       color: white;
       font-size: 16px;
-      cursor: pointer;
+      font-weight: bold;
     }
 
-    footer {
-      padding: 20px;
-      text-align: center;
-      color: #666;
-      font-size: 13px;
-    }
-
-    @media (max-width: 480px) {
-      .cards {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 500px) {
+      .cards, .menu { grid-template-columns: 1fr; }
+      header h1 { font-size: 26px; }
     }
   </style>
 </head>
@@ -132,87 +117,170 @@
     <section class="welcome">
       <h2>Bienvenue 👋</h2>
       <p>Tableau de bord de votre association.</p>
-      <p id="userRole">Rôle : vérification en cours...</p>
+      <p id="roleText">Rôle : vérification en cours...</p>
+      <p id="userText"></p>
     </section>
 
     <section class="cards">
-      <div class="card">
-  <h3>👥 Membres</h3>
-  <div class="number" id="membersCount">Chargement...</div>
-  <p>Membres enregistrés</p>
-</div>
+      <article class="card">
+        <h3>👥 Membres</h3>
+        <div class="number" id="membersCount">Chargement...</div>
+        <p>Membres enregistrés</p>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <h3>💰 Cotisations</h3>
         <div class="number">— FCFA</div>
         <p>Total des cotisations</p>
-      </div>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <h3>💸 Dépenses</h3>
         <div class="number">— FCFA</div>
         <p>Total des dépenses</p>
-      </div>
+      </article>
 
-      <div class="card">
+      <article class="card">
         <h3>🏦 Caisse</h3>
         <div class="number">— FCFA</div>
-        <p>Solde disponible</p>
-      </div>
+        <p>Solde de la caisse</p>
+      </article>
     </section>
 
-    <nav class="menu" aria-label="Modules de l'association">
+    <div id="notice"></div>
+
+    <nav class="menu">
       <a href="./members.html">👥 Gestion des membres</a>
       <a href="./contributions.html">💰 Cotisations</a>
-      <a href="./expenses.html" data-module="Dépenses">💸 Dépenses</a>
-      <a href="./cash.html" data-module="Caisse">🏦 Caisse</a>
-      <a href="./reports.html" data-module="Rapports">📊 Rapports</a>
-      <a href="./messages.html" data-module="Chat / Réclamations">💬 Chat / Réclamations</a>
-      <a href="./settings.html" data-module="Paramètres">⚙️ Paramètres</a>
+      <a href="./caisse.html">🏦 Caisse</a>
+      <a href="./rapports.html">📊 Rapports</a>
+
+      <button type="button" id="chatButton" hidden>
+        💬 Chat / Réclamations (à créer)
+      </button>
+
+      <button type="button" id="settingsButton" hidden>
+        ⚙️ Paramètres (à créer)
+      </button>
     </nav>
 
-    <p id="notice" role="status" aria-live="polite"></p>
-
-    <button class="logout" id="logoutButton" type="button">
-      Se déconnecter
-    </button>
+    <button class="logout" id="logoutButton">Se déconnecter</button>
   </main>
 
-  <footer>
-    © 2026 Petel Association Solidarité &amp; Développement
-  </footer>
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  
-<script>
-  // Ouvrir les pages existantes normalement
-  document.querySelectorAll(".menu a").forEach(function(link) {
-    link.addEventListener("click", function(event) {
-      const page = this.getAttribute("href");
+    const SUPABASE_URL =
+      "https://evbpmafgciphyfzmkctc.supabase.co";
 
-      // Ces deux pages existent déjà
-      const pagesDisponibles = [
-        "members.html",
-        "contributions.html"
-      ];
+    const SUPABASE_PUBLISHABLE_KEY =
+      "COLLE_ICI_TA_CLE_PUBLISHABLE";
 
-      if (pagesDisponibles.includes(page.replace("./", ""))) {
-        return;
-      }
+    const roleText = document.getElementById("roleText");
+    const userText = document.getElementById("userText");
+    const membersCount = document.getElementById("membersCount");
+    const notice = document.getElementById("notice");
+    const chatButton = document.getElementById("chatButton");
+    const settingsButton = document.getElementById("settingsButton");
 
-      // Les autres modules seront créés ensuite
-      event.preventDefault();
-
-      const notice = document.getElementById("notice");
-      notice.textContent =
-        "Le module « " +
-        (this.dataset.module || this.textContent.trim()) +
-        " » sera disponible après sa création.";
+    function showNotice(message) {
+      notice.textContent = message;
       notice.style.display = "block";
-    });
-  });
+    }
 
-  // Déconnexion provisoire sans Supabase
-  document.getElementById("logoutButton").addEventListener("click", function() {
-    window.location.href = "./index.html";
-  });
-</script>
+    async function startDashboard() {
+      try {
+        const db = createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const { data: sessionData, error: sessionError } =
+          await db.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        const session = sessionData.session;
+
+        if (!session) {
+          window.location.replace("./index.html");
+          return;
+        }
+
+        userText.textContent =
+          "Connecté : " + (session.user.email || "");
+
+        const { data: profile, error: profileError } = await db
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .maybeSingle();
+
+        if (profileError) {
+          roleText.textContent = "Rôle : impossible à vérifier";
+          showNotice("La session est active, mais le rôle n'a pas pu être chargé. Vérifie les autorisations de la table profiles.");
+        } else if (profile && profile.role) {
+          const role = String(profile.role).toLowerCase();
+          const admin = role.includes("admin");
+
+          roleText.textContent = "Rôle : " +
+            (admin ? "Administrateur" : "Lecteur");
+
+          chatButton.hidden = !admin;
+          settingsButton.hidden = !admin;
+        } else {
+          roleText.textContent = "Rôle : non défini";
+          showNotice("Aucun rôle trouvé pour ce compte dans la table profiles.");
+        }
+
+        const { count, error: countError } = await db
+          .from("members")
+          .select("id", { count: "exact", head: true });
+
+        if (countError) {
+          membersCount.textContent = "Erreur";
+          showNotice("Impossible de compter les membres. Vérifie les autorisations de lecture de la table members.");
+          console.error("Erreur membres :", countError);
+        } else {
+          membersCount.textContent = count ?? 0;
+        }
+
+      } catch (error) {
+        console.error("Erreur du tableau de bord :", error);
+        roleText.textContent = "Rôle : erreur de chargement";
+        membersCount.textContent = "Erreur";
+        showNotice("Erreur de connexion à Supabase. Vérifie la clé Publishable dans dashboard.html.");
+      }
+    }
+
+    document.getElementById("logoutButton").addEventListener(
+      "click",
+      async () => {
+        try {
+          const db = createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+          );
+
+          await db.auth.signOut();
+          window.location.replace("./index.html");
+        } catch (error) {
+          showNotice("Déconnexion impossible. Réessaie.");
+          console.error(error);
+        }
+      }
+    );
+
+    chatButton.addEventListener("click", () => {
+      showNotice("Le module Chat sera disponible après sa création.");
+    });
+
+    settingsButton.addEventListener("click", () => {
+      showNotice("Le module Paramètres sera disponible après sa création.");
+    });
+
+    startDashboard();
+  </script>
+</body>
+</html>
