@@ -3,110 +3,83 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord - Petel Association</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Petel Association - Tableau de bord</title>
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f7f5;
       color: #1f2937;
+      background: #f1f7f4;
     }
-
     header {
       background: #087f5b;
       color: white;
       text-align: center;
-      padding: 30px 12px;
+      padding: 28px 12px;
     }
-
     header h1 { margin: 0 0 12px; font-size: 30px; }
-    header p { margin: 0; font-size: 17px; }
-
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
+    header p { margin: 0; font-size: 18px; }
+    main { max-width: 900px; margin: auto; padding: 20px; }
     .welcome, .card, .menu a, .menu button {
+      display: block;
+      padding: 20px;
       background: white;
+      border: 0;
       border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 2px 8px #0000000d;
+      box-shadow: 0 2px 10px #0000000b;
     }
-
     .welcome { margin-bottom: 18px; }
-    .welcome h2 { font-size: 26px; }
-
-    .cards {
+    .welcome h2 { font-size: 28px; }
+    .cards, .menu {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
-
-    .card h3 { margin-top: 0; font-size: 17px; }
+    .card h3 { margin-top: 0; font-size: 19px; }
     .number {
       color: #087f5b;
-      font-size: 27px;
+      font-size: 28px;
       font-weight: bold;
       overflow-wrap: anywhere;
     }
-
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 22px;
-    }
-
+    .menu { margin-top: 20px; }
     .menu a, .menu button {
-      display: block;
-      border: 0;
-      text-decoration: none;
       color: #1f2937;
-      font-weight: bold;
-      font-size: 16px;
+      text-decoration: none;
       text-align: left;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
     }
-
-    .menu a:active, .menu button:active {
-      background: #e5f4ec;
-    }
-
+    .menu a:active, .menu button:active { background: #e0f2e9; }
     #notice {
       display: none;
-      padding: 12px;
-      margin-top: 15px;
-      background: #fff3cd;
-      border-radius: 8px;
+      margin: 15px 0;
+      padding: 14px;
+      border-radius: 10px;
+      background: #fff0e0;
+      color: #8a3412;
       overflow-wrap: anywhere;
     }
-
     .logout {
-      display: block;
       width: 100%;
       margin-top: 22px;
-      padding: 14px;
-      border: none;
+      padding: 15px;
+      border: 0;
       border-radius: 10px;
-      background: #b42318;
       color: white;
+      background: #b42318;
       font-size: 16px;
       font-weight: bold;
     }
-
-    @media (max-width: 500px) {
+    @media (max-width: 520px) {
       .cards, .menu { grid-template-columns: 1fr; }
       header h1 { font-size: 26px; }
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>Petel Association</h1>
@@ -127,23 +100,20 @@
         <div class="number" id="membersCount">Chargement...</div>
         <p>Membres enregistrés</p>
       </article>
-
       <article class="card">
         <h3>💰 Cotisations</h3>
         <div class="number">— FCFA</div>
         <p>Total des cotisations</p>
       </article>
-
       <article class="card">
         <h3>💸 Dépenses</h3>
         <div class="number">— FCFA</div>
         <p>Total des dépenses</p>
       </article>
-
       <article class="card">
         <h3>🏦 Caisse</h3>
         <div class="number">— FCFA</div>
-        <p>Solde de la caisse</p>
+        <p>Solde disponible</p>
       </article>
     </section>
 
@@ -154,14 +124,8 @@
       <a href="./contributions.html">💰 Cotisations</a>
       <a href="./caisse.html">🏦 Caisse</a>
       <a href="./rapports.html">📊 Rapports</a>
-
-      <button type="button" id="chatButton" hidden>
-        💬 Chat / Réclamations (à créer)
-      </button>
-
-      <button type="button" id="settingsButton" hidden>
-        ⚙️ Paramètres (à créer)
-      </button>
+      <button id="chatButton" hidden>💬 Chat / Réclamations (à créer)</button>
+      <button id="settingsButton" hidden>⚙️ Paramètres (à créer)</button>
     </nav>
 
     <button class="logout" id="logoutButton">Se déconnecter</button>
@@ -175,112 +139,90 @@
       "https://evbpmafgciphyfzmkctc.supabase.co";
 
     const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+      "REMPLACE_PAR_LA_CLE_PUBLISHABLE_DE_MEMBERS_HTML";
 
-    const roleText = document.getElementById("roleText");
-    const userText = document.getElementById("userText");
-    const membersCount = document.getElementById("membersCount");
-    const notice = document.getElementById("notice");
-    const chatButton = document.getElementById("chatButton");
-    const settingsButton = document.getElementById("settingsButton");
+    const $ = id => document.getElementById(id);
+    const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-    function showNotice(message) {
-      notice.textContent = message;
-      notice.style.display = "block";
+    function message(texte) {
+      $("notice").textContent = texte;
+      $("notice").style.display = "block";
     }
 
     async function startDashboard() {
       try {
-        const db = createClient(
-          SUPABASE_URL,
-          SUPABASE_PUBLISHABLE_KEY
-        );
+        const { data, error } = await db.auth.getSession();
+        if (error) throw error;
 
-        const { data: sessionData, error: sessionError } =
-          await db.auth.getSession();
-
-        if (sessionError) throw sessionError;
-
-        const session = sessionData.session;
-
+        const session = data.session;
         if (!session) {
           window.location.replace("./index.html");
           return;
         }
 
-        userText.textContent =
+        $("userText").textContent =
           "Connecté : " + (session.user.email || "");
 
-        const { data: profile, error: profileError } = await db
+        const { data: profile, error: roleError } = await db
           .from("profiles")
           .select("role")
           .eq("id", session.user.id)
           .maybeSingle();
 
-        if (profileError) {
-          roleText.textContent = "Rôle : impossible à vérifier";
-          showNotice("La session est active, mais le rôle n'a pas pu être chargé. Vérifie les autorisations de la table profiles.");
-        } else if (profile && profile.role) {
-          const role = String(profile.role).toLowerCase();
-          const admin = role.includes("admin");
-
-          roleText.textContent = "Rôle : " +
-            (admin ? "Administrateur" : "Lecteur");
-
-          chatButton.hidden = !admin;
-          settingsButton.hidden = !admin;
+        if (roleError) {
+          $("roleText").textContent = "Rôle : non vérifié";
+          console.error(roleError);
         } else {
-          roleText.textContent = "Rôle : non défini";
-          showNotice("Aucun rôle trouvé pour ce compte dans la table profiles.");
+          const role = String(profile?.role || "").toLowerCase();
+          const admin = role === "admin" || role === "administrateur";
+
+          $("roleText").textContent = admin
+            ? "Rôle : Administrateur"
+            : role
+              ? "Rôle : Lecteur"
+              : "Rôle : non défini";
+
+          $("chatButton").hidden = !admin;
+          $("settingsButton").hidden = !admin;
         }
 
-        const { count, error: countError } = await db
+        const { count, error: membersError } = await db
           .from("members")
           .select("id", { count: "exact", head: true });
 
-        if (countError) {
-          membersCount.textContent = "Erreur";
-          showNotice("Impossible de compter les membres. Vérifie les autorisations de lecture de la table members.");
-          console.error("Erreur membres :", countError);
+        if (membersError) {
+          $("membersCount").textContent = "Indisponible";
+          message("Lecture des membres impossible. Vérifie les autorisations de la table members.");
+          console.error(membersError);
         } else {
-          membersCount.textContent = count ?? 0;
+          $("membersCount").textContent = count ?? 0;
         }
-
-      } catch (error) {
-        console.error("Erreur du tableau de bord :", error);
-        roleText.textContent = "Rôle : erreur de chargement";
-        membersCount.textContent = "Erreur";
-        showNotice("Erreur de connexion à Supabase. Vérifie la clé Publishable dans dashboard.html.");
+      } catch (e) {
+        $("roleText").textContent = "Rôle : erreur de chargement";
+        $("membersCount").textContent = "Erreur";
+        message("Erreur Supabase : " + (e.message || "vérifie la connexion et la clé Publishable."));
+        console.error(e);
       }
     }
 
-    document.getElementById("logoutButton").addEventListener(
-      "click",
-      async () => {
-        try {
-          const db = createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-          );
-
-          await db.auth.signOut();
-          window.location.replace("./index.html");
-        } catch (error) {
-          showNotice("Déconnexion impossible. Réessaie.");
-          console.error(error);
-        }
+    $("logoutButton").addEventListener("click", async () => {
+      const { error } = await db.auth.signOut();
+      if (error) {
+        message("Déconnexion impossible : " + error.message);
+      } else {
+        window.location.replace("./index.html");
       }
+    });
+
+    $("chatButton").addEventListener("click", () =>
+      message("Le module Chat reste à développer.")
     );
-
-    chatButton.addEventListener("click", () => {
-      showNotice("Le module Chat sera disponible après sa création.");
-    });
-
-    settingsButton.addEventListener("click", () => {
-      showNotice("Le module Paramètres sera disponible après sa création.");
-    });
+    $("settingsButton").addEventListener("click", () =>
+      message("Le module Paramètres reste à développer.")
+    );
 
     startDashboard();
   </script>
 </body>
 </html>
+
