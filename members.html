@@ -228,7 +228,7 @@
     // Remplace cette valeur par la clé publique sb_publishable_
     // déjà utilisée dans ton fichier members.html.
     const SUPABASE_PUBLISHABLE_KEY =
-      "COLLE_ICI_TA_CLE_PUBLIQUE";
+      "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
     const notice = document.getElementById("notice");
     const membersCount = document.getElementById("membersCount");
@@ -245,7 +245,7 @@
       try {
         if (
           !SUPABASE_PUBLISHABLE_KEY ||
-          SUPABASE_PUBLISHABLE_KEY === "COLLE_ICI_TA_CLE_PUBLIQUE"
+          SUPABASE_PUBLISHABLE_KEY === "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip"
         ) {
           throw new Error(
             "Ajoute la clé publique Supabase utilisée dans members.html."
