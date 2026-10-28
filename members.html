@@ -243,14 +243,6 @@
 
     async function startDashboard() {
       try {
-        if (
-          !SUPABASE_PUBLISHABLE_KEY ||
-          SUPABASE_PUBLISHABLE_KEY === "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip"
-        ) {
-          throw new Error(
-            "Ajoute la clé publique Supabase utilisée dans members.html."
-          );
-        }
 
         const db = createClient(
           SUPABASE_URL,
