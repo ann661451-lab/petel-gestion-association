@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087354">
+  <title>Chat - Petel Association</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f7f4;
+      color: #24312b;
+    }
+    header {
+      background: #087354;
+      color: white;
+      padding: 22px 14px;
+      text-align: center;
+    }
+    main { max-width: 850px; margin: auto; padding: 16px; }
+    a { color: #087354; font-weight: bold; text-decoration: none; }
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 15px;
+      margin: 16px 0;
+      box-shadow: 0 3px 12px #00000008;
+    }
+    .notice {
+      padding: 12px;
+      border-radius: 9px;
+      background: #fff3cd;
+      overflow-wrap: anywhere;
+      margin: 12px 0;
+    }
+    label { display: block; font-weight: bold; margin: 12px 0 6px; }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd5d0;
+      border-radius: 9px;
+      font: inherit;
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    button {
+      background: #087354;
+      color: white;
+      border: 0;
+      font-weight: bold;
+      margin-top: 12px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .6; }
+    .message {
+      border: 1px solid #d8e4dc;
+      border-radius: 12px;
+      padding: 14px;
+      margin: 14px 0;
+      overflow-wrap: anywhere;
+    }
+    .meta { color: #66756c; font-size: 13px; }
+    .bodytext { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .reply {
+      background: #edf7f1;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 9px;
+    }
+    .hidden { display: none; }
+    footer { text-align: center; color: #666; padding: 20px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>💬 Petel Association</h1>
+  <p>Chat collectif · Réclamations et suggestions</p>
+</header>
+
+<main>
+  <p><a href="./dashboard.html">← Retour au tableau de bord</a></p>
+  <div id="notice" class="notice">Initialisation du chat...</div>
+
+  <section id="composer" class="card hidden">
+    <h2>Publier un message</h2>
+    <p>Les messages publiés ici sont visibles par les membres autorisés à consulter le chat.</p>
+    <form id="messageForm">
+      <label for="type">Type de message</label>
+      <select id="type" required>
+        <option value="suggestion">Suggestion</option>
+        <option value="reclamation">Réclamation</option>
+        <option value="information">Information</option>
+      </select>
+
+      <label for="subject">Sujet (facultatif)</label>
+      <input id="subject" maxlength="120" placeholder="Sujet du message">
+
+      <label for="messageText">Votre message</label>
+      <textarea id="messageText" maxlength="3000" required
+        placeholder="Écrivez votre message ici..."></textarea>
+
+      <button id="sendButton" type="submit">Publier le message</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Messages du chat</h2>
+    <button id="refreshButton" type="button">Actualiser les messages</button>
+    <div id="messagesList">Chargement des messages...</div>
+  </section>
+</main>
+
+<footer>© 2026 Petel Association Solidarité &amp; Développement</footer>
+
+<script type="module">
+import { createClient } from
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
+
+/*
+  IMPORTANT :
+  Remplace la valeur ci-dessous par la vraie clé publique
+  sb_publishable_ de ton fichier app.js.
+  Ne mets jamais une clé secrète ici.
+*/
+const SUPABASE_PUBLISHABLE_KEY = "REMPLACE_PAR_TA_VRAIE_CLE_PUBLIQUE";
+
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const notice = document.getElementById("notice");
+const list = document.getElementById("messagesList");
+const composer = document.getElementById("composer");
+const form = document.getElementById("messageForm");
+const sendButton = document.getElementById("sendButton");
+
+let currentUser = null;
+
+function messageNotice(text) {
+  notice.textContent = text;
+}
+
+function dateTexte(value) {
+  if (!value) return "Date inconnue";
+  return new Date(value).toLocaleString("fr-FR");
+}
+
+async function chargerMessages() {
+  list.textContent = "Chargement des messages...";
+
+  const { data, error } = await db
+    .from("messages")
+    .select("id, member_id, type, subject, message, status, created_at")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    list.textContent = "Impossible de charger les messages : " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.textContent = "Aucun message publié pour le moment.";
+    return;
+  }
+
+  list.replaceChildren();
+
+  for (const item of data) {
+    const card = document.createElement("article");
+    card.className = "message";
+
+    const heading = document.createElement("h3");
+    heading.textContent = item.subject || item.type || "Message";
+
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    meta.textContent =
+      (item.type || "message") + " · " + dateTexte(item.created_at);
+
+    const body = document.createElement("p");
+    body.className = "bodytext";
+    body.textContent = item.message || "";
+
+    card.append(heading, meta, body);
+
+    const repliesBox = document.createElement("div");
+    repliesBox.className = "reply";
+    repliesBox.textContent = "Chargement des réponses...";
+
+    const { data: replies, error: replyError } = await db
+      .from("message_replies")
+      .select("id, author_id, reply, created_at")
+      .eq("message_id", item.id)
+      .order("created_at", { ascending: true });
+
+    if (replyError) {
+      repliesBox.textContent = "Les réponses ne peuvent pas être chargées.";
+    } else if (!replies || replies.length === 0) {
+      repliesBox.textContent = "Aucune réponse pour le moment.";
+    } else {
+      repliesBox.replaceChildren();
+      for (const answer of replies) {
+        const p = document.createElement("p");
+        p.className = "bodytext";
+        p.textContent = "Réponse · " + dateTexte(answer.created_at) +
+          "\n" + answer.reply;
+        repliesBox.appendChild(p);
+      }
+    }
+
+    card.appendChild(repliesBox);
+
+    if (currentUser) {
+      const replyForm = document.createElement("form");
+      const label = document.createElement("label");
+      label.textContent = "Répondre à ce message";
+      const textarea = document.createElement("textarea");
+      textarea.required = true;
+      textarea.maxLength = 2000;
+      textarea.placeholder = "Votre réponse...";
+      const button = document.createElement("button");
+      button.type = "submit";
+      button.textContent = "Envoyer la réponse";
+
+      replyForm.append(label, textarea, button);
+      replyForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        button.disabled = true;
+
+        try {
+          const { data: profile, error: profileError } = await db
+            .from("profiles")
+            .select("role")
+            .eq("id", currentUser.id)
+            .maybeSingle();
+
+          if (profileError) throw profileError;
+
+          const role = String(profile?.role || "").toLowerCase();
+          if (!["admin", "administrateur", "moderateur", "modérateur"].includes(role)) {
+            messageNotice("Seuls l’administrateur ou un modérateur peuvent répondre.");
+            return;
+          }
+
+          const { error } = await db.from("message_replies").insert({
+            message_id: item.id,
+            author_id: currentUser.id,
+            reply: textarea.value.trim()
+          });
+
+          if (error) throw error;
+          messageNotice("Réponse publiée.");
+          await chargerMessages();
+        } catch (error) {
+          messageNotice("Erreur lors de la réponse : " + error.message);
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+      card.appendChild(replyForm);
+    }
+
+    list.appendChild(card);
+  }
+}
+
+async function initialiser() {
+  if (SUPABASE_PUBLISHABLE_KEY.startsWith("REMPLACE_")) {
+    messageNotice("Étape à faire : ajoute la vraie clé publique Supabase avant de tester le chat.");
+    list.textContent = "Le chat attend sa clé publique Supabase.";
+    return;
+  }
+
+  const { data, error } = await db.auth.getSession();
+  if (error) {
+    messageNotice("Erreur de connexion : " + error.message);
+    return;
+  }
+
+  currentUser = data.session?.user || null;
+
+  if (!currentUser) {
+    messageNotice("Connecte-toi à Petel Association pour publier un message.");
+    composer.classList.add("hidden");
+  } else {
+    composer.classList.remove("hidden");
+    messageNotice("Chat prêt. Les messages publiés sont collectifs.");
+  }
+
+  await chargerMessages();
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!currentUser) {
+    messageNotice("Connecte-toi avant de publier un message.");
+    return;
+  }
+
+  const text = document.getElementById("messageText").value.trim();
+  if (!text) {
+    messageNotice("Écris un message avant de publier.");
+    return;
+  }
+
+  sendButton.disabled = true;
+  try {
+    const { error } = await db.from("messages").insert({
+      member_id: null,
+      type: document.getElementById("type").value,
+      subject: document.getElementById("subject").value.trim() || null,
+      message: text,
+      status: "ouvert"
+    });
+
+    if (error) throw error;
+
+    form.reset();
+    messageNotice("Message publié avec succès.");
+    await chargerMessages();
+  } catch (error) {
+    messageNotice("Publication impossible : " + error.message);
+  } finally {
+    sendButton.disabled = false;
+  }
+});
+
+document.getElementById("refreshButton").addEventListener("click", () => {
+  chargerMessages().catch(error =>
+    messageNotice("Erreur : " + error.message)
+  );
+});
+
+initialiser().catch(error =>
+  messageNotice("Erreur d'initialisation : " + error.message)
+);
+</script>
+</body>
+</html>
