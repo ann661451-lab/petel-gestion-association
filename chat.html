@@ -1,4 +1,4 @@
-
+u
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -212,7 +212,7 @@ async function chargerMessages() {
 
     card.appendChild(repliesBox);
 
-    if (currentUser) {
+    if (currentUser && ["admin", "administrateur", "moderateur", "modérateur"].includes(String(currentRole || "").toLowerCase())) {
       const replyForm = document.createElement("form");
       const label = document.createElement("label");
       label.textContent = "Répondre à ce message";
