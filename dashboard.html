@@ -182,7 +182,7 @@
               ? "Rôle : Lecteur"
               : "Rôle : non défini";
 
-          $("chatButton").hidden = !admin;
+          $("chatButton").hidden = false;
           $("settingsButton").hidden = !admin;
         }
 
@@ -214,9 +214,9 @@
       }
     });
 
-    $("chatButton").addEventListener("click", () =>
-      message("Le module Chat reste à développer.")
-    );
+    $("chatButton").addEventListener("click", () => {
+  window.location.href = "./chat.html";
+});
     $("settingsButton").addEventListener("click", () =>
       message("Le module Paramètres reste à développer.")
     );
