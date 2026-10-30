@@ -281,7 +281,22 @@ async function initialiser() {
   }
 
   currentUser = data.session?.user || null;
+currentRole = "";
 
+if (currentUser) {
+  const { data: profil, error: profilError } = await db
+    .from("profiles")
+    .select("role")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (profilError) {
+    messageNotice("Impossible de récupérer ton rôle : " + profilError.message);
+    return;
+  }
+
+  currentRole = String(profil?.role || "").toLowerCase();
+    }
   if (!currentUser) {
     messageNotice("Connecte-toi à Petel Association pour publier un message.");
     composer.classList.add("hidden");
