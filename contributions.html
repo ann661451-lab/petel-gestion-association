@@ -209,11 +209,7 @@
         .filter(Boolean).join(" ") || "Membre non identifié";
     }
 
-    function peutGerer() {
-      return ["admin", "moderateur"].includes(
-        String(role).trim().toLowerCase()
-      );
-    }
+    compte Lecteur peut consulter la liste des membres sans voir les boutons Ajouter, Modifier et Supprimer ?
 
     function afficherFormulaire(c = null) {
       if (!peutGerer()) return;
