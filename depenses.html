@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dépenses - Petel Association</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f1f7f4;
+ color:#24312b;
+}
+header{
+ background:#087f5b;
+ color:white;
+ padding:22px 15px;
+ text-align:center;
+}
+main{max-width:950px;margin:auto;padding:16px}
+a{color:#087f5b;font-weight:bold;text-decoration:none}
+.card{
+ background:white;
+ padding:20px;
+ border-radius:16px;
+ margin:16px 0;
+ box-shadow:0 3px 14px #0000000b;
+}
+h2{margin-top:0}
+.total{
+ color:#087f5b;
+ font-size:30px;
+ font-weight:bold;
+}
+label{display:block;font-weight:bold;margin:13px 0 6px}
+input,textarea,button{
+ width:100%;
+ padding:13px;
+ border-radius:9px;
+ border:1px solid #ccd8d0;
+ font-size:16px;
+}
+textarea{min-height:80px}
+button{
+ background:#087f5b;
+ color:white;
+ border:0;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:12px;
+}
+button.secondary{background:#586761}
+button.danger{background:#b42318}
+button:disabled{opacity:.5}
+.table-wrap{overflow-x:auto}
+table{width:100%;min-width:650px;border-collapse:collapse}
+th,td{
+ padding:12px;
+ border-bottom:1px solid #ddd;
+ text-align:left;
+ vertical-align:top;
+}
+th{background:#e7f5ed;color:#174b38}
+.notice{padding:12px;margin:12px 0;border-radius:8px}
+.hidden{display:none!important}
+footer{text-align:center;color:#666;padding:25px 10px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Petel Association</h1>
+<p>Solidarité & Développement — Dépenses</p>
+</header>
+
+<main>
+
+<p><a href="./dashboard.html">← Retour au tableau de bord</a></p>
+
+<div id="notice" class="notice"></div>
+
+<section class="card">
+<h2>Résumé des dépenses</h2>
+<div class="total" id="total">0 FCFA</div>
+<p id="count">0 dépense enregistrée.</p>
+</section>
+
+<section class="card hidden" id="formCard">
+<h2 id="formTitle">Ajouter une dépense</h2>
+
+<form id="expenseForm">
+
+<input type="hidden" id="expenseId">
+
+<label for="amount">Montant (FCFA)</label>
+<input id="amount" type="number" min="1" step="1" required>
+
+<label for="description">Description</label>
+<textarea id="description" required maxlength="500"></textarea>
+
+<label for="expenseDate">Date de la dépense</label>
+<input id="expenseDate" type="date" required>
+
+<label for="notes">Notes (facultatif)</label>
+<textarea id="notes" maxlength="1000"></textarea>
+
+<button id="saveButton" type="submit">Enregistrer la dépense</button>
+<button type="button" class="secondary" id="cancelButton">Annuler</button>
+
+</form>
+</section>
+
+<section class="card">
+<h2>Historique des dépenses</h2>
+
+<button id="addButton" class="hidden">+ Ajouter une dépense</button>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Description</th>
+<th>Notes</th>
+<th>Montant</th>
+<th id="actionsHead" class="hidden">Actions</th>
+</tr>
+</thead>
+<tbody id="history">
+<tr><td colspan="5">Chargement...</td></tr>
+</tbody>
+</table>
+</div>
+
+<button type="button" class="secondary" id="refreshButton">Actualiser</button>
+</section>
+
+</main>
+
+<footer>
+© 2026 Petel Association Solidarité & Développement
+</footer>
+
+<script type="module">
+
+import { createClient } from
+'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL =
+'https://evbpmafgciphyfzmkctc.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+'COLLE_ICI_LA_MEME_CLE_PUBLISHABLE_QUE_DANS_APP_JS';
+
+const db = createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+let user = null;
+let role = 'lecteur';
+let expenses = [];
+
+function message(text,type='info'){
+$('notice').textContent=text;
+$('notice').className='notice';
+$('notice').style.background=
+type==='error'?'#ffe8e8':'#e7f5ed';
+$('notice').style.color=
+type==='error'?'#a32121':'#174b38';
+}
+
+function isAdmin(){
+return String(role).trim().toLowerCase()==='admin';
+}
+
+function formatMoney(value){
+return new Intl.NumberFormat('fr-FR').format(
+Number(value)||0
+)+' FCFA';
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function showForm(expense=null){
+
+if(!isAdmin()) return;
+
+$('expenseForm').reset();
+
+$('expenseId').value=expense?.id ?? '';
+$('amount').value=expense?.amount ?? '';
+$('description').value=expense?.description ?? '';
+$('expenseDate').value=expense?.expense_date ?? today();
+$('notes').value=expense?.notes ?? '';
+
+$('formTitle').textContent=expense
+?'Modifier une dépense'
+:'Ajouter une dépense';
+
+$('saveButton').textContent=expense
+?'Enregistrer les modifications'
+:'Enregistrer la dépense';
+
+$('formCard').classList.remove('hidden');
+$('formCard').scrollIntoView({behavior:'smooth'});
+}
+
+function closeForm(){
+$('formCard').classList.add('hidden');
+$('expenseForm').reset();
+$('expenseId').value='';
+}
+
+function render(){
+
+const total=expenses.reduce(
+(sum,e)=>sum+Number(e.amount||0),0
+);
+
+$('total').textContent=formatMoney(total);
+$('count').textContent=
+expenses.length+' dépense(s) enregistrée(s).';
+
+const history=$('history');
+history.replaceChildren();
+
+if(!expenses.length){
+const tr=document.createElement('tr');
+const td=document.createElement('td');
+td.colSpan=isAdmin()?5:4;
+td.textContent='Aucune dépense enregistrée.';
+tr.appendChild(td);
+history.appendChild(tr);
+return;
+}
+
+for(const e of expenses){
+
+const tr=document.createElement('tr');
+
+const values=[
+e.expense_date || '-',
+e.description || '-',
+e.notes || '-',
+formatMoney(e.amount)
+];
+
+for(const value of values){
+const td=document.createElement('td');
+td.textContent=value;
+tr.appendChild(td);
+}
+
+if(isAdmin()){
+const td=document.createElement('td');
+
+const edit=document.createElement('button');
+edit.textContent='Modifier';
+edit.addEventListener('click',()=>showForm(e));
+
+const del=document.createElement('button');
+del.textContent='Supprimer';
+del.className='danger';
+
+del.addEventListener('click',()=>deleteExpense(e.id));
+
+td.append(edit,del);
+tr.appendChild(td);
+}
+
+history.appendChild(tr);
+}
+}
+
+async function loadExpenses(){
+
+$('history').innerHTML=
+'<tr><td colspan="5">Chargement...</td></tr>';
+
+const {data,error}=await db
+.from('expenses')
+.select('id,description,amount,expense_date,notes,created_by,created_at')
+.order('expense_date',{ascending:false})
+.order('created_at',{ascending:false});
+
+if(error) throw error;
+
+expenses=data||[];
+render();
+}
+
+async function initialise(){
+
+try{
+
+const {data,error}=await db.auth.getSession();
+
+if(error) throw error;
+
+user=data.session?.user;
+
+if(!user){
+window.location.replace('./index.html');
+return;
+}
+
+const {data:profile,error:profileError}=await db
+.from('profiles')
+.select('role')
+.eq('id',user.id)
+.maybeSingle();
+
+if(profileError) throw profileError;
+
+role=profile?.role || 'lecteur';
+
+if(isAdmin()){
+$('formCard').classList.remove('hidden');
+$('addButton').classList.remove('hidden');
+$('actionsHead').classList.remove('hidden');
+message('Connecté en tant qu’administrateur.');
+}else{
+message('Mode consultation : les dépenses sont en lecture seule.');
+}
+
+await loadExpenses();
+
+}catch(error){
+message('Erreur : '+error.message,'error');
+console.error(error);
+}
+
+}
+
+$('addButton').addEventListener('click',()=>showForm());
+
+$('cancelButton').addEventListener('click',closeForm);
+
+$('refreshButton').addEventListener('click',async()=>{
+try{
+await loadExpenses();
+message('Liste actualisée.');
+}catch(error){
+message(error.message,'error');
+}
+});
+
+$('expenseForm').addEventListener('submit',async e=>{
+
+e.preventDefault();
+
+if(!isAdmin()||!user){
+message('Action réservée à l’administrateur.','error');
+return;
+}
+
+const id=$('expenseId').value;
+const amount=Number($('amount').value);
+const description=$('description').value.trim();
+const expense_date=$('expenseDate').value;
+const notes=$('notes').value.trim();
+
+if(!Number.isFinite(amount)||amount<=0||
+!description||!expense_date){
+message('Vérifie les informations saisies.','error');
+return;
+}
+
+$('saveButton').disabled=true;
+
+try{
+
+const record={
+amount,
+description,
+expense_date,
+notes:notes||null
+};
+
+let result;
+
+if(id){
+
+result=await db.from('expenses')
+.update(record)
+.eq('id',id);
+
+}else{
+
+result=await db.from('expenses')
+.insert({
+...record,
+created_by:user.id
+});
+
+}
+
+if(result.error) throw result.error;
+
+closeForm();
+await loadExpenses();
+
+message(id
+?'Dépense modifiée avec succès.'
+:'Dépense enregistrée avec succès.');
+
+}catch(error){
+message('Erreur : '+error.message,'error');
+}finally{
+$('saveButton').disabled=false;
+}
+
+});
+
+async function deleteExpense(id){
+
+if(!isAdmin()) return;
+
+if(!confirm('Veux-tu vraiment supprimer cette dépense ?')){
+return;
+}
+
+try{
+
+const {error}=await db
+.from('expenses')
+.delete()
+.eq('id',id);
+
+if(error) throw error;
+
+await loadExpenses();
+message('Dépense supprimée avec succès.');
+
+}catch(error){
+message('Erreur : '+error.message,'error');
+}
+
+}
+
+initialise();
+
+</script>
+
+</body>
+</html>
