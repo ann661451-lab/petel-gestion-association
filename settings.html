@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paramètres - Petel Association</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#f1f7f4;font-family:Arial,sans-serif;color:#26352f}
+header{background:#087f5b;color:white;padding:22px;border-radius:14px;text-align:center}
+main{max-width:650px;margin:20px auto}
+.card{background:white;padding:22px;margin-bottom:18px;border-radius:15px;box-shadow:0 3px 14px #00000012}
+h2{color:#087f5b}
+label{display:block;margin-top:15px;font-weight:bold}
+input{width:100%;padding:13px;margin-top:7px;border:1px solid #ccc;border-radius:9px;font-size:16px}
+button{width:100%;padding:14px;margin-top:20px;border:0;border-radius:9px;background:#087f5b;color:white;font-size:16px;font-weight:bold}
+.back{display:block;margin:18px 0;color:#087f5b;text-decoration:none;font-weight:bold}
+#message{padding:12px;border-radius:8px;display:none;margin-bottom:15px}
+</style>
+</head>
+<body>
+<header>
+<h1>Petel Association</h1>
+<p>Solidarité & Développement</p>
+</header>
+
+<main>
+<a class="back" href="./dashboard.html">← Retour au tableau de bord</a>
+
+<div id="message"></div>
+
+<section class="card">
+<h2>Informations de l'association</h2>
+
+<label>Nom de l'association</label>
+<input id="associationName" placeholder="Petel Association Solidarité & Développement">
+
+<label>Adresse</label>
+<input id="associationAddress" placeholder="Adresse de l'association">
+
+<label>Téléphone</label>
+<input id="associationPhone" placeholder="Téléphone">
+
+<label>Adresse e-mail</label>
+<input id="associationEmail" type="email" placeholder="E-mail">
+
+<button id="saveButton">Enregistrer les paramètres</button>
+</section>
+</main>
+
+<script type="module">
+import { createClient } from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://evbpmafgciphyfzmkctc.supabase.co";
+
+/* Remplace cette valeur par la même clé Publishable
+   déjà utilisée dans dashboard.html. */
+const SUPABASE_PUBLISHABLE_KEY = "COLLER_ICI_LA_CLE_PUBLISHABLE_EXISTANTE";
+
+const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const $ = id => document.getElementById(id);
+
+function message(texte, erreur=false) {
+  $("message").textContent = texte;
+  $("message").style.display = "block";
+  $("message").style.background = erreur ? "#ffe0e0" : "#e0f5e9";
+  $("message").style.color = erreur ? "#a00000" : "#087f5b";
+}
+
+async function demarrer() {
+  const { data, error } = await db.auth.getSession();
+
+  if (error || !data.session) {
+    window.location.replace("./index.html");
+    return;
+  }
+
+  const { data: profil, error: profilError } = await db
+    .from("profiles")
+    .select("role")
+    .eq("id", data.session.user.id)
+    .maybeSingle();
+
+  if (profilError || !profil || String(profil.role).toLowerCase() !== "admin") {
+    message("Accès réservé à l'administrateur.", true);
+    $("saveButton").disabled = true;
+    return;
+  }
+
+  await chargerParametres();
+}
+
+async function chargerParametres() {
+  const { data, error } = await db
+    .from("settings")
+    .select("key,value");
+
+  if (error) {
+    message("Impossible de charger les paramètres : " + error.message, true);
+    return;
+  }
+
+  const valeurs = {};
+  (data || []).forEach(item => valeurs[item.key] = item.value);
+
+  $("associationName").value = valeurs.association_name || "Petel Association Solidarité & Développement";
+  $("associationAddress").value = valeurs.association_address || "";
+  $("associationPhone").value = valeurs.association_phone || "";
+  $("associationEmail").value = valeurs.association_email || "";
+}
+
+async function enregistrer(cle, valeur) {
+  const { data: existant, error: lectureErreur } = await db
+    .from("settings")
+    .select("key")
+    .eq("key", cle)
+    .maybeSingle();
+
+  if (lectureErreur) throw lectureErreur;
+
+  if (existant) {
+    const { error } = await db
+      .from("settings")
+      .update({ value: valeur, updated_at: new Date().toISOString() })
+      .eq("key", cle);
+
+    if (error) throw error;
+  } else {
+    const { error } = await db
+      .from("settings")
+      .insert({ key: cle, value: valeur, updated_at: new Date().toISOString() });
+
+    if (error) throw error;
+  }
+}
+
+$("saveButton").addEventListener("click", async () => {
+  $("saveButton").disabled = true;
+
+  try {
+    await enregistrer("association_name", $("associationName").value.trim());
+    await enregistrer("association_address", $("associationAddress").value.trim());
+    await enregistrer("association_phone", $("associationPhone").value.trim());
+    await enregistrer("association_email", $("associationEmail").value.trim());
+
+    message("Paramètres enregistrés avec succès !");
+  } catch (error) {
+    message("Erreur d'enregistrement : " + error.message, true);
+  } finally {
+    $("saveButton").disabled = false;
+  }
+});
+
+demarrer();
+</script>
+</body>
+</html>
