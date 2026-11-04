@@ -197,6 +197,41 @@
         } else {
           $("membersCount").textContent = count ?? 0;
         }
+            const { data: contributions, error: contributionsError } =
+      await db.from("contributions").select("amount");
+
+    if (contributionsError) throw contributionsError;
+
+    const totalContributions = (contributions || [])
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+    $("contributionsTotal").textContent =
+      totalContributions.toLocaleString("fr-FR") + " FCFA";
+
+    const { data: expenses, error: expensesError } =
+      await db.from("expenses").select("amount");
+
+    if (expensesError) throw expensesError;
+
+    const totalExpenses = (expenses || [])
+      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+    $("expensesTotal").textContent =
+      totalExpenses.toLocaleString("fr-FR") + " FCFA";
+
+    const { data: transactions, error: cashError } =
+      await db.from("cash_transactions")
+        .select("transaction_type, amount");
+
+    if (cashError) throw cashError;
+
+    const cashBalance = (transactions || []).reduce((sum, item) => {
+      const amount = Number(item.amount || 0);
+      return sum + (item.transaction_type === "entrée" ? amount : -amount);
+    }, 0);
+
+    $("cashBalance").textContent =
+      cashBalance.toLocaleString("fr-FR") + " FCFA";
       } catch (e) {
         $("roleText").textContent = "Rôle : erreur de chargement";
         $("membersCount").textContent = "Erreur";
