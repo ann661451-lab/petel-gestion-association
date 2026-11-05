@@ -167,13 +167,16 @@ let user = null;
 let role = 'lecteur';
 let expenses = [];
 
-function message(text,type='info'){
-$('notice').textContent=text;
-$('notice').className='notice';
-$('notice').style.background=
-type==='error'?'#ffe8e8':'#e7f5ed';
-$('notice').style.color=
-type==='error'?'#a32121':'#174b38';
+function message(text, type = 'info') {
+  const box = $('notice');
+  if (!box) {
+    console.error("Élément notice introuvable.");
+    return;
+  }
+  box.textContent = text;
+  box.className = 'notice';
+  box.style.background = type === 'error' ? '#ffe7e5' : '#e7f5ed';
+  box.style.color = type === 'error' ? '#a32121' : '#174b38';
 }
 
 function isAdmin(){
