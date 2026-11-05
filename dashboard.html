@@ -226,9 +226,19 @@
     if (cashError) throw cashError;
 
     const cashBalance = (transactions || []).reduce((sum, item) => {
-      const amount = Number(item.amount || 0);
-      return sum + (item.transaction_type === "entrée" ? amount : -amount);
-    }, 0);
+  const amount = Number(item.amount || 0);
+  const type = String(item.transaction_type || "").toLowerCase();
+
+  if (["entrée", "entree", "income", "in", "cotisation"].includes(type)) {
+    return sum + amount;
+  }
+
+  if (["sortie", "sorties", "out", "expense", "dépense", "depense"].includes(type)) {
+    return sum - amount;
+  }
+
+  return sum;
+}, 0);
 
     $("cashBalance").textContent =
       cashBalance.toLocaleString("fr-FR") + " FCFA";
