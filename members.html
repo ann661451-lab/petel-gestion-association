@@ -78,7 +78,12 @@ button, .back {
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 500px;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+th, td {
+  overflow-wrap: anywhere;
 }
 
 th, td {
