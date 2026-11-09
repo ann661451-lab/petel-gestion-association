@@ -26,11 +26,7 @@ header{
 header h1{margin:0 0 8px;font-size:25px}
 header p{margin:0}
 
-main{
-  max-width:950px;
-  margin:auto;
-  padding:16px;
-}
+main{max-width:950px;margin:auto;padding:16px}
 
 .back{
   color:#087f5b;
@@ -63,11 +59,11 @@ h2{margin-top:0}
 .summary-card p{
   margin:0 0 12px;
   color:#53645c;
-  font-size:14px;
+  font-size:15px;
 }
 
 .number{
-  font-size:23px;
+  font-size:25px;
   font-weight:bold;
   color:#087f5b;
   overflow-wrap:anywhere;
@@ -78,32 +74,61 @@ h2{margin-top:0}
   border:1px solid #cce8d8;
 }
 
-.balance .number{
-  font-size:32px;
-}
-
+.balance .number{font-size:32px}
 .negative{color:#b42318}
 
 .notice{
-  padding:12px;
+  padding:13px;
   margin:12px 0;
   border-radius:8px;
   overflow-wrap:anywhere;
 }
 
+label{
+  display:block;
+  font-weight:bold;
+  margin:13px 0 6px;
+}
+
+input,select,textarea{
+  display:block;
+  width:100%;
+  padding:13px;
+  border:1px solid #ccd8d0;
+  border-radius:9px;
+  font-size:16px;
+  background:white;
+}
+
+textarea{min-height:75px}
+
+button{
+  background:#087f5b;
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:12px 16px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:8px 5px 0 0;
+}
+
+button.secondary{background:#586761}
+button.danger{background:#b42318}
+button:disabled{opacity:.5;cursor:not-allowed}
+
+.hidden{display:none!important}
+
 .table-wrap{width:100%;overflow-x:auto}
 
-table{
-  width:100%;
-  border-collapse:collapse;
-}
+table{width:100%;border-collapse:collapse}
 
 th,td{
   padding:12px 10px;
   border-bottom:1px solid #ddd;
   text-align:left;
   vertical-align:middle;
-  font-size:14px;
 }
 
 th{
@@ -113,18 +138,7 @@ th{
 
 .entry{color:#087f5b;font-weight:bold}
 .exit{color:#b42318;font-weight:bold}
-
-button{
-  background:#586761;
-  color:white;
-  border:0;
-  border-radius:9px;
-  padding:12px 16px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:12px;
-}
+.actions{min-width:145px}
 
 footer{
   text-align:center;
@@ -135,12 +149,10 @@ footer{
 @media(max-width:600px){
 
   main{padding:12px}
-  .card{padding:15px}
+  .card{padding:16px}
   header h1{font-size:22px}
   header p{font-size:14px}
-
   .summary{grid-template-columns:1fr}
-  .number{font-size:22px}
   .balance .number{font-size:29px}
 
   .table-wrap{overflow:visible}
@@ -182,6 +194,18 @@ footer{
   }
 
   tbody td[colspan]::before{content:none}
+
+  tbody td.actions{
+    display:block;
+    text-align:left;
+  }
+
+  tbody td.actions::before{content:none}
+
+  tbody td.actions button{
+    width:100%;
+    margin:5px 0;
+  }
 }
 
 </style>
@@ -207,7 +231,8 @@ footer{
 </div>
 
 <section class="card">
-  <h2>Situation financière</h2>
+
+  <h2>Résumé de la caisse</h2>
 
   <div class="summary">
 
@@ -229,13 +254,107 @@ footer{
   </div>
 
   <p id="movementCount">Chargement des mouvements...</p>
+
 </section>
+
+<!-- FORMULAIRE ADMINISTRATEUR -->
+
+<section class="card hidden" id="formCard">
+
+  <h2 id="formTitle">Nouvelle opération</h2>
+
+  <form id="cashForm">
+
+    <input type="hidden" id="movementId">
+    <input type="hidden" id="movementSource">
+
+    <label for="type">Type d'opération</label>
+
+    <select id="type" required>
+      <option value="entree">Entrée d'argent</option>
+      <option value="sortie">Sortie d'argent</option>
+    </select>
+
+    <div id="memberGroup">
+
+      <label for="member">Membre</label>
+
+      <select id="member">
+        <option value="">Choisir un membre</option>
+      </select>
+
+      <label for="period">Période de cotisation</label>
+
+      <input
+        type="text"
+        id="period"
+        placeholder="Ex. Novembre 2026"
+      >
+
+    </div>
+
+    <div id="descriptionGroup" class="hidden">
+
+      <label for="description">Description de la dépense</label>
+
+      <input
+        type="text"
+        id="description"
+        maxlength="500"
+        placeholder="Ex. Aide humanitaire"
+      >
+
+      <label for="notes">Notes (facultatif)</label>
+
+      <textarea id="notes" maxlength="1000"></textarea>
+
+    </div>
+
+    <label for="amount">Montant (FCFA)</label>
+
+    <input
+      type="number"
+      id="amount"
+      min="1"
+      step="1"
+      required
+    >
+
+    <label for="operationDate">Date de l'opération</label>
+
+    <input type="date" id="operationDate" required>
+
+    <button id="saveButton" type="submit">
+      Enregistrer l'opération
+    </button>
+
+    <button
+      type="button"
+      class="secondary"
+      id="cancelButton"
+    >
+      Annuler
+    </button>
+
+  </form>
+
+</section>
+
+<!-- HISTORIQUE -->
 
 <section class="card">
 
-  <h2>Historique des mouvements</h2>
+  <h2>Historique des opérations</h2>
 
-  <div class="table-wrap">
+  <button
+    type="button"
+    id="addButton"
+    class="hidden"
+  >
+    + Nouvelle opération
+  </button>
+
+  <div class="table-wrap" style="margin-top:15px">
 
     <table>
 
@@ -245,12 +364,13 @@ footer{
           <th>Type</th>
           <th>Description</th>
           <th>Montant</th>
+          <th id="actionsHead" class="hidden">Actions</th>
         </tr>
       </thead>
 
       <tbody id="history">
         <tr>
-          <td colspan="4">Chargement...</td>
+          <td colspan="5">Chargement...</td>
         </tr>
       </tbody>
 
@@ -258,7 +378,11 @@ footer{
 
   </div>
 
-  <button type="button" id="refreshButton">
+  <button
+    type="button"
+    class="secondary"
+    id="refreshButton"
+  >
     Actualiser
   </button>
 
@@ -288,34 +412,52 @@ const db = createClient(
 
 const $ = id => document.getElementById(id);
 
+let user = null;
+let role = 'lecteur';
 let movements = [];
+let members = [];
+let saving = false;
+
+function isAdmin(){
+  return String(role).trim().toLowerCase() === 'admin';
+}
 
 function message(text,type='info'){
 
-  const box=$('notice');
+  const box = $('notice');
 
-  box.textContent=text;
+  box.textContent = text;
 
-  box.style.background=
-    type==='error'?'#ffe7e5':'#e7f5ed';
+  box.style.background =
+    type === 'error' ? '#ffe7e5' : '#e7f5ed';
 
-  box.style.color=
-    type==='error'?'#a32121':'#174b38';
+  box.style.color =
+    type === 'error' ? '#a32121' : '#174b38';
 }
 
 function money(value){
 
   return new Intl.NumberFormat('fr-FR')
-    .format(Number(value)||0)+' FCFA';
+    .format(Number(value)||0) + ' FCFA';
+}
+
+function today(){
+
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+
+  return `${year}-${month}-${day}`;
 }
 
 function formatDate(date){
 
-  if(!date)return '—';
+  if(!date) return '—';
 
-  const parts=date.split('-');
+  const parts = date.split('-');
 
-  if(parts.length!==3)return date;
+  if(parts.length !== 3) return date;
 
   return parts[2]+'/'+parts[1]+'/'+parts[0];
 }
@@ -323,50 +465,137 @@ function formatDate(date){
 function memberName(member){
 
   if(Array.isArray(member)){
-    member=member[0];
+    member = member[0];
   }
 
   return [
     member?.first_name,
     member?.last_name
-  ].filter(Boolean).join(' ')||'Membre';
+  ].filter(Boolean).join(' ') || 'Membre non identifié';
+}
+
+async function loadMembers(){
+
+  const {data,error} = await db
+    .from('members')
+    .select('id,first_name,last_name')
+    .order('first_name');
+
+  if(error) throw error;
+
+  members = data || [];
+
+  const select = $('member');
+
+  select.replaceChildren();
+
+  const first = document.createElement('option');
+  first.value = '';
+  first.textContent = 'Choisir un membre';
+  select.appendChild(first);
+
+  for(const member of members){
+
+    const option = document.createElement('option');
+
+    option.value = member.id;
+    option.textContent = memberName(member);
+
+    select.appendChild(option);
+  }
+}
+
+function updateFormFields(){
+
+  const isEntry = $('type').value === 'entree';
+
+  $('memberGroup').classList.toggle('hidden',!isEntry);
+  $('descriptionGroup').classList.toggle('hidden',isEntry);
+
+  $('member').required = isEntry;
+  $('period').required = isEntry;
+  $('description').required = !isEntry;
+}
+
+function showForm(movement=null){
+
+  if(!isAdmin()) return;
+
+  $('cashForm').reset();
+
+  $('movementId').value = movement?.sourceId || '';
+  $('movementSource').value = movement?.source || '';
+
+  $('type').value = movement?.type === 'Sortie'
+    ? 'sortie'
+    : 'entree';
+
+  $('amount').value = movement?.amount ?? '';
+  $('operationDate').value = movement?.date || today();
+
+  $('member').value = movement?.member_id || '';
+  $('period').value = movement?.period || '';
+
+  $('description').value = movement?.expenseDescription || '';
+  $('notes').value = movement?.notes || '';
+
+  $('formTitle').textContent = movement
+    ? 'Modifier une opération'
+    : 'Nouvelle opération';
+
+  $('saveButton').textContent = movement
+    ? 'Enregistrer les modifications'
+    : 'Enregistrer l’opération';
+
+  updateFormFields();
+
+  $('formCard').classList.remove('hidden');
+
+  $('formCard').scrollIntoView({behavior:'smooth'});
+}
+
+function closeForm(){
+
+  $('formCard').classList.add('hidden');
+  $('cashForm').reset();
+  $('movementId').value = '';
+  $('movementSource').value = '';
+
+  updateFormFields();
 }
 
 function render(){
 
-  const entries=movements
-    .filter(m=>m.type==='Entrée')
-    .reduce((sum,m)=>sum+m.amount,0);
+  const entries = movements
+    .filter(m => m.type === 'Entrée')
+    .reduce((sum,m) => sum + m.amount,0);
 
-  const exits=movements
-    .filter(m=>m.type==='Sortie')
-    .reduce((sum,m)=>sum+m.amount,0);
+  const exits = movements
+    .filter(m => m.type === 'Sortie')
+    .reduce((sum,m) => sum + m.amount,0);
 
-  const balance=entries-exits;
+  const balance = entries - exits;
 
-  $('totalEntries').textContent=money(entries);
-  $('totalExits').textContent=money(exits);
-  $('balance').textContent=money(balance);
+  $('totalEntries').textContent = money(entries);
+  $('totalExits').textContent = money(exits);
+  $('balance').textContent = money(balance);
 
-  $('balance').classList.toggle(
-    'negative',
-    balance<0
-  );
+  $('balance').classList.toggle('negative',balance < 0);
 
-  $('movementCount').textContent=
+  $('movementCount').textContent =
     movements.length+' mouvement(s) enregistré(s).';
 
-  const history=$('history');
+  const history = $('history');
 
   history.replaceChildren();
 
   if(!movements.length){
 
-    const tr=document.createElement('tr');
-    const td=document.createElement('td');
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
 
-    td.colSpan=4;
-    td.textContent='Aucun mouvement enregistré.';
+    td.colSpan = isAdmin() ? 5 : 4;
+    td.textContent = 'Aucun mouvement enregistré.';
 
     tr.appendChild(td);
     history.appendChild(tr);
@@ -376,33 +605,57 @@ function render(){
 
   for(const movement of movements){
 
-    const tr=document.createElement('tr');
+    const tr = document.createElement('tr');
 
-    const values=[
+    const values = [
       ['Date',formatDate(movement.date)],
       ['Type',movement.type],
       ['Description',movement.description],
-      ['Montant',money(movement.amount)]
+      ['Montant',
+        (movement.type === 'Entrée' ? '+ ' : '− ') +
+        money(movement.amount)
+      ]
     ];
 
     values.forEach((item,index)=>{
 
-      const td=document.createElement('td');
+      const td = document.createElement('td');
 
-      td.dataset.label=item[0];
-      td.textContent=item[1];
+      td.dataset.label = item[0];
+      td.textContent = item[1];
 
-      if(index===3){
-        td.className=
-          movement.type==='Entrée'?'entry':'exit';
-
-        td.textContent=
-          (movement.type==='Entrée'?'+':'−')+
-          ' '+money(movement.amount);
+      if(index === 3){
+        td.className =
+          movement.type === 'Entrée' ? 'entry' : 'exit';
       }
 
       tr.appendChild(td);
     });
+
+    if(isAdmin()){
+
+      const td = document.createElement('td');
+      td.className = 'actions';
+      td.dataset.label = 'Actions';
+
+      const edit = document.createElement('button');
+
+      edit.textContent = 'Modifier';
+      edit.addEventListener('click',()=>showForm(movement));
+
+      const del = document.createElement('button');
+
+      del.textContent = 'Supprimer';
+      del.className = 'danger';
+
+      del.addEventListener(
+        'click',
+        ()=>deleteMovement(movement)
+      );
+
+      td.append(edit,del);
+      tr.appendChild(td);
+    }
 
     history.appendChild(tr);
   }
@@ -410,10 +663,18 @@ function render(){
 
 async function loadCash(){
 
-  $('history').innerHTML=
-    '<tr><td colspan="4">Chargement...</td></tr>';
+  $('history').replaceChildren();
 
-  const [contributionsResult,expensesResult]=
+  const loading = document.createElement('tr');
+  const loadingCell = document.createElement('td');
+
+  loadingCell.colSpan = isAdmin() ? 5 : 4;
+  loadingCell.textContent = 'Chargement...';
+
+  loading.appendChild(loadingCell);
+  $('history').appendChild(loading);
+
+  const [contributionsResult,expensesResult] =
     await Promise.all([
 
       db.from('contributions')
@@ -423,93 +684,274 @@ async function loadCash(){
 
       db.from('expenses')
         .select(
-          'id,description,amount,expense_date'
+          'id,description,amount,expense_date,notes'
         )
+
     ]);
 
-  if(contributionsResult.error){
-    throw contributionsResult.error;
-  }
+  if(contributionsResult.error) throw contributionsResult.error;
+  if(expensesResult.error) throw expensesResult.error;
 
-  if(expensesResult.error){
-    throw expensesResult.error;
-  }
+  const contributions = contributionsResult.data || [];
+  const expenses = expensesResult.data || [];
 
-  const contributions=
-    contributionsResult.data||[];
-
-  const expenses=
-    expensesResult.data||[];
-
-  const incoming=contributions.map(c=>({
+  const incoming = contributions.map(c=>({
 
     id:'contribution-'+c.id,
-
+    source:'contribution',
+    sourceId:c.id,
+    member_id:c.member_id,
+    period:c.period || '',
     date:c.payment_date,
-
     type:'Entrée',
-
     description:
       'Cotisation - '+memberName(c.members)+
-      (c.period?' - '+c.period:''),
-
+      (c.period ? ' - '+c.period : ''),
     amount:Number(c.amount)||0
 
   }));
 
-  const outgoing=expenses.map(e=>({
+  const outgoing = expenses.map(e=>({
 
     id:'expense-'+e.id,
-
+    source:'expense',
+    sourceId:e.id,
     date:e.expense_date,
-
     type:'Sortie',
-
-    description:e.description||'Dépense',
-
+    description:e.description || 'Dépense',
+    expenseDescription:e.description || '',
+    notes:e.notes || '',
     amount:Number(e.amount)||0
 
   }));
 
-  movements=[...incoming,...outgoing];
+  movements = [...incoming,...outgoing];
 
-  movements.sort((a,b)=>{
-
-    const dateCompare=
-      (b.date||'').localeCompare(a.date||'');
-
-    return dateCompare||
-      b.id.localeCompare(a.id);
-  });
+  movements.sort((a,b)=>
+    (b.date || '').localeCompare(a.date || '') ||
+    String(b.id).localeCompare(String(a.id))
+  );
 
   render();
+}
+
+async function saveMovement(event){
+
+  event.preventDefault();
+
+  if(!isAdmin() || !user || saving) return;
+
+  const id = $('movementId').value;
+  const source = $('movementSource').value;
+  const type = $('type').value;
+
+  const amount = Number($('amount').value);
+  const date = $('operationDate').value;
+
+  if(!Number.isFinite(amount) || amount <= 0 || !date){
+
+    message('Vérifie le montant et la date.','error');
+    return;
+  }
+
+  let result;
+
+  saving = true;
+  $('saveButton').disabled = true;
+
+  try{
+
+    if(type === 'entree'){
+
+      const member_id = $('member').value;
+      const period = $('period').value.trim();
+
+      if(!member_id || !period){
+
+        throw new Error('Choisis un membre et une période.');
+      }
+
+      const record = {
+        member_id,
+        amount,
+        period,
+        payment_date:date
+      };
+
+      if(id){
+
+        if(source !== 'contribution'){
+          throw new Error('Type de modification invalide.');
+        }
+
+        result = await db
+          .from('contributions')
+          .update(record)
+          .eq('id',id);
+
+      }else{
+
+        result = await db
+          .from('contributions')
+          .insert(record);
+      }
+
+    }else{
+
+      const description = $('description').value.trim();
+      const notes = $('notes').value.trim();
+
+      if(!description){
+        throw new Error('Saisis une description.');
+      }
+
+      const record = {
+        amount,
+        description,
+        expense_date:date,
+        notes:notes || null
+      };
+
+      if(id){
+
+        if(source !== 'expense'){
+          throw new Error('Type de modification invalide.');
+        }
+
+        result = await db
+          .from('expenses')
+          .update(record)
+          .eq('id',id);
+
+      }else{
+
+        result = await db
+          .from('expenses')
+          .insert({
+            ...record,
+            created_by:user.id
+          });
+      }
+    }
+
+    if(result.error) throw result.error;
+
+    closeForm();
+
+    await loadCash();
+
+    message(
+      id
+        ? 'Opération modifiée avec succès.'
+        : 'Opération enregistrée avec succès.',
+      'success'
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    message(
+      'Enregistrement impossible : '+error.message+
+      ' Vérifie les autorisations RLS de Supabase.',
+      'error'
+    );
+
+  }finally{
+
+    saving = false;
+    $('saveButton').disabled = false;
+  }
+}
+
+async function deleteMovement(movement){
+
+  if(!isAdmin()) return;
+
+  const confirmed = confirm(
+    'Confirmer la suppression de cette opération de '+
+    money(movement.amount)+' ?'
+  );
+
+  if(!confirmed) return;
+
+  try{
+
+    const table = movement.source === 'contribution'
+      ? 'contributions'
+      : 'expenses';
+
+    const {error} = await db
+      .from(table)
+      .delete()
+      .eq('id',movement.sourceId);
+
+    if(error) throw error;
+
+    await loadCash();
+
+    message('Opération supprimée avec succès.','success');
+
+  }catch(error){
+
+    console.error(error);
+
+    message(
+      'Suppression impossible : '+error.message,
+      'error'
+    );
+  }
 }
 
 async function initialise(){
 
   try{
 
-    const {data,error}=await db.auth.getSession();
+    const {data,error} = await db.auth.getSession();
 
-    if(error)throw error;
+    if(error) throw error;
 
-    if(!data.session){
+    user = data.session?.user;
+
+    if(!user){
 
       window.location.replace('./index.html');
       return;
     }
 
-    const {error:profileError}=await db
+    const {data:profile,error:profileError} = await db
       .from('profiles')
       .select('role')
-      .eq('id',data.session.user.id)
+      .eq('id',user.id)
       .maybeSingle();
 
-    if(profileError)throw profileError;
+    if(profileError) throw profileError;
 
-    message(
-      'Caisse actualisée : consultation des entrées et sorties.'
-    );
+    if(!profile){
+      throw new Error('Profil utilisateur introuvable.');
+    }
+
+    role = String(profile.role || 'lecteur')
+      .trim().toLowerCase();
+
+    if(isAdmin()){
+
+      $('formCard').classList.remove('hidden');
+      $('addButton').classList.remove('hidden');
+      $('actionsHead').classList.remove('hidden');
+
+      await loadMembers();
+
+      closeForm();
+
+      message('Connecté en tant qu’administrateur.','success');
+
+    }else{
+
+      message(
+        'Mode lecteur : consultation uniquement.'
+      );
+    }
 
     await loadCash();
 
@@ -522,23 +964,27 @@ async function initialise(){
       'error'
     );
 
-    $('totalEntries').textContent='—';
-    $('totalExits').textContent='—';
-    $('balance').textContent='—';
-    $('movementCount').textContent='Chargement impossible.';
-
-    $('history').innerHTML=
-      '<tr><td colspan="4">Erreur de chargement.</td></tr>';
+    $('totalEntries').textContent = '—';
+    $('totalExits').textContent = '—';
+    $('balance').textContent = '—';
+    $('movementCount').textContent = 'Chargement impossible.';
   }
 }
+
+$('type').addEventListener('change',updateFormFields);
+
+$('addButton').addEventListener('click',()=>showForm());
+
+$('cancelButton').addEventListener('click',closeForm);
+
+$('cashForm').addEventListener('submit',saveMovement);
 
 $('refreshButton').addEventListener('click',async()=>{
 
   try{
 
     await loadCash();
-
-    message('Caisse actualisée avec succès.');
+    message('Caisse actualisée avec succès.','success');
 
   }catch(error){
 
