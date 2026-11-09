@@ -5,996 +5,519 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Caisse - Petel Association</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f1f7f4;
-  color:#24312b;
-}
-
-header{
-  background:#087f5b;
-  color:white;
-  padding:22px 15px;
-  text-align:center;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:#f1f7f4;color:#24312b}
+header{background:#087f5b;color:white;padding:22px 15px;text-align:center}
 header h1{margin:0 0 8px;font-size:25px}
-header p{margin:0}
-
 main{max-width:950px;margin:auto;padding:16px}
-
-.back{
-  color:#087f5b;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-.card{
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  margin:16px 0;
-  box-shadow:0 3px 14px #0000000b;
-}
-
+.back{color:#087f5b;font-weight:bold;text-decoration:none}
+.card{background:white;padding:20px;border-radius:16px;margin:16px 0;box-shadow:0 3px 14px #0000000b}
 h2{margin-top:0}
-
-.summary{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.summary-card{
-  background:#f1f7f4;
-  border-radius:12px;
-  padding:16px;
-}
-
-.summary-card p{
-  margin:0 0 12px;
-  color:#53645c;
-  font-size:15px;
-}
-
-.number{
-  font-size:25px;
-  font-weight:bold;
-  color:#087f5b;
-  overflow-wrap:anywhere;
-}
-
-.balance{
-  background:#e7f5ed;
-  border:1px solid #cce8d8;
-}
-
-.balance .number{font-size:32px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.summary-card{background:#f1f7f4;border-radius:12px;padding:16px}
+.summary-card p{margin:0 0 12px;color:#53645c}
+.number{font-size:23px;font-weight:bold;color:#087f5b;overflow-wrap:anywhere}
+.balance{background:#e7f5ed;border:1px solid #cce8d8;margin-top:14px}
+.balance .number{font-size:30px}
 .negative{color:#b42318}
-
-.notice{
-  padding:13px;
-  margin:12px 0;
-  border-radius:8px;
-  overflow-wrap:anywhere;
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin:13px 0 6px;
-}
-
-input,select,textarea{
-  display:block;
-  width:100%;
-  padding:13px;
-  border:1px solid #ccd8d0;
-  border-radius:9px;
-  font-size:16px;
-  background:white;
-}
-
-textarea{min-height:75px}
-
-button{
-  background:#087f5b;
-  color:white;
-  border:0;
-  border-radius:9px;
-  padding:12px 16px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-  margin:8px 5px 0 0;
-}
-
+.notice{padding:12px;margin:12px 0;border-radius:8px;overflow-wrap:anywhere}
+.hidden{display:none!important}
+label{display:block;font-weight:bold;margin:13px 0 6px}
+input,select,button{width:100%;padding:13px;border:1px solid #ccd8d0;border-radius:9px;font-size:16px}
+button{background:#087f5b;color:white;border:0;font-weight:bold;cursor:pointer;margin-top:12px}
 button.secondary{background:#586761}
 button.danger{background:#b42318}
-button:disabled{opacity:.5;cursor:not-allowed}
-
-.hidden{display:none!important}
-
-.table-wrap{width:100%;overflow-x:auto}
-
-table{width:100%;border-collapse:collapse}
-
-th,td{
-  padding:12px 10px;
-  border-bottom:1px solid #ddd;
-  text-align:left;
-  vertical-align:middle;
-}
-
-th{
-  background:#e7f5ed;
-  color:#174b38;
-}
-
+button:disabled{opacity:.5}
 .entry{color:#087f5b;font-weight:bold}
 .exit{color:#b42318;font-weight:bold}
-.actions{min-width:145px}
-
-footer{
-  text-align:center;
-  color:#666;
-  padding:25px 12px;
-}
-
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:middle}
+th{background:#e7f5ed;color:#174b38}
+.actions{display:flex;gap:8px}
+.actions button{margin:0;min-width:90px}
+footer{text-align:center;color:#666;padding:25px 12px}
 @media(max-width:600px){
-
-  main{padding:12px}
-  .card{padding:16px}
-  header h1{font-size:22px}
-  header p{font-size:14px}
-  .summary{grid-template-columns:1fr}
-  .balance .number{font-size:29px}
-
-  .table-wrap{overflow:visible}
-  table{width:100%}
-  thead{display:none}
-  tbody{display:block}
-
-  tbody tr{
-    display:block;
-    border:1px solid #e2ebe5;
-    border-radius:12px;
-    padding:10px 12px;
-    margin-bottom:13px;
-  }
-
-  tbody td{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    padding:10px 0;
-    border-bottom:1px solid #edf1ee;
-    text-align:right;
-    overflow-wrap:anywhere;
-  }
-
-  tbody td:last-child{border-bottom:0}
-
-  tbody td::before{
-    content:attr(data-label);
-    color:#174b38;
-    font-weight:bold;
-    text-align:left;
-    flex:0 0 35%;
-  }
-
-  tbody td[colspan]{
-    display:block;
-    text-align:center;
-  }
-
-  tbody td[colspan]::before{content:none}
-
-  tbody td.actions{
-    display:block;
-    text-align:left;
-  }
-
-  tbody td.actions::before{content:none}
-
-  tbody td.actions button{
-    width:100%;
-    margin:5px 0;
-  }
+main{padding:12px}
+.card{padding:15px}
+.summary{grid-template-columns:1fr}
+.table-wrap{overflow:visible}
+thead{display:none}
+tbody{display:block}
+tbody tr{display:block;border:1px solid #e2ebe5;border-radius:12px;padding:10px 12px;margin-bottom:13px}
+tbody td{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #edf1ee;text-align:right;overflow-wrap:anywhere}
+tbody td:last-child{border-bottom:0}
+tbody td::before{content:attr(data-label);color:#174b38;font-weight:bold;text-align:left;flex:0 0 35%}
+tbody td[colspan]{display:block;text-align:center}
+tbody td[colspan]::before{content:none}
+.actions{flex-direction:column}
 }
-
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>Petel Association</h1>
-  <p>Solidarité &amp; Développement — Caisse</p>
+<h1>Petel Association</h1>
+<p>Solidarité &amp; Développement — Caisse</p>
 </header>
 
 <main>
+<p><a class="back" href="./dashboard.html">← Retour au tableau de bord</a></p>
 
-<p>
-  <a class="back" href="./dashboard.html">
-    ← Retour au tableau de bord
-  </a>
-</p>
-
-<div id="notice" class="notice">
-  Connexion à la caisse...
-</div>
+<div id="notice" class="notice">Connexion à la caisse...</div>
 
 <section class="card">
-
-  <h2>Résumé de la caisse</h2>
-
-  <div class="summary">
-
-    <div class="summary-card">
-      <p>Total des entrées</p>
-      <div class="number" id="totalEntries">—</div>
-    </div>
-
-    <div class="summary-card">
-      <p>Total des sorties</p>
-      <div class="number" id="totalExits">—</div>
-    </div>
-
-  </div>
-
-  <div class="summary-card balance" style="margin-top:14px">
-    <p>Solde disponible</p>
-    <div class="number" id="balance">—</div>
-  </div>
-
-  <p id="movementCount">Chargement des mouvements...</p>
-
+<h2>Résumé de la caisse</h2>
+<div class="summary">
+<div class="summary-card">
+<p>Total des entrées</p>
+<div class="number" id="totalEntries">—</div>
+</div>
+<div class="summary-card">
+<p>Total des sorties</p>
+<div class="number" id="totalExits">—</div>
+</div>
+</div>
+<div class="summary-card balance">
+<p>Solde disponible</p>
+<div class="number" id="balance">—</div>
+</div>
+<p id="movementCount">Chargement...</p>
 </section>
-
-<!-- FORMULAIRE ADMINISTRATEUR -->
 
 <section class="card hidden" id="formCard">
+<h2 id="formTitle">Nouvelle opération</h2>
 
-  <h2 id="formTitle">Nouvelle opération</h2>
+<form id="movementForm">
+<input type="hidden" id="movementId">
+<input type="hidden" id="movementSource">
 
-  <form id="cashForm">
+<label for="type">Type d'opération</label>
+<select id="type" required>
+<option value="Entrée">Entrée - Cotisation</option>
+<option value="Sortie">Sortie - Dépense</option>
+</select>
 
-    <input type="hidden" id="movementId">
-    <input type="hidden" id="movementSource">
+<div id="memberField">
+<label for="member">Membre</label>
+<select id="member">
+<option value="">Choisir un membre</option>
+</select>
+</div>
 
-    <label for="type">Type d'opération</label>
+<div id="descriptionField" class="hidden">
+<label for="description">Description de la dépense</label>
+<input id="description" maxlength="500">
+</div>
 
-    <select id="type" required>
-      <option value="entree">Entrée d'argent</option>
-      <option value="sortie">Sortie d'argent</option>
-    </select>
+<label for="amount">Montant (FCFA)</label>
+<input id="amount" type="number" min="1" step="1" required>
 
-    <div id="memberGroup">
+<div id="periodField">
+<label for="period">Période de cotisation</label>
+<input id="period" placeholder="Exemple : Novembre 2026">
+</div>
 
-      <label for="member">Membre</label>
+<label for="operationDate">Date</label>
+<input id="operationDate" type="date" required>
 
-      <select id="member">
-        <option value="">Choisir un membre</option>
-      </select>
-
-      <label for="period">Période de cotisation</label>
-
-      <input
-        type="text"
-        id="period"
-        placeholder="Ex. Novembre 2026"
-      >
-
-    </div>
-
-    <div id="descriptionGroup" class="hidden">
-
-      <label for="description">Description de la dépense</label>
-
-      <input
-        type="text"
-        id="description"
-        maxlength="500"
-        placeholder="Ex. Aide humanitaire"
-      >
-
-      <label for="notes">Notes (facultatif)</label>
-
-      <textarea id="notes" maxlength="1000"></textarea>
-
-    </div>
-
-    <label for="amount">Montant (FCFA)</label>
-
-    <input
-      type="number"
-      id="amount"
-      min="1"
-      step="1"
-      required
-    >
-
-    <label for="operationDate">Date de l'opération</label>
-
-    <input type="date" id="operationDate" required>
-
-    <button id="saveButton" type="submit">
-      Enregistrer l'opération
-    </button>
-
-    <button
-      type="button"
-      class="secondary"
-      id="cancelButton"
-    >
-      Annuler
-    </button>
-
-  </form>
-
+<div class="actions">
+<button type="submit" id="saveButton">Enregistrer</button>
+<button type="button" class="secondary" id="cancelButton">Annuler</button>
+</div>
+</form>
 </section>
-
-<!-- HISTORIQUE -->
 
 <section class="card">
+<h2>Historique des opérations</h2>
 
-  <h2>Historique des opérations</h2>
+<button id="addButton" class="hidden">+ Nouvelle opération</button>
 
-  <button
-    type="button"
-    id="addButton"
-    class="hidden"
-  >
-    + Nouvelle opération
-  </button>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Description</th>
+<th>Montant</th>
+<th id="actionsHead" class="hidden">Actions</th>
+</tr>
+</thead>
+<tbody id="history">
+<tr><td colspan="5">Chargement...</td></tr>
+</tbody>
+</table>
+</div>
 
-  <div class="table-wrap" style="margin-top:15px">
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Montant</th>
-          <th id="actionsHead" class="hidden">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody id="history">
-        <tr>
-          <td colspan="5">Chargement...</td>
-        </tr>
-      </tbody>
-
-    </table>
-
-  </div>
-
-  <button
-    type="button"
-    class="secondary"
-    id="refreshButton"
-  >
-    Actualiser
-  </button>
-
+<button type="button" class="secondary" id="refreshButton">Actualiser</button>
 </section>
-
 </main>
 
 <footer>
-  © 2026 Petel Association Solidarité &amp; Développement
+© 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
 <script type="module">
-
-import { createClient } from
+import {createClient} from
 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const SUPABASE_URL =
-'https://evbpmafgciphyfzmkctc.supabase.co';
+const SUPABASE_URL='https://evbpmafgciphyfzmkctc.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip';
 
-const SUPABASE_PUBLISHABLE_KEY =
-'sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip';
+const db=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
 
-const db = createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-const $ = id => document.getElementById(id);
-
-let user = null;
-let role = 'lecteur';
-let movements = [];
-let members = [];
-let saving = false;
+let user=null;
+let role='lecteur';
+let movements=[];
+let members=[];
 
 function isAdmin(){
-  return String(role).trim().toLowerCase() === 'admin';
+return String(role).trim().toLowerCase()==='admin';
 }
 
 function message(text,type='info'){
-
-  const box = $('notice');
-
-  box.textContent = text;
-
-  box.style.background =
-    type === 'error' ? '#ffe7e5' : '#e7f5ed';
-
-  box.style.color =
-    type === 'error' ? '#a32121' : '#174b38';
+$('notice').textContent=text;
+$('notice').style.background=type==='error'?'#ffe7e5':'#e7f5ed';
+$('notice').style.color=type==='error'?'#a32121':'#174b38';
 }
 
 function money(value){
-
-  return new Intl.NumberFormat('fr-FR')
-    .format(Number(value)||0) + ' FCFA';
-}
-
-function today(){
-
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-
-  return `${year}-${month}-${day}`;
+return new Intl.NumberFormat('fr-FR').format(Number(value)||0)+' FCFA';
 }
 
 function formatDate(date){
-
-  if(!date) return '—';
-
-  const parts = date.split('-');
-
-  if(parts.length !== 3) return date;
-
-  return parts[2]+'/'+parts[1]+'/'+parts[0];
+if(!date)return '—';
+const p=date.split('-');
+return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:date;
 }
 
 function memberName(member){
-
-  if(Array.isArray(member)){
-    member = member[0];
-  }
-
-  return [
-    member?.first_name,
-    member?.last_name
-  ].filter(Boolean).join(' ') || 'Membre non identifié';
+if(Array.isArray(member))member=member[0];
+return [member?.first_name,member?.last_name]
+.filter(Boolean).join(' ')||'Membre';
 }
 
-async function loadMembers(){
-
-  const {data,error} = await db
-    .from('members')
-    .select('id,first_name,last_name')
-    .order('first_name');
-
-  if(error) throw error;
-
-  members = data || [];
-
-  const select = $('member');
-
-  select.replaceChildren();
-
-  const first = document.createElement('option');
-  first.value = '';
-  first.textContent = 'Choisir un membre';
-  select.appendChild(first);
-
-  for(const member of members){
-
-    const option = document.createElement('option');
-
-    option.value = member.id;
-    option.textContent = memberName(member);
-
-    select.appendChild(option);
-  }
-}
-
-function updateFormFields(){
-
-  const isEntry = $('type').value === 'entree';
-
-  $('memberGroup').classList.toggle('hidden',!isEntry);
-  $('descriptionGroup').classList.toggle('hidden',isEntry);
-
-  $('member').required = isEntry;
-  $('period').required = isEntry;
-  $('description').required = !isEntry;
-}
-
-function showForm(movement=null){
-
-  if(!isAdmin()) return;
-
-  $('cashForm').reset();
-
-  $('movementId').value = movement?.sourceId || '';
-  $('movementSource').value = movement?.source || '';
-
-  $('type').value = movement?.type === 'Sortie'
-    ? 'sortie'
-    : 'entree';
-
-  $('amount').value = movement?.amount ?? '';
-  $('operationDate').value = movement?.date || today();
-
-  $('member').value = movement?.member_id || '';
-  $('period').value = movement?.period || '';
-
-  $('description').value = movement?.expenseDescription || '';
-  $('notes').value = movement?.notes || '';
-
-  $('formTitle').textContent = movement
-    ? 'Modifier une opération'
-    : 'Nouvelle opération';
-
-  $('saveButton').textContent = movement
-    ? 'Enregistrer les modifications'
-    : 'Enregistrer l’opération';
-
-  updateFormFields();
-
-  $('formCard').classList.remove('hidden');
-
-  $('formCard').scrollIntoView({behavior:'smooth'});
+function toggleFields(){
+const entry=$('type').value==='Entrée';
+$('memberField').classList.toggle('hidden',!entry);
+$('periodField').classList.toggle('hidden',!entry);
+$('descriptionField').classList.toggle('hidden',entry);
+$('member').required=entry;
+$('description').required=!entry;
 }
 
 function closeForm(){
+$('formCard').classList.add('hidden');
+$('movementForm').reset();
+$('movementId').value='';
+$('movementSource').value='';
+toggleFields();
+}
 
-  $('formCard').classList.add('hidden');
-  $('cashForm').reset();
-  $('movementId').value = '';
-  $('movementSource').value = '';
+function showForm(movement=null){
+if(!isAdmin())return;
 
-  updateFormFields();
+$('movementForm').reset();
+$('movementId').value=movement?.id||'';
+$('movementSource').value=movement?.source||'';
+$('type').value=movement?.type||'Entrée';
+$('amount').value=movement?.amount??'';
+$('operationDate').value=movement?.date||new Date().toISOString().slice(0,10);
+$('member').value=movement?.member_id||'';
+$('period').value=movement?.period||'';
+$('description').value=movement?.description||'';
+
+$('formTitle').textContent=movement?'Modifier une opération':'Nouvelle opération';
+$('saveButton').textContent=movement?'Enregistrer les modifications':'Enregistrer';
+
+toggleFields();
+$('formCard').classList.remove('hidden');
+$('formCard').scrollIntoView({behavior:'smooth'});
 }
 
 function render(){
+const entries=movements.filter(m=>m.type==='Entrée')
+.reduce((s,m)=>s+m.amount,0);
 
-  const entries = movements
-    .filter(m => m.type === 'Entrée')
-    .reduce((sum,m) => sum + m.amount,0);
+const exits=movements.filter(m=>m.type==='Sortie')
+.reduce((s,m)=>s+m.amount,0);
 
-  const exits = movements
-    .filter(m => m.type === 'Sortie')
-    .reduce((sum,m) => sum + m.amount,0);
+const balance=entries-exits;
 
-  const balance = entries - exits;
+$('totalEntries').textContent=money(entries);
+$('totalExits').textContent=money(exits);
+$('balance').textContent=money(balance);
+$('balance').classList.toggle('negative',balance<0);
+$('movementCount').textContent=movements.length+' mouvement(s) enregistré(s).';
 
-  $('totalEntries').textContent = money(entries);
-  $('totalExits').textContent = money(exits);
-  $('balance').textContent = money(balance);
+const history=$('history');
+history.replaceChildren();
 
-  $('balance').classList.toggle('negative',balance < 0);
+if(!movements.length){
+const tr=document.createElement('tr');
+const td=document.createElement('td');
+td.colSpan=isAdmin()?5:4;
+td.textContent='Aucun mouvement enregistré.';
+tr.appendChild(td);
+history.appendChild(tr);
+return;
+}
 
-  $('movementCount').textContent =
-    movements.length+' mouvement(s) enregistré(s).';
+for(const m of movements){
+const tr=document.createElement('tr');
 
-  const history = $('history');
+const values=[
+['Date',formatDate(m.date)],
+['Type',m.type],
+['Description',m.description],
+['Montant',(m.type==='Entrée'?'+ ':'− ')+money(m.amount)]
+];
 
-  history.replaceChildren();
+values.forEach((item,index)=>{
+const td=document.createElement('td');
+td.dataset.label=item[0];
+td.textContent=item[1];
+if(index===3)td.className=m.type==='Entrée'?'entry':'exit';
+tr.appendChild(td);
+});
 
-  if(!movements.length){
+if(isAdmin()){
+const td=document.createElement('td');
+td.dataset.label='Actions';
 
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
+const actions=document.createElement('div');
+actions.className='actions';
 
-    td.colSpan = isAdmin() ? 5 : 4;
-    td.textContent = 'Aucun mouvement enregistré.';
+const edit=document.createElement('button');
+edit.textContent='Modifier';
+edit.addEventListener('click',()=>showForm(m));
 
-    tr.appendChild(td);
-    history.appendChild(tr);
+const del=document.createElement('button');
+del.textContent='Supprimer';
+del.className='danger';
+del.addEventListener('click',()=>deleteMovement(m));
 
-    return;
-  }
+actions.append(edit,del);
+td.appendChild(actions);
+tr.appendChild(td);
+}
 
-  for(const movement of movements){
+history.appendChild(tr);
+}
+}
 
-    const tr = document.createElement('tr');
+async function loadMembers(){
+const {data,error}=await db.from('members')
+.select('id,first_name,last_name')
+.order('last_name');
 
-    const values = [
-      ['Date',formatDate(movement.date)],
-      ['Type',movement.type],
-      ['Description',movement.description],
-      ['Montant',
-        (movement.type === 'Entrée' ? '+ ' : '− ') +
-        money(movement.amount)
-      ]
-    ];
+if(error)throw error;
+members=data||[];
 
-    values.forEach((item,index)=>{
+$('member').replaceChildren();
+const first=document.createElement('option');
+first.value='';
+first.textContent='Choisir un membre';
+$('member').appendChild(first);
 
-      const td = document.createElement('td');
-
-      td.dataset.label = item[0];
-      td.textContent = item[1];
-
-      if(index === 3){
-        td.className =
-          movement.type === 'Entrée' ? 'entry' : 'exit';
-      }
-
-      tr.appendChild(td);
-    });
-
-    if(isAdmin()){
-
-      const td = document.createElement('td');
-      td.className = 'actions';
-      td.dataset.label = 'Actions';
-
-      const edit = document.createElement('button');
-
-      edit.textContent = 'Modifier';
-      edit.addEventListener('click',()=>showForm(movement));
-
-      const del = document.createElement('button');
-
-      del.textContent = 'Supprimer';
-      del.className = 'danger';
-
-      del.addEventListener(
-        'click',
-        ()=>deleteMovement(movement)
-      );
-
-      td.append(edit,del);
-      tr.appendChild(td);
-    }
-
-    history.appendChild(tr);
-  }
+for(const m of members){
+const option=document.createElement('option');
+option.value=m.id;
+option.textContent=memberName(m);
+$('member').appendChild(option);
+}
 }
 
 async function loadCash(){
-
-  $('history').replaceChildren();
-
-  const loading = document.createElement('tr');
-  const loadingCell = document.createElement('td');
-
-  loadingCell.colSpan = isAdmin() ? 5 : 4;
-  loadingCell.textContent = 'Chargement...';
-
-  loading.appendChild(loadingCell);
-  $('history').appendChild(loading);
-
-  const [contributionsResult,expensesResult] =
-    await Promise.all([
-
-      db.from('contributions')
-        .select(
-          'id,member_id,amount,period,payment_date,members(first_name,last_name)'
-        ),
-
-      db.from('expenses')
-        .select(
-          'id,description,amount,expense_date,notes'
-        )
-
-    ]);
-
-  if(contributionsResult.error) throw contributionsResult.error;
-  if(expensesResult.error) throw expensesResult.error;
-
-  const contributions = contributionsResult.data || [];
-  const expenses = expensesResult.data || [];
-
-  const incoming = contributions.map(c=>({
-
-    id:'contribution-'+c.id,
-    source:'contribution',
-    sourceId:c.id,
-    member_id:c.member_id,
-    period:c.period || '',
-    date:c.payment_date,
-    type:'Entrée',
-    description:
-      'Cotisation - '+memberName(c.members)+
-      (c.period ? ' - '+c.period : ''),
-    amount:Number(c.amount)||0
-
-  }));
-
-  const outgoing = expenses.map(e=>({
-
-    id:'expense-'+e.id,
-    source:'expense',
-    sourceId:e.id,
-    date:e.expense_date,
-    type:'Sortie',
-    description:e.description || 'Dépense',
-    expenseDescription:e.description || '',
-    notes:e.notes || '',
-    amount:Number(e.amount)||0
-
-  }));
-
-  movements = [...incoming,...outgoing];
-
-  movements.sort((a,b)=>
-    (b.date || '').localeCompare(a.date || '') ||
-    String(b.id).localeCompare(String(a.id))
-  );
-
-  render();
-}
-
-async function saveMovement(event){
-
-  event.preventDefault();
-
-  if(!isAdmin() || !user || saving) return;
-
-  const id = $('movementId').value;
-  const source = $('movementSource').value;
-  const type = $('type').value;
-
-  const amount = Number($('amount').value);
-  const date = $('operationDate').value;
-
-  if(!Number.isFinite(amount) || amount <= 0 || !date){
-
-    message('Vérifie le montant et la date.','error');
-    return;
-  }
-
-  let result;
-
-  saving = true;
-  $('saveButton').disabled = true;
-
-  try{
-
-    if(type === 'entree'){
-
-      const member_id = $('member').value;
-      const period = $('period').value.trim();
-
-      if(!member_id || !period){
-
-        throw new Error('Choisis un membre et une période.');
-      }
-
-      const record = {
-        member_id,
-        amount,
-        period,
-        payment_date:date
-      };
-
-      if(id){
-
-        if(source !== 'contribution'){
-          throw new Error('Type de modification invalide.');
-        }
-
-        result = await db
-          .from('contributions')
-          .update(record)
-          .eq('id',id);
-
-      }else{
-
-        result = await db
-          .from('contributions')
-          .insert(record);
-      }
-
-    }else{
-
-      const description = $('description').value.trim();
-      const notes = $('notes').value.trim();
-
-      if(!description){
-        throw new Error('Saisis une description.');
-      }
-
-      const record = {
-        amount,
-        description,
-        expense_date:date,
-        notes:notes || null
-      };
-
-      if(id){
-
-        if(source !== 'expense'){
-          throw new Error('Type de modification invalide.');
-        }
-
-        result = await db
-          .from('expenses')
-          .update(record)
-          .eq('id',id);
-
-      }else{
-
-        result = await db
-          .from('expenses')
-          .insert({
-            ...record,
-            created_by:user.id
-          });
-      }
-    }
-
-    if(result.error) throw result.error;
-
-    closeForm();
-
-    await loadCash();
-
-    message(
-      id
-        ? 'Opération modifiée avec succès.'
-        : 'Opération enregistrée avec succès.',
-      'success'
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-    message(
-      'Enregistrement impossible : '+error.message+
-      ' Vérifie les autorisations RLS de Supabase.',
-      'error'
-    );
-
-  }finally{
-
-    saving = false;
-    $('saveButton').disabled = false;
-  }
-}
-
-async function deleteMovement(movement){
-
-  if(!isAdmin()) return;
-
-  const confirmed = confirm(
-    'Confirmer la suppression de cette opération de '+
-    money(movement.amount)+' ?'
-  );
-
-  if(!confirmed) return;
-
-  try{
-
-    const table = movement.source === 'contribution'
-      ? 'contributions'
-      : 'expenses';
-
-    const {error} = await db
-      .from(table)
-      .delete()
-      .eq('id',movement.sourceId);
-
-    if(error) throw error;
-
-    await loadCash();
-
-    message('Opération supprimée avec succès.','success');
-
-  }catch(error){
-
-    console.error(error);
-
-    message(
-      'Suppression impossible : '+error.message,
-      'error'
-    );
-  }
+const [cResult,eResult]=await Promise.all([
+db.from('contributions')
+.select('id,member_id,amount,period,payment_date,members(first_name,last_name)'),
+db.from('expenses')
+.select('id,description,amount,expense_date')
+]);
+
+if(cResult.error)throw cResult.error;
+if(eResult.error)throw eResult.error;
+
+const incoming=(cResult.data||[]).map(c=>({
+id:c.id,
+source:'contributions',
+date:c.payment_date,
+type:'Entrée',
+description:'Cotisation - '+memberName(c.members)+(c.period?' - '+c.period:''),
+amount:Number(c.amount)||0,
+member_id:c.member_id,
+period:c.period
+}));
+
+const outgoing=(eResult.data||[]).map(e=>({
+id:e.id,
+source:'expenses',
+date:e.expense_date,
+type:'Sortie',
+description:e.description||'Dépense',
+amount:Number(e.amount)||0
+}));
+
+movements=[...incoming,...outgoing];
+
+movements.sort((a,b)=>
+(b.date||'').localeCompare(a.date||''));
+
+render();
 }
 
 async function initialise(){
+try{
+const {data,error}=await db.auth.getSession();
+if(error)throw error;
 
-  try{
-
-    const {data,error} = await db.auth.getSession();
-
-    if(error) throw error;
-
-    user = data.session?.user;
-
-    if(!user){
-
-      window.location.replace('./index.html');
-      return;
-    }
-
-    const {data:profile,error:profileError} = await db
-      .from('profiles')
-      .select('role')
-      .eq('id',user.id)
-      .maybeSingle();
-
-    if(profileError) throw profileError;
-
-    if(!profile){
-      throw new Error('Profil utilisateur introuvable.');
-    }
-
-    role = String(profile.role || 'lecteur')
-      .trim().toLowerCase();
-
-    if(isAdmin()){
-
-      $('formCard').classList.remove('hidden');
-      $('addButton').classList.remove('hidden');
-      $('actionsHead').classList.remove('hidden');
-
-      await loadMembers();
-
-      closeForm();
-
-      message('Connecté en tant qu’administrateur.','success');
-
-    }else{
-
-      message(
-        'Mode lecteur : consultation uniquement.'
-      );
-    }
-
-    await loadCash();
-
-  }catch(error){
-
-    console.error(error);
-
-    message(
-      'Impossible de charger la caisse : '+error.message,
-      'error'
-    );
-
-    $('totalEntries').textContent = '—';
-    $('totalExits').textContent = '—';
-    $('balance').textContent = '—';
-    $('movementCount').textContent = 'Chargement impossible.';
-  }
+user=data.session?.user;
+if(!user){
+window.location.replace('./index.html');
+return;
 }
 
-$('type').addEventListener('change',updateFormFields);
+const {data:profile,error:profileError}=await db
+.from('profiles').select('role')
+.eq('id',user.id).maybeSingle();
 
+if(profileError)throw profileError;
+role=profile?.role||'lecteur';
+
+if(isAdmin()){
+$('formCard').classList.remove('hidden');
+$('addButton').classList.remove('hidden');
+$('actionsHead').classList.remove('hidden');
+await loadMembers();
+message('Connecté en tant qu’administrateur.');
+}else{
+message('Mode lecteur : consultation uniquement.');
+}
+
+await loadCash();
+
+}catch(error){
+console.error(error);
+message('Erreur : '+error.message,'error');
+}
+}
+
+$('type').addEventListener('change',toggleFields);
 $('addButton').addEventListener('click',()=>showForm());
-
 $('cancelButton').addEventListener('click',closeForm);
 
-$('cashForm').addEventListener('submit',saveMovement);
-
 $('refreshButton').addEventListener('click',async()=>{
-
-  try{
-
-    await loadCash();
-    message('Caisse actualisée avec succès.','success');
-
-  }catch(error){
-
-    message('Erreur : '+error.message,'error');
-  }
+try{
+await loadCash();
+message('Caisse actualisée avec succès.');
+}catch(error){
+message('Erreur : '+error.message,'error');
+}
 });
 
+$('movementForm').addEventListener('submit',async e=>{
+e.preventDefault();
+
+if(!isAdmin()||!user){
+message('Action réservée à l’administrateur.','error');
+return;
+}
+
+const id=$('movementId').value;
+const source=$('movementSource').value;
+const type=$('type').value;
+const amount=Number($('amount').value);
+const date=$('operationDate').value;
+
+if(!Number.isFinite(amount)||amount<=0||!date){
+message('Vérifie le montant et la date.','error');
+return;
+}
+
+$('saveButton').disabled=true;
+
+try{
+let result;
+
+if(type==='Entrée'){
+const member_id=$('member').value;
+if(!member_id)throw new Error('Choisis un membre.');
+
+const record={
+member_id,
+amount,
+period:$('period').value.trim()||null,
+payment_date:date
+};
+
+if(id){
+if(source!=='contributions')throw new Error('Opération invalide.');
+result=await db.from('contributions').update(record).eq('id',id);
+}else{
+result=await db.from('contributions').insert({
+...record,
+created_by:user.id
+});
+}
+}else{
+const description=$('description').value.trim();
+if(!description)throw new Error('Saisis une description.');
+
+const record={
+description,
+amount,
+expense_date:date
+};
+
+if(id){
+if(source!=='expenses')throw new Error('Opération invalide.');
+result=await db.from('expenses').update(record).eq('id',id);
+}else{
+result=await db.from('expenses').insert({
+...record,
+created_by:user.id
+});
+}
+}
+
+if(result.error)throw result.error;
+
+closeForm();
+await loadCash();
+message(id?'Opération modifiée avec succès.':'Opération enregistrée avec succès.');
+
+}catch(error){
+message('Erreur : '+error.message,'error');
+}finally{
+$('saveButton').disabled=false;
+}
+});
+
+async function deleteMovement(m){
+if(!isAdmin())return;
+
+const label=m.type==='Entrée'?'cette cotisation':'cette dépense';
+
+if(!confirm('Attention : supprimer '+label+' la supprimera aussi de son module d’origine. Continuer ?'))return;
+
+try{
+const {error}=await db.from(m.source).delete().eq('id',m.id);
+if(error)throw error;
+
+await loadCash();
+message('Opération supprimée avec succès.');
+
+}catch(error){
+message('Erreur : '+error.message,'error');
+}
+}
+
 initialise();
-
 </script>
-
 </body>
 </html>
+
