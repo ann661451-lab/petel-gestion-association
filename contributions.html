@@ -23,11 +23,7 @@ header{
   text-align:center;
 }
 
-header h1{
-  margin:0 0 8px;
-  font-size:25px;
-}
-
+header h1{margin:0 0 8px;font-size:25px}
 header p{margin:0}
 
 main{
@@ -48,8 +44,8 @@ main{
   background:white;
   padding:20px;
   margin-bottom:18px;
-  border-radius:14px;
-  box-shadow:0 2px 8px #00000010;
+  border-radius:18px;
+  box-shadow:0 3px 12px #0000000d;
 }
 
 h2{margin-top:0}
@@ -63,6 +59,7 @@ h2{margin-top:0}
 .notice{
   white-space:pre-wrap;
   margin:12px 0;
+  overflow-wrap:anywhere;
 }
 
 .error{color:#b42318}
@@ -79,15 +76,15 @@ input,select{
   width:100%;
   padding:12px;
   border:1px solid #ccd5d0;
-  border-radius:8px;
+  border-radius:9px;
   font-size:16px;
   background:white;
 }
 
 button{
   border:0;
-  border-radius:8px;
-  padding:11px 14px;
+  border-radius:9px;
+  padding:11px 15px;
   margin:8px 5px 0 0;
   background:#087f5b;
   color:white;
@@ -97,98 +94,146 @@ button{
 
 button.secondary{background:#53645c}
 button.danger{background:#b42318}
+button:disabled{opacity:.6}
 
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
+.hidden{display:none!important}
+
+/* Tableau ordinateur */
 
 .table-wrap{
   width:100%;
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
+  overflow:visible;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  background:white;
   table-layout:fixed;
 }
 
 th,td{
+  padding:13px 10px;
   text-align:left;
-  padding:11px 8px;
   border-bottom:1px solid #ddd;
-  vertical-align:middle;
   overflow-wrap:anywhere;
-  font-size:15px;
+  vertical-align:middle;
 }
 
 th{
   background:#e8f4ee;
   color:#174b38;
+}
+
+th:nth-child(1),td:nth-child(1){width:36%}
+th:nth-child(2),td:nth-child(2){width:24%}
+th:nth-child(3),td:nth-child(3){width:22%}
+th:nth-child(4),td:nth-child(4){width:18%}
+
+.actions{
+  white-space:normal;
+}
+
+.actions button{
+  margin:3px;
+  padding:9px 11px;
+}
+
+.amount-positive{
+  color:#087f5b;
   font-weight:bold;
 }
 
-/* Tableau sans la colonne Période */
-
-.contributions-table th:nth-child(1),
-.contributions-table td:nth-child(1){
-  width:40%;
+.empty-cell{
+  text-align:center;
+  padding:25px;
 }
 
-.contributions-table th:nth-child(2),
-.contributions-table td:nth-child(2){
-  width:30%;
-}
+/* Cartes sur téléphone */
 
-.contributions-table th:nth-child(3),
-.contributions-table td:nth-child(3){
-  width:30%;
-}
+@media(max-width:600px){
 
-/* Tableau administrateur */
+  main{padding:12px}
+  header{padding:20px 12px}
+  header h1{font-size:22px}
+  header p{font-size:14px}
 
-.contributions-table.admin-table{
-  min-width:560px;
-  table-layout:auto;
-}
+  .card{padding:15px}
+  h2{font-size:21px}
+  .total{font-size:27px}
 
-.contributions-table.admin-table th,
-.contributions-table.admin-table td{
-  font-size:14px;
-}
+  .table-wrap{overflow:visible}
 
-.actions{
-  min-width:145px;
-}
+  table,tbody{
+    display:block;
+    width:100%;
+  }
 
-.hidden{
-  display:none !important;
+  thead{display:none}
+
+  tbody tr{
+    display:block;
+    width:100%;
+    margin-bottom:15px;
+    padding:12px;
+    border:1px solid #dce5e0;
+    border-radius:13px;
+    background:#fff;
+  }
+
+  tbody td{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    width:100%!important;
+    padding:12px 2px;
+    border-bottom:1px solid #e8eeea;
+    font-size:14px;
+    text-align:right;
+  }
+
+  tbody td:last-child{
+    border-bottom:0;
+  }
+
+  tbody td::before{
+    content:attr(data-label);
+    font-weight:bold;
+    color:#174b38;
+    text-align:left;
+    flex:0 0 auto;
+  }
+
+  tbody td.actions{
+    justify-content:flex-end;
+    flex-wrap:wrap;
+  }
+
+  tbody td.actions::before{
+    margin-right:auto;
+  }
+
+  .actions button{
+    font-size:13px;
+    padding:9px 10px;
+  }
+
+  tbody td.empty-cell{
+    display:block;
+    text-align:center;
+  }
+
+  tbody td.empty-cell::before{
+    content:none;
+  }
+
+  footer{font-size:14px}
 }
 
 footer{
   text-align:center;
   color:#666;
   padding:25px 12px;
-}
-
-@media(max-width:480px){
-  main{padding:12px}
-  header{padding:20px 12px}
-  header h1{font-size:22px}
-  header p{font-size:14px}
-  .card{padding:14px}
-  h2{font-size:21px}
-  .total{font-size:26px}
-
-  th,td{
-    padding:9px 5px;
-    font-size:13px;
-  }
-
-  footer{font-size:14px}
 }
 </style>
 </head>
@@ -206,7 +251,7 @@ footer{
   ← Retour au tableau de bord
 </a>
 
-<p id="notice" class="notice info" role="status" aria-live="polite">
+<p id="notice" class="notice info" role="status">
   Connexion à Supabase...
 </p>
 
@@ -217,9 +262,11 @@ footer{
 </section>
 
 <section id="formCard" class="card hidden">
+
   <h2 id="formTitle">Ajouter une cotisation</h2>
 
   <form id="contributionForm">
+
     <input id="contributionId" type="hidden">
 
     <label for="member">Membre</label>
@@ -230,9 +277,9 @@ footer{
     <label for="amount">Montant (FCFA)</label>
     <input id="amount" type="number" min="1" step="1" required>
 
-    <label for="period">Période</label>
+    <label for="period">Période d'enregistrement</label>
     <input id="period" type="text"
-      placeholder="Ex. Octobre 2026" required>
+      placeholder="Ex. Novembre 2026" required>
 
     <label for="paymentDate">Date de cotisation</label>
     <input id="paymentDate" type="date" required>
@@ -244,10 +291,12 @@ footer{
     <button id="cancelButton" type="button" class="secondary">
       Annuler
     </button>
+
   </form>
 </section>
 
 <section class="card">
+
   <h2>Liste des cotisations</h2>
 
   <button id="addButton" class="hidden" type="button">
@@ -255,7 +304,8 @@ footer{
   </button>
 
   <div class="table-wrap" style="margin-top:15px">
-    <table id="contributionsTable" class="contributions-table">
+
+    <table id="contributionsTable">
 
       <thead>
         <tr>
@@ -268,7 +318,9 @@ footer{
 
       <tbody id="liste">
         <tr>
-          <td colspan="4">Chargement des cotisations...</td>
+          <td class="empty-cell" colspan="4">
+            Chargement des cotisations...
+          </td>
         </tr>
       </tbody>
 
@@ -314,7 +366,8 @@ function message(texte,type="info"){
 }
 
 function fcfa(valeur){
-  return Number(valeur || 0).toLocaleString("fr-FR") + " FCFA";
+  return Number(valeur || 0)
+    .toLocaleString("fr-FR") + " FCFA";
 }
 
 function dateFr(date){
@@ -327,19 +380,28 @@ function dateFr(date){
     : d.toLocaleDateString("fr-FR");
 }
 
-function creerCellule(texte){
+function cellule(texte,label){
   const td = document.createElement("td");
   td.textContent = texte ?? "";
+  td.dataset.label = label;
   return td;
 }
 
 function nomMembre(m){
-  return [m?.first_name,m?.last_name]
-    .filter(Boolean).join(" ") || "Membre non identifié";
+  return [
+    m?.first_name,
+    m?.last_name
+  ].filter(Boolean).join(" ") || "Membre non identifié";
 }
 
 function peutGerer(){
-  return String(role).trim().toLowerCase() === "admin";
+  return role === "admin";
+}
+
+function fermerFormulaire(){
+  $("formCard").classList.add("hidden");
+  $("contributionForm").reset();
+  $("contributionId").value = "";
 }
 
 function afficherFormulaire(c=null){
@@ -364,13 +426,6 @@ function afficherFormulaire(c=null){
   $("formCard").scrollIntoView({
     behavior:"smooth"
   });
-}
-
-function fermerFormulaire(){
-
-  $("formCard").classList.add("hidden");
-  $("contributionForm").reset();
-  $("contributionId").value = "";
 }
 
 async function chargerMembres(){
@@ -407,7 +462,14 @@ async function chargerCotisations(){
 
   const {data,error} = await supabase
     .from("contributions")
-    .select("id, member_id, amount, period, payment_date, members(first_name, last_name)")
+    .select(`
+      id,
+      member_id,
+      amount,
+      period,
+      payment_date,
+      members(first_name,last_name)
+    `)
     .order("payment_date",{ascending:false});
 
   if(error) throw error;
@@ -437,9 +499,11 @@ function afficherCotisations(){
   if(!cotisations.length){
 
     const tr = document.createElement("tr");
-    const td = creerCellule("Aucune cotisation enregistrée.");
+    const td = document.createElement("td");
 
     td.colSpan = admin ? 4 : 3;
+    td.className = "empty-cell";
+    td.textContent = "Aucune cotisation enregistrée.";
 
     tr.appendChild(td);
     liste.appendChild(tr);
@@ -455,15 +519,28 @@ function afficherCotisations(){
       ? c.members[0]
       : c.members;
 
-    // Affichage : membre, montant et date uniquement
-    tr.appendChild(creerCellule(nomMembre(m)));
-    tr.appendChild(creerCellule(fcfa(c.amount)));
-    tr.appendChild(creerCellule(dateFr(c.payment_date)));
+    tr.appendChild(
+      cellule(nomMembre(m),"Membre")
+    );
+
+    const montant = cellule(
+      fcfa(c.amount),
+      "Montant"
+    );
+
+    montant.classList.add("amount-positive");
+    tr.appendChild(montant);
+
+    tr.appendChild(
+      cellule(dateFr(c.payment_date),"Date")
+    );
 
     if(admin){
 
       const td = document.createElement("td");
+
       td.className = "actions";
+      td.dataset.label = "Actions";
 
       const modifier = document.createElement("button");
 
@@ -511,12 +588,10 @@ async function sauvegarderCotisation(event){
     !period ||
     !payment_date
   ){
-
     message(
       "Vérifie tous les champs avant d'enregistrer.",
       "error"
     );
-
     return;
   }
 
@@ -565,8 +640,7 @@ async function sauvegarderCotisation(event){
 
     message(
       "Enregistrement impossible : " +
-      (error.message || "erreur inconnue") +
-      "\nVérifie les politiques RLS et les champs de la table contributions.",
+      (error.message || "Erreur inconnue"),
       "error"
     );
 
@@ -609,7 +683,7 @@ async function supprimerCotisation(c){
 
     message(
       "Suppression impossible : " +
-      (error.message || "erreur inconnue"),
+      (error.message || "Erreur inconnue"),
       "error"
     );
   }
@@ -632,7 +706,7 @@ async function demarrer(){
       );
 
       liste.innerHTML =
-        '<tr><td colspan="4">Connexion requise.</td></tr>';
+        '<tr><td class="empty-cell" colspan="4">Connexion requise.</td></tr>';
 
       return;
     }
@@ -647,37 +721,27 @@ async function demarrer(){
     if(profilError) throw profilError;
 
     if(!profil){
-
-      throw new Error(
-        "Profil utilisateur introuvable dans Supabase."
-      );
+      throw new Error("Profil utilisateur introuvable.");
     }
 
     role = String(profil.role || "")
       .trim()
       .toLowerCase();
 
-    $("contributionsTable").classList.toggle(
-      "admin-table",
-      peutGerer()
-    );
-
     if(peutGerer()){
 
       $("addButton").classList.remove("hidden");
       $("actionsHeader").classList.remove("hidden");
 
-      fermerFormulaire();
-
       message(
-        "Connecté avec le rôle : " + role + ".",
+        "Connecté avec le rôle : admin.",
         "success"
       );
 
     }else{
 
       message(
-        "Mode consultation : les cotisations sont en lecture seule.",
+        "Mode consultation : cotisations en lecture seule.",
         "info"
       );
     }
@@ -691,7 +755,7 @@ async function demarrer(){
 
     message(
       "Impossible de charger les cotisations : " +
-      (error.message || "erreur inconnue"),
+      (error.message || "Erreur inconnue"),
       "error"
     );
 
@@ -699,7 +763,7 @@ async function demarrer(){
     $("nombre").textContent = "Chargement impossible.";
 
     liste.innerHTML =
-      '<tr><td colspan="4">Erreur de chargement.</td></tr>';
+      '<tr><td class="empty-cell" colspan="4">Erreur de chargement.</td></tr>';
   }
 }
 
@@ -707,7 +771,9 @@ $("addButton").addEventListener("click",()=>{
   afficherFormulaire();
 });
 
-$("cancelButton").addEventListener("click",fermerFormulaire);
+$("cancelButton").addEventListener("click",()=>{
+  fermerFormulaire();
+});
 
 $("contributionForm").addEventListener(
   "submit",
@@ -719,7 +785,8 @@ demarrer();
 </script>
 
 </body>
-  </html>
+</html>
+
 
 
 
