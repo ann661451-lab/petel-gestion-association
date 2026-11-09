@@ -19,6 +19,7 @@
   --red:#a52a20;
 }
 * {box-sizing:border-box}
+
 body {
   margin:0;
   font-family:Arial,sans-serif;
@@ -26,14 +27,16 @@ body {
   color:var(--text);
   line-height:1.6;
 }
+
 header {
   background:linear-gradient(125deg,#075b45,#0c9870);
   color:white;
   text-align:center;
-  padding:30px 15px;
+  padding:32px 15px;
 }
-header h1 {font-size:26px;margin:0}
-header p {margin:8px 0}
+header h1 {font-size:27px;margin:0}
+header p {margin:8px 0;font-size:16px}
+
 .subtitle {
   display:inline-block;
   border:1px solid #ffffff80;
@@ -43,18 +46,22 @@ header p {margin:8px 0}
   font-size:13px;
   letter-spacing:1px;
 }
+
 main {
   max-width:850px;
   margin:auto;
   padding:18px 15px 30px;
 }
+
 .back {
   display:inline-block;
   margin:12px 0 24px;
   color:var(--green);
   text-decoration:none;
   font-weight:bold;
+  font-size:16px;
 }
+
 .welcome {
   padding:18px;
   background:var(--light);
@@ -63,17 +70,34 @@ main {
   margin-bottom:22px;
   color:var(--dark);
 }
+
 .card {
   background:white;
   border:1px solid var(--border);
   border-radius:22px;
-  padding:22px 18px;
+  padding:23px 19px;
   margin-bottom:22px;
   box-shadow:0 5px 22px #173d2b09;
 }
-h2 {font-size:23px;line-height:1.3;margin:5px 0 13px}
-.description {color:var(--muted);line-height:1.7;margin:10px 0 22px}
-label {display:block;font-weight:bold;margin:18px 0 9px}
+
+h2 {
+  font-size:24px;
+  line-height:1.3;
+  margin:5px 0 13px;
+}
+
+.description {
+  color:var(--muted);
+  line-height:1.7;
+  margin:10px 0 22px;
+}
+
+label {
+  display:block;
+  font-weight:bold;
+  margin:18px 0 9px;
+}
+
 input,select,textarea {
   display:block;
   width:100%;
@@ -86,13 +110,21 @@ input,select,textarea {
   font-size:16px;
   outline:none;
 }
+
 input:focus,select:focus,textarea:focus {
   border-color:var(--green);
   box-shadow:0 0 0 3px #08735418;
 }
-textarea {min-height:140px;resize:vertical}
+
+textarea {
+  min-height:140px;
+  resize:vertical;
+  line-height:1.6;
+}
+
 button {font:inherit;cursor:pointer}
 button:disabled {opacity:.55;cursor:not-allowed}
+
 .primary {
   width:100%;
   padding:17px;
@@ -104,6 +136,7 @@ button:disabled {opacity:.55;cursor:not-allowed}
   font-size:17px;
   font-weight:bold;
 }
+
 .notice {
   display:none;
   padding:14px 16px;
@@ -113,9 +146,17 @@ button:disabled {opacity:.55;cursor:not-allowed}
   color:var(--dark);
   overflow-wrap:anywhere;
 }
-.notice.error {background:#fff0ee;color:var(--red)}
-.notice.info {background:#edf2ff;color:#294c8a}
-.toolbar {display:grid;gap:12px;margin:20px 0}
+.notice.error {
+  background:#fff0ee;
+  color:var(--red);
+}
+
+.toolbar {
+  display:grid;
+  gap:12px;
+  margin:20px 0;
+}
+
 .refresh {
   width:100%;
   padding:15px;
@@ -125,19 +166,47 @@ button:disabled {opacity:.55;cursor:not-allowed}
   color:var(--dark);
   font-weight:bold;
 }
-.filters {display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.result-info {color:var(--muted);font-size:14px;margin:15px 0}
+
+.refresh.loading .refresh-icon {
+  display:inline-block;
+  animation:spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {transform:rotate(360deg)}
+}
+
+.filters {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.search {width:100%}
+
+.result-info {
+  color:var(--muted);
+  font-size:14px;
+  margin:15px 0;
+}
+
 .message {
   background:white;
   border:1px solid var(--border);
   border-left:6px solid var(--green);
   border-radius:19px;
-  padding:19px 15px;
+  padding:20px 16px;
   margin:19px 0;
   box-shadow:0 4px 15px #173d2b08;
   overflow-wrap:anywhere;
 }
-.badges {display:flex;flex-wrap:wrap;gap:8px}
+
+.badges {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
 .type-badge,.status-badge {
   display:inline-flex;
   align-items:center;
@@ -146,31 +215,85 @@ button:disabled {opacity:.55;cursor:not-allowed}
   font-size:12px;
   font-weight:bold;
 }
-.type-badge {background:var(--light);color:var(--dark)}
-.pending {background:#fff3d9;color:#91600b}
-.answered {background:#e2f5e9;color:#087354}
-.message h3 {font-size:21px;margin:17px 0 8px}
-.meta {color:var(--muted);font-size:13px;margin:5px 0}
+
+.type-badge {
+  background:var(--light);
+  color:var(--dark);
+}
+
+.pending {
+  background:#fff3d9;
+  color:#91600b;
+}
+
+.answered {
+  background:#e2f5e9;
+  color:#087354;
+}
+
+.message h3 {
+  font-size:21px;
+  line-height:1.4;
+  margin:17px 0 8px;
+}
+
+.meta {
+  color:var(--muted);
+  font-size:13px;
+  margin:5px 0;
+}
+
 .bodytext {
   white-space:pre-wrap;
   overflow-wrap:anywhere;
   line-height:1.8;
   font-size:16px;
-  margin:18px 0;
+  margin:19px 0;
 }
-.conversation {border-top:1px solid var(--border);padding-top:17px;margin-top:20px}
-.conversation-title {color:var(--green);font-size:14px;font-weight:bold}
+
+.conversation {
+  border-top:1px solid var(--border);
+  padding-top:17px;
+  margin-top:20px;
+}
+
+.conversation-title {
+  color:var(--green);
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:13px;
+}
+
 .reply {
   background:#edf7f1;
   border:1px solid #dceee3;
   border-radius:15px 15px 15px 5px;
-  padding:15px;
+  padding:16px;
   margin:12px 0;
 }
-.reply-title {color:var(--dark);font-weight:bold}
-.no-reply {color:var(--muted);padding:10px 0;font-size:14px}
-.reply-form {border-top:1px solid var(--border);padding-top:18px;margin-top:20px}
+
+.reply-title {
+  color:var(--dark);
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.reply .bodytext {margin:12px 0}
+
+.no-reply {
+  color:var(--muted);
+  padding:10px 0;
+  font-size:14px;
+}
+
+.reply-form {
+  border-top:1px solid var(--border);
+  padding-top:18px;
+  margin-top:20px;
+}
+
 .reply-form textarea {min-height:105px}
+
 .reply-button {
   width:100%;
   padding:15px;
@@ -181,6 +304,7 @@ button:disabled {opacity:.55;cursor:not-allowed}
   border-radius:13px;
   font-weight:bold;
 }
+
 .delete-button {
   width:100%;
   padding:14px;
@@ -191,13 +315,28 @@ button:disabled {opacity:.55;cursor:not-allowed}
   border-radius:13px;
   font-weight:bold;
 }
-.empty {text-align:center;padding:30px 12px;color:var(--muted)}
+
+.empty {
+  text-align:center;
+  padding:30px 12px;
+  color:var(--muted);
+}
+
 .hidden {display:none!important}
-footer {text-align:center;color:var(--muted);padding:25px 15px;font-size:13px}
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:25px 15px;
+  font-size:13px;
+}
+
 @media(max-width:480px) {
   header h1 {font-size:24px}
   main {padding:14px 12px 25px}
-  .card {padding:19px 14px}
+  .card {padding:20px 15px}
+  h2 {font-size:22px}
+  .message {padding:17px 13px}
   .filters {grid-template-columns:1fr}
 }
 </style>
@@ -217,23 +356,29 @@ footer {text-align:center;color:var(--muted);padding:25px 15px;font-size:13px}
   ← Retour au tableau de bord
 </a>
 
-<div id="notice" class="notice"></div>
-
+<!-- Une seule bienvenue, conservée dans ce bloc -->
 <div class="welcome">
   <strong>Bienvenue dans la messagerie de Petel Association.</strong>
   <br>
   Partagez vos suggestions et réclamations avec l'administration.
 </div>
 
+<!-- Notifications uniquement pour les opérations et les erreurs -->
+<div id="notice" class="notice"></div>
+
 <section id="composer" class="card hidden">
+
   <h2>✉️ Nouveau message</h2>
+
   <p class="description">
     Votre avis compte pour le développement de notre association.
     Envoyez vos suggestions, réclamations ou informations.
   </p>
 
   <form id="messageForm">
+
     <label for="type">Catégorie du message</label>
+
     <select id="type" required>
       <option value="suggestion">💡 Suggestion</option>
       <option value="reclamation">⚠️ Réclamation</option>
@@ -241,54 +386,76 @@ footer {text-align:center;color:var(--muted);padding:25px 15px;font-size:13px}
     </select>
 
     <label for="subject">Sujet du message</label>
-    <input id="subject" maxlength="120"
-      placeholder="Ex : Organisation de la réunion">
+
+    <input
+      id="subject"
+      type="text"
+      maxlength="120"
+      placeholder="Ex : Organisation de la réunion"
+    >
 
     <label for="messageText">Votre message</label>
-    <textarea id="messageText" maxlength="3000" required
-      placeholder="Écrivez votre message ici..."></textarea>
+
+    <textarea
+      id="messageText"
+      maxlength="3000"
+      required
+      placeholder="Écrivez votre message ici..."
+    ></textarea>
 
     <button id="sendButton" class="primary" type="submit">
       ✉️ Publier le message
     </button>
+
   </form>
 </section>
 
 <section class="card">
+
   <h2>📨 Messages du chat</h2>
+
   <p class="description">
     Consultez les messages et les réponses de l'administration.
   </p>
 
   <div class="toolbar">
+
     <button id="refreshButton" class="refresh" type="button">
-      ↻ Actualiser les messages
+      <span class="refresh-icon">↻</span>
+      Actualiser les messages
     </button>
 
-    <input id="searchInput" type="search"
-      placeholder="🔎 Rechercher un message...">
+    <input
+      id="searchInput"
+      class="search"
+      type="search"
+      placeholder="🔎 Rechercher un message..."
+    >
 
     <div class="filters">
-      <select id="typeFilter">
+
+      <select id="typeFilter" aria-label="Filtrer par catégorie">
         <option value="">Toutes les catégories</option>
         <option value="suggestion">Suggestions</option>
         <option value="reclamation">Réclamations</option>
         <option value="information">Informations</option>
       </select>
 
-      <select id="statusFilter">
+      <select id="statusFilter" aria-label="Filtrer par statut">
         <option value="">Tous les statuts</option>
         <option value="pending">En attente</option>
         <option value="answered">Répondu</option>
       </select>
+
     </div>
   </div>
 
   <p id="resultCount" class="result-info"></p>
 
   <div id="messagesList">
-    Initialisation de la messagerie...
+    Chargement des messages...
   </div>
+
 </section>
 
 </main>
@@ -297,54 +464,38 @@ footer {text-align:center;color:var(--muted);padding:25px 15px;font-size:13px}
   © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
-<!-- Chargement de Supabase compatible avec Android -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script type="module">
 
-<script>
-"use strict";
+import { createClient } from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL =
-  "https://evbpmafgciphyfzmkctc.supabase.co";
+"https://evbpmafgciphyfzmkctc.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+"sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
 const $ = id => document.getElementById(id);
 
-let db = null;
 let currentUser = null;
 let currentRole = "";
 let messagesData = [];
 let profilesData = [];
-let chargementEnCours = false;
 
-/* Empêche une attente infinie */
-function avecDelai(promise, secondes = 15) {
-  let timer;
-
-  const timeout = new Promise((resolve, reject) => {
-    timer = setTimeout(() => {
-      reject(new Error(
-        "Le serveur ne répond pas après " +
-        secondes +
-        " secondes. Vérifiez votre connexion ou les autorisations Supabase."
-      ));
-    }, secondes * 1000);
-  });
-
-  return Promise.race([promise, timeout])
-    .finally(() => clearTimeout(timer));
+function messageNotice(text,isError=false) {
+  const box=$("notice");
+  box.textContent=text;
+  box.classList.toggle("error",isError);
+  box.style.display="block";
 }
 
-function messageNotice(text, type = "success") {
-  const box = $("notice");
-  box.textContent = text;
-  box.className = "notice";
-
-  if (type === "error") box.classList.add("error");
-  if (type === "info") box.classList.add("info");
-
-  box.style.display = "block";
+function masquerNotice() {
+  $("notice").style.display="none";
 }
 
 function normaliserRole(role) {
@@ -352,64 +503,80 @@ function normaliserRole(role) {
     .trim()
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .replace(/[\u0300-\u036f]/g,"");
 }
 
 function estAdmin() {
-  return ["admin", "administrateur"].includes(currentRole);
+  return ["admin","administrateur"].includes(currentRole);
 }
 
 function peutRepondre() {
-  return ["admin", "administrateur", "moderateur"].includes(currentRole);
+  return [
+    "admin",
+    "administrateur",
+    "moderateur"
+  ].includes(currentRole);
 }
 
 function dateTexte(value) {
-  if (!value) return "Date inconnue";
+  if(!value) return "Date inconnue";
 
   const date = new Date(value);
 
-  if (isNaN(date.getTime())) return "Date inconnue";
+  if(Number.isNaN(date.getTime())) {
+    return "Date inconnue";
+  }
 
-  return date.toLocaleString("fr-FR", {
-    dateStyle: "short",
-    timeStyle: "short"
+  return date.toLocaleString("fr-FR",{
+    dateStyle:"short",
+    timeStyle:"short"
   });
 }
 
-function creerElement(tag, className = "", content) {
-  const el = document.createElement(tag);
-
-  if (className) el.className = className;
-  if (content !== undefined) el.textContent = content;
-
-  return el;
-}
-
 function nomAuteur(memberId) {
-  if (!memberId) return "Auteur non identifié";
+  if(!memberId) return "Auteur non identifié";
 
-  const profile = profilesData.find(
-    p => String(p.member_id) === String(memberId)
+  const profile=profilesData.find(
+    p=>String(p.member_id)===String(memberId)
   );
 
   return profile?.full_name?.trim() || "Membre";
 }
 
-/* Affichage et filtres */
+function creerElement(tag,className="",content) {
+  const el=document.createElement(tag);
+
+  if(className) el.className=className;
+  if(content!==undefined) el.textContent=content;
+
+  return el;
+}
+
+/* AFFICHAGE ET FILTRAGE DES MESSAGES */
+
 function afficherMessages() {
-  const list = $("messagesList");
-  const recherche = $("searchInput").value.trim().toLowerCase();
-  const typeFilter = $("typeFilter").value;
-  const statusFilter = $("statusFilter").value;
+
+  const list=$("messagesList");
+
+  const recherche=$("searchInput").value
+    .trim()
+    .toLowerCase();
+
+  const typeFilter=$("typeFilter").value;
+  const statusFilter=$("statusFilter").value;
 
   list.replaceChildren();
 
-  const filtered = messagesData.filter(item => {
-    const author = nomAuteur(item.member_id);
-    const answers = item.replies || [];
-    const status = answers.length ? "answered" : "pending";
+  const filtered=messagesData.filter(item=>{
 
-    const text = [
+    const author=nomAuteur(item.member_id);
+    const answers=item.replies || [];
+
+    const status=answers.length
+      ? "answered"
+      : "pending";
+
+    const text=[
       item.subject,
       item.message,
       item.type,
@@ -417,59 +584,95 @@ function afficherMessages() {
     ].join(" ").toLowerCase();
 
     return text.includes(recherche)
-      && (!typeFilter || item.type === typeFilter)
-      && (!statusFilter || status === statusFilter);
+      && (!typeFilter || item.type===typeFilter)
+      && (!statusFilter || status===statusFilter);
   });
 
   $("resultCount").textContent =
-    filtered.length + " message(s) affiché(s)";
+    filtered.length+" message(s) affiché(s)";
 
-  if (!filtered.length) {
+  if(!filtered.length) {
+
     list.appendChild(creerElement(
       "div",
       "empty",
-      messagesData.length
+      recherche || typeFilter || statusFilter
         ? "Aucun message ne correspond à vos filtres."
         : "Aucun message publié pour le moment."
     ));
+
     return;
   }
 
-  for (const item of filtered) {
-    const card = creerElement("article", "message");
-    const type = String(item.type || "information").toLowerCase();
-    const answers = item.replies || [];
-    const hasReplies = answers.length > 0;
+  for(const item of filtered) {
 
-    const icons = {
-      suggestion: "💡",
-      reclamation: "⚠️",
-      information: "📢"
+    const card=creerElement("article","message");
+
+    const type=String(
+      item.type || "information"
+    ).toLowerCase();
+
+    const icons={
+      suggestion:"💡",
+      reclamation:"⚠️",
+      information:"📢"
     };
 
-    const badges = creerElement("div", "badges");
+    const answers=item.replies || [];
+    const hasReplies=answers.length>0;
+
+    const badges=creerElement("div","badges");
 
     badges.appendChild(creerElement(
       "span",
       "type-badge",
-      (icons[type] || "📨") + " " + type.toUpperCase()
+      (icons[type] || "📨")+" "+type.toUpperCase()
     ));
 
     badges.appendChild(creerElement(
       "span",
-      "status-badge " + (hasReplies ? "answered" : "pending"),
-      hasReplies ? "✓ RÉPONDU" : "⏳ EN ATTENTE"
+      "status-badge "+(hasReplies?"answered":"pending"),
+      hasReplies?"✓ RÉPONDU":"⏳ EN ATTENTE"
     ));
+
+    const title=creerElement(
+      "h3",
+      "",
+      item.subject || "Message sans sujet"
+    );
+
+    const meta=creerElement(
+      "p",
+      "meta",
+      "Publié le "+dateTexte(item.created_at)
+    );
+
+    const author=creerElement(
+      "p",
+      "meta",
+      "👤 Auteur : "+nomAuteur(item.member_id)
+    );
+
+    const body=creerElement(
+      "p",
+      "bodytext",
+      item.message || ""
+    );
 
     card.append(
       badges,
-      creerElement("h3", "", item.subject || "Message sans sujet"),
-      creerElement("p", "meta", "Publié le " + dateTexte(item.created_at)),
-      creerElement("p", "meta", "👤 Auteur : " + nomAuteur(item.member_id)),
-      creerElement("p", "bodytext", item.message || "")
+      title,
+      meta,
+      author,
+      body
     );
 
-    const conversation = creerElement("div", "conversation");
+    /* CONVERSATION ET RÉPONSES */
+
+    const conversation=creerElement(
+      "div",
+      "conversation"
+    );
 
     conversation.appendChild(creerElement(
       "div",
@@ -477,21 +680,37 @@ function afficherMessages() {
       "↳ ÉCHANGES AVEC L'ADMINISTRATION"
     ));
 
-    if (!hasReplies) {
+    if(!hasReplies) {
+
       conversation.appendChild(creerElement(
         "p",
         "no-reply",
         "Aucune réponse pour le moment."
       ));
-    } else {
-      for (const answer of answers) {
-        const reply = creerElement("div", "reply");
 
-        reply.append(
-          creerElement("div", "reply-title", "🏛️ Administration"),
-          creerElement("p", "meta", "Répondu le " + dateTexte(answer.created_at)),
-          creerElement("p", "bodytext", answer.reply || "")
-        );
+    } else {
+
+      for(const answer of answers) {
+
+        const reply=creerElement("div","reply");
+
+        reply.appendChild(creerElement(
+          "div",
+          "reply-title",
+          "🏛️ Administration"
+        ));
+
+        reply.appendChild(creerElement(
+          "p",
+          "meta",
+          "Répondu le "+dateTexte(answer.created_at)
+        ));
+
+        reply.appendChild(creerElement(
+          "p",
+          "bodytext",
+          answer.reply || ""
+        ));
 
         conversation.appendChild(reply);
       }
@@ -499,136 +718,177 @@ function afficherMessages() {
 
     card.appendChild(conversation);
 
-    /* Réponse administration */
-    if (peutRepondre()) {
-      const form = creerElement("form", "reply-form");
+    /* FORMULAIRE DE RÉPONSE ADMINISTRATION */
 
-      form.appendChild(creerElement(
+    if(peutRepondre()) {
+
+      const replyForm=creerElement(
+        "form",
+        "reply-form"
+      );
+
+      replyForm.appendChild(creerElement(
         "label",
         "",
         "Répondre à ce message"
       ));
 
-      const textarea = document.createElement("textarea");
-      textarea.required = true;
-      textarea.maxLength = 2000;
-      textarea.placeholder = "Écrivez votre réponse...";
+      const textarea=document.createElement("textarea");
 
-      const button = creerElement(
+      textarea.required=true;
+      textarea.maxLength=2000;
+      textarea.placeholder="Écrivez votre réponse...";
+
+      const button=creerElement(
         "button",
         "reply-button",
         "📩 Envoyer la réponse"
       );
 
-      button.type = "submit";
-      form.append(textarea, button);
+      button.type="submit";
 
-      form.addEventListener("submit", async event => {
-        event.preventDefault();
+      replyForm.append(textarea,button);
 
-        const replyText = textarea.value.trim();
-        if (!replyText) return;
+      replyForm.addEventListener(
+        "submit",
+        async event=>{
 
-        button.disabled = true;
-        button.textContent = "Envoi en cours...";
+          event.preventDefault();
 
-        try {
-          const { data: profile, error: profileError } =
-            await avecDelai(
-              db.from("profiles")
-                .select("role")
-                .eq("id", currentUser.id)
-                .maybeSingle()
+          const replyText=textarea.value.trim();
+
+          if(!replyText) return;
+
+          button.disabled=true;
+
+          try {
+
+            const {data:profile,error:profileError}=await db
+              .from("profiles")
+              .select("role")
+              .eq("id",currentUser.id)
+              .maybeSingle();
+
+            if(profileError) throw profileError;
+
+            const role=normaliserRole(profile?.role);
+
+            if(![
+              "admin",
+              "administrateur",
+              "moderateur"
+            ].includes(role)) {
+              throw new Error(
+                "Vous n'avez pas l'autorisation de répondre."
+              );
+            }
+
+            const {error}=await db
+              .from("message_replies")
+              .insert({
+                message_id:item.id,
+                author_id:currentUser.id,
+                reply:replyText
+              });
+
+            if(error) throw error;
+
+            messageNotice(
+              "Réponse publiée avec succès."
             );
 
-          if (profileError) throw profileError;
+            await chargerMessages();
 
-          const role = normaliserRole(profile?.role);
+          } catch(error) {
 
-          if (!["admin", "administrateur", "moderateur"].includes(role)) {
-            throw new Error("Vous n'avez pas l'autorisation de répondre.");
+            messageNotice(
+              "Impossible de publier la réponse : "+
+              error.message,
+              true
+            );
+
+          } finally {
+
+            button.disabled=false;
           }
-
-          const { error } = await avecDelai(
-            db.from("message_replies").insert({
-              message_id: item.id,
-              author_id: currentUser.id,
-              reply: replyText
-            })
-          );
-
-          if (error) throw error;
-
-          messageNotice("Réponse publiée avec succès.");
-          await chargerMessages();
-
-        } catch (error) {
-          messageNotice("Réponse impossible : " + error.message, "error");
-        } finally {
-          button.disabled = false;
-          button.textContent = "📩 Envoyer la réponse";
         }
-      });
+      );
 
-      card.appendChild(form);
+      card.appendChild(replyForm);
     }
 
-    /* Suppression administrateur */
-    if (estAdmin()) {
-      const deleteButton = creerElement(
+    /* SUPPRESSION ADMINISTRATEUR UNIQUEMENT */
+
+    if(estAdmin()) {
+
+      const deleteButton=creerElement(
         "button",
         "delete-button",
         "🗑️ Supprimer ce message"
       );
 
-      deleteButton.type = "button";
+      deleteButton.type="button";
 
-      deleteButton.addEventListener("click", async () => {
-        if (!confirm("Supprimer ce message et toutes ses réponses ?")) return;
+      deleteButton.addEventListener(
+        "click",
+        async()=>{
 
-        deleteButton.disabled = true;
+          if(!confirm(
+            "Voulez-vous vraiment supprimer ce message et ses réponses ?"
+          )) return;
 
-        try {
-          const { data: profile, error: profileError } =
-            await avecDelai(
-              db.from("profiles")
-                .select("role")
-                .eq("id", currentUser.id)
-                .maybeSingle()
+          deleteButton.disabled=true;
+
+          try {
+
+            const {data:profile,error:profileError}=await db
+              .from("profiles")
+              .select("role")
+              .eq("id",currentUser.id)
+              .maybeSingle();
+
+            if(profileError) throw profileError;
+
+            const role=normaliserRole(profile?.role);
+
+            if(!["admin","administrateur"].includes(role)) {
+              throw new Error(
+                "Seul un administrateur peut supprimer ce message."
+              );
+            }
+
+            const {error:replyError}=await db
+              .from("message_replies")
+              .delete()
+              .eq("message_id",item.id);
+
+            if(replyError) throw replyError;
+
+            const {error:deleteError}=await db
+              .from("messages")
+              .delete()
+              .eq("id",item.id);
+
+            if(deleteError) throw deleteError;
+
+            messageNotice(
+              "Message supprimé avec succès."
             );
 
-          if (profileError) throw profileError;
+            await chargerMessages();
 
-          if (!["admin", "administrateur"].includes(
-            normaliserRole(profile?.role)
-          )) {
-            throw new Error("Seul un administrateur peut supprimer.");
+          } catch(error) {
+
+            messageNotice(
+              "Suppression impossible : "+
+              error.message,
+              true
+            );
+
+            deleteButton.disabled=false;
           }
-
-          const { error: replyError } = await avecDelai(
-            db.from("message_replies")
-              .delete()
-              .eq("message_id", item.id)
-          );
-
-          if (replyError) throw replyError;
-
-          const { error } = await avecDelai(
-            db.from("messages")
-              .delete()
-              .eq("id", item.id)
-          );
-
-          if (error) throw error;
-
-          messageNotice("Message supprimé avec succès.");
-          await chargerMessages();
-
-        } catch (error) {
-          messageNotice("Suppression impossible : " + error.message, "error");
-          deleteButton.disabled = false;
         }
-      });
+      );
 
       card.appendChild(deleteButton);
     }
@@ -637,216 +897,258 @@ function afficherMessages() {
   }
 }
 
-/* Chargement des messages */
+/* CHARGEMENT DES MESSAGES ET DES RÉPONSES */
+
 async function chargerMessages() {
-  if (chargementEnCours) return;
 
-  chargementEnCours = true;
+  $("messagesList").textContent =
+    "Chargement des messages...";
 
-  const button = $("refreshButton");
-  button.disabled = true;
-  button.textContent = "⏳ Chargement en cours...";
+  $("resultCount").textContent="";
 
-  $("messagesList").textContent = "Chargement des messages...";
+  const {data,error}=await db
+    .from("messages")
+    .select(
+      "id, member_id, type, subject, message, status, created_at"
+    )
+    .order("created_at",{ascending:false})
+    .limit(100);
 
-  try {
-    const { data, error } = await avecDelai(
-      db.from("messages")
-        .select("id, member_id, type, subject, message, status, created_at")
-        .order("created_at", { ascending: false })
-        .limit(100)
-    );
+  if(error) throw error;
 
-    if (error) throw error;
+  messagesData=data || [];
 
-    messagesData = data || [];
-
-    if (messagesData.length) {
-      const ids = messagesData.map(item => item.id);
-
-      const { data: replies, error: replyError } = await avecDelai(
-        db.from("message_replies")
-          .select("id, message_id, author_id, reply, created_at")
-          .in("message_id", ids)
-          .order("created_at", { ascending: true })
-      );
-
-      if (replyError) throw replyError;
-
-      for (const item of messagesData) {
-        item.replies = (replies || []).filter(
-          answer => String(answer.message_id) === String(item.id)
-        );
-      }
-    }
+  if(!messagesData.length) {
 
     afficherMessages();
-
-  } finally {
-    chargementEnCours = false;
-    button.disabled = false;
-    button.textContent = "↻ Actualiser les messages";
-  }
-}
-
-/* Démarrage */
-async function initialiser() {
-  messageNotice("Connexion à Supabase en cours...", "info");
-
-  if (!window.supabase) {
-    throw new Error(
-      "La bibliothèque Supabase n'a pas été chargée. Vérifiez votre connexion Internet."
-    );
-  }
-
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
-    }
-  );
-
-  const { data, error } = await avecDelai(
-    db.auth.getSession()
-  );
-
-  if (error) throw error;
-
-  currentUser = data.session?.user || null;
-
-  if (!currentUser) {
-    $("composer").classList.add("hidden");
-    $("messagesList").textContent = "Connexion requise.";
-
-    messageNotice(
-      "Aucune session active. Retournez au tableau de bord et reconnectez-vous.",
-      "error"
-    );
 
     return;
   }
 
-  messageNotice("Session reconnue. Chargement de votre profil...", "info");
+  const ids=messagesData.map(item=>item.id);
 
-  const { data: profile, error: profileError } = await avecDelai(
-    db.from("profiles")
-      .select("role, full_name, member_id")
-      .eq("id", currentUser.id)
-      .maybeSingle()
-  );
+  const {data:replies,error:replyError}=await db
+    .from("message_replies")
+    .select(
+      "id, message_id, author_id, reply, created_at"
+    )
+    .in("message_id",ids)
+    .order("created_at",{ascending:true});
 
-  if (profileError) throw profileError;
+  if(replyError) throw replyError;
 
-  currentRole = normaliserRole(profile?.role);
+  for(const item of messagesData) {
 
-  const { data: profiles, error: profilesError } = await avecDelai(
-    db.from("profiles")
-      .select("member_id, full_name")
-  );
+    item.replies=(replies || []).filter(
+      answer=>
+        String(answer.message_id)===String(item.id)
+    );
+  }
 
-  if (profilesError) {
-    profilesData = [];
+  afficherMessages();
+}
+
+/* INITIALISATION ET CONNEXION */
+
+async function initialiser() {
+
+  $("messagesList").textContent =
+    "Vérification de la connexion...";
+
+  const {data,error}=await db.auth.getSession();
+
+  if(error) throw error;
+
+  currentUser=data.session?.user || null;
+
+  if(!currentUser) {
+
+    $("composer").classList.add("hidden");
+
+    messageNotice(
+      "Connectez-vous à Petel Association pour accéder à la messagerie.",
+      true
+    );
+
+    $("messagesList").textContent =
+      "Connexion requise.";
+
+    return;
+  }
+
+  const {data:profile,error:profileError}=await db
+    .from("profiles")
+    .select("role, full_name, member_id")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(profileError) throw profileError;
+
+  currentRole=normaliserRole(profile?.role);
+
+  const {data:profiles,error:profilesError}=await db
+    .from("profiles")
+    .select("member_id, full_name");
+
+  if(profilesError) {
+    profilesData=[];
   } else {
-    profilesData = profiles || [];
+    profilesData=profiles || [];
   }
 
   $("composer").classList.remove("hidden");
 
-  messageNotice("Bienvenue dans la messagerie de Petel Association.");
+  // IMPORTANT : pas de deuxième message de bienvenue.
+  masquerNotice();
 
   await chargerMessages();
 }
 
-/* Publication */
-$("messageForm").addEventListener("submit", async event => {
-  event.preventDefault();
+/* PUBLICATION D'UN NOUVEAU MESSAGE */
 
-  if (!currentUser) {
-    messageNotice("Connexion requise.", "error");
-    return;
-  }
+$("messageForm").addEventListener(
+  "submit",
+  async event=>{
 
-  const text = $("messageText").value.trim();
+    event.preventDefault();
 
-  if (!text) {
-    messageNotice("Écrivez votre message avant de publier.", "error");
-    return;
-  }
+    if(!currentUser) {
+      messageNotice("Connexion requise.",true);
+      return;
+    }
 
-  const button = $("sendButton");
-  button.disabled = true;
-  button.textContent = "Publication en cours...";
+    const text=$("messageText").value.trim();
 
-  try {
-    const { data: profile, error: profileError } = await avecDelai(
-      db.from("profiles")
+    if(!text) {
+      messageNotice(
+        "Écrivez votre message avant de publier.",
+        true
+      );
+      return;
+    }
+
+    const button=$("sendButton");
+    button.disabled=true;
+
+    try {
+
+      const {data:profile,error:profileError}=await db
+        .from("profiles")
         .select("member_id")
-        .eq("id", currentUser.id)
-        .maybeSingle()
-    );
+        .eq("id",currentUser.id)
+        .maybeSingle();
 
-    if (profileError) throw profileError;
+      if(profileError) throw profileError;
 
-    const { error } = await avecDelai(
-      db.from("messages").insert({
-        member_id: profile?.member_id || null,
-        type: $("type").value,
-        subject: $("subject").value.trim() || null,
-        message: text,
-        status: "ouvert"
-      })
-    );
+      const {error}=await db
+        .from("messages")
+        .insert({
+          member_id:profile?.member_id || null,
+          type:$("type").value,
+          subject:$("subject").value.trim() || null,
+          message:text,
+          status:"ouvert"
+        });
 
-    if (error) throw error;
+      if(error) throw error;
 
-    $("messageForm").reset();
-    messageNotice("Votre message a été publié avec succès.");
+      $("messageForm").reset();
 
-    await chargerMessages();
+      messageNotice(
+        "Votre message a été publié avec succès."
+      );
 
-  } catch (error) {
-    messageNotice("Publication impossible : " + error.message, "error");
-  } finally {
-    button.disabled = false;
-    button.textContent = "✉️ Publier le message";
+      await chargerMessages();
+
+    } catch(error) {
+
+      messageNotice(
+        "Publication impossible : "+error.message,
+        true
+      );
+
+    } finally {
+
+      button.disabled=false;
+    }
   }
-});
+);
 
-/* Actualisation */
-$("refreshButton").addEventListener("click", async () => {
-  try {
-    await chargerMessages();
-    messageNotice("Messages actualisés.");
-  } catch (error) {
-    messageNotice("Actualisation impossible : " + error.message, "error");
+/* ACTUALISATION AVEC ANIMATION */
+
+$("refreshButton").addEventListener(
+  "click",
+  async()=>{
+
+    const button=$("refreshButton");
+
+    if(button.disabled) return;
+
+    button.disabled=true;
+    button.classList.add("loading");
+
+    try {
+
+      await chargerMessages();
+
+      messageNotice(
+        "Messages actualisés avec succès."
+      );
+
+    } catch(error) {
+
+      messageNotice(
+        "Actualisation impossible : "+error.message,
+        true
+      );
+
+    } finally {
+
+      button.disabled=false;
+      button.classList.remove("loading");
+    }
   }
-});
+);
 
-/* Recherche et filtres */
-$("searchInput").addEventListener("input", afficherMessages);
-$("typeFilter").addEventListener("change", afficherMessages);
-$("statusFilter").addEventListener("change", afficherMessages);
+/* RECHERCHE ET FILTRES */
 
-/* Initialisation avec affichage des erreurs */
-initialiser().catch(error => {
-  console.error("Erreur messagerie :", error);
+$("searchInput").addEventListener(
+  "input",
+  afficherMessages
+);
 
-  $("composer").classList.add("hidden");
-  $("messagesList").textContent = "Impossible de charger les messages.";
+$("typeFilter").addEventListener(
+  "change",
+  afficherMessages
+);
+
+$("statusFilter").addEventListener(
+  "change",
+  afficherMessages
+);
+
+/* DÉMARRAGE DE LA MESSAGERIE */
+
+initialiser().catch(error=>{
 
   messageNotice(
-    "Erreur de démarrage : " + (error.message || "Erreur inconnue"),
-    "error"
+    "Erreur d'initialisation : "+error.message,
+    true
+  );
+
+  $("messagesList").textContent =
+    "Impossible de démarrer la messagerie.";
+
+  console.error(
+    "Erreur Petel Messagerie :",
+    error
   );
 });
+
 </script>
 
 </body>
 </html>
+
 
 
