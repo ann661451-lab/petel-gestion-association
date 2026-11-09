@@ -7,142 +7,315 @@
 <title>Dépenses - Petel Association</title>
 
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f1f7f4;
- color:#24312b;
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f7f4;
+  color: #24312b;
 }
-header{
- background:#087f5b;
- color:white;
- padding:22px 15px;
- text-align:center;
+
+header {
+  background: #087f5b;
+  color: white;
+  padding: 22px 15px;
+  text-align: center;
 }
-main{max-width:950px;margin:auto;padding:16px}
-a{color:#087f5b;font-weight:bold;text-decoration:none}
-.card{
- background:white;
- padding:20px;
- border-radius:16px;
- margin:16px 0;
- box-shadow:0 3px 14px #0000000b;
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 25px;
 }
-h2{margin-top:0}
-.total{
- color:#087f5b;
- font-size:30px;
- font-weight:bold;
+
+header p { margin: 0; }
+
+main {
+  max-width: 950px;
+  margin: auto;
+  padding: 16px;
 }
-label{display:block;font-weight:bold;margin:13px 0 6px}
-input,textarea,button{
- width:100%;
- padding:13px;
- border-radius:9px;
- border:1px solid #ccd8d0;
- font-size:16px;
+
+.back {
+  color: #087f5b;
+  font-weight: bold;
+  text-decoration: none;
 }
-textarea{min-height:80px}
-button{
- background:#087f5b;
- color:white;
- border:0;
- font-weight:bold;
- cursor:pointer;
- margin-top:12px;
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin: 16px 0;
+  box-shadow: 0 3px 14px #0000000b;
 }
-button.secondary{background:#586761}
-button.danger{background:#b42318}
-button:disabled{opacity:.5}
-.table-wrap{overflow-x:auto}
-table{width:100%;min-width:650px;border-collapse:collapse}
-th,td{
- padding:12px;
- border-bottom:1px solid #ddd;
- text-align:left;
- vertical-align:top;
+
+h2 { margin-top: 0; }
+
+.total {
+  color: #087f5b;
+  font-size: 30px;
+  font-weight: bold;
 }
-th{background:#e7f5ed;color:#174b38}
-.notice{padding:12px;margin:12px 0;border-radius:8px}
-.hidden{display:none!important}
-footer{text-align:center;color:#666;padding:25px 10px}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 13px 0 6px;
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 9px;
+  border: 1px solid #ccd8d0;
+  font-size: 15px;
+}
+
+textarea { min-height: 80px; }
+
+button {
+  background: #087f5b;
+  color: white;
+  border: 0;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button.secondary { background: #586761; }
+button.danger { background: #b42318; }
+button:disabled { opacity: .5; }
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 11px 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+th {
+  background: #e7f5ed;
+  color: #174b38;
+}
+
+/* Largeurs du tableau lecteur */
+
+.expenses-table th:nth-child(1),
+.expenses-table td:nth-child(1) {
+  width: 22%;
+}
+
+.expenses-table th:nth-child(2),
+.expenses-table td:nth-child(2) {
+  width: 30%;
+}
+
+.expenses-table th:nth-child(3),
+.expenses-table td:nth-child(3) {
+  width: 20%;
+}
+
+.expenses-table th:nth-child(4),
+.expenses-table td:nth-child(4) {
+  width: 28%;
+}
+
+/* Tableau administrateur */
+
+.expenses-table.admin-table {
+  min-width: 680px;
+  table-layout: auto;
+}
+
+.expenses-table.admin-table th,
+.expenses-table.admin-table td {
+  font-size: 14px;
+}
+
+.expenses-table.admin-table th:last-child,
+.expenses-table.admin-table td:last-child {
+  min-width: 145px;
+}
+
+.expense-total {
+  color: #087f5b;
+  font-weight: bold;
+}
+
+.notice {
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.hidden { display: none !important; }
+
+footer {
+  text-align: center;
+  color: #666;
+  padding: 25px 10px;
+}
+
+/* Adaptation téléphone */
+
+@media (max-width: 480px) {
+
+  main { padding: 12px; }
+
+  header { padding: 20px 12px; }
+
+  header h1 { font-size: 22px; }
+
+  header p { font-size: 14px; }
+
+  .card { padding: 14px; }
+
+  h2 { font-size: 21px; }
+
+  .total { font-size: 26px; }
+
+  th, td {
+    padding: 9px 5px;
+    font-size: 12px;
+  }
+
+  .expenses-table th:nth-child(1),
+  .expenses-table td:nth-child(1) {
+    width: 23%;
+  }
+
+  .expenses-table th:nth-child(2),
+  .expenses-table td:nth-child(2) {
+    width: 30%;
+  }
+
+  .expenses-table th:nth-child(3),
+  .expenses-table td:nth-child(3) {
+    width: 19%;
+  }
+
+  .expenses-table th:nth-child(4),
+  .expenses-table td:nth-child(4) {
+    width: 28%;
+  }
+
+  footer { font-size: 14px; }
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Petel Association</h1>
-<p>Solidarité & Développement — Dépenses</p>
+  <h1>Petel Association</h1>
+  <p>Solidarité &amp; Développement — Dépenses</p>
 </header>
 
 <main>
 
-<p><a href="./dashboard.html">← Retour au tableau de bord</a></p>
+<p>
+  <a class="back" href="./dashboard.html">
+    ← Retour au tableau de bord
+  </a>
+</p>
 
 <div id="notice" class="notice"></div>
 
 <section class="card">
-<h2>Résumé des dépenses</h2>
-<div class="number" id="expensesTotal">Chargement...</div>
-<p id="count">0 dépense enregistrée.</p>
+  <h2>Résumé des dépenses</h2>
+  <div class="total" id="expensesTotal">Chargement...</div>
+  <p id="count">0 dépense enregistrée.</p>
 </section>
 
 <section class="card hidden" id="formCard">
-<h2 id="formTitle">Ajouter une dépense</h2>
 
-<form id="expenseForm">
+  <h2 id="formTitle">Ajouter une dépense</h2>
 
-<input type="hidden" id="expenseId">
+  <form id="expenseForm">
 
-<label for="amount">Montant (FCFA)</label>
-<input id="amount" type="number" min="1" step="1" required>
+    <input type="hidden" id="expenseId">
 
-<label for="description">Description</label>
-<textarea id="description" required maxlength="500"></textarea>
+    <label for="amount">Montant (FCFA)</label>
+    <input id="amount" type="number" min="1" step="1" required>
 
-<label for="expenseDate">Date de la dépense</label>
-<input id="expenseDate" type="date" required>
+    <label for="description">Description</label>
+    <textarea id="description" required maxlength="500"></textarea>
 
-<label for="notes">Notes (facultatif)</label>
-<textarea id="notes" maxlength="1000"></textarea>
+    <label for="expenseDate">Date de la dépense</label>
+    <input id="expenseDate" type="date" required>
 
-<button id="saveButton" type="submit">Enregistrer la dépense</button>
-<button type="button" class="secondary" id="cancelButton">Annuler</button>
+    <label for="notes">Notes (facultatif)</label>
+    <textarea id="notes" maxlength="1000"></textarea>
 
-</form>
+    <button id="saveButton" type="submit">
+      Enregistrer la dépense
+    </button>
+
+    <button type="button" class="secondary" id="cancelButton">
+      Annuler
+    </button>
+
+  </form>
 </section>
 
 <section class="card">
-<h2>Historique des dépenses</h2>
 
-<button id="addButton" class="hidden">+ Ajouter une dépense</button>
+  <h2>Historique des dépenses</h2>
 
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>Description</th>
-<th>Notes</th>
-<th>Montant</th>
-<th id="actionsHead" class="hidden">Actions</th>
-</tr>
-</thead>
-<tbody id="history">
-<tr><td colspan="5">Chargement...</td></tr>
-</tbody>
-</table>
-</div>
+  <button id="addButton" class="hidden" type="button">
+    + Ajouter une dépense
+  </button>
 
-<button type="button" class="secondary" id="refreshButton">Actualiser</button>
+  <div class="table-wrap" style="margin-top:15px">
+
+    <table id="expensesTable" class="expenses-table">
+
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Notes</th>
+          <th>Montant</th>
+          <th id="actionsHead" class="hidden">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody id="history">
+        <tr>
+          <td colspan="5">Chargement...</td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <button type="button" class="secondary" id="refreshButton">
+    Actualiser
+  </button>
+
 </section>
 
 </main>
 
 <footer>
-© 2026 Petel Association Solidarité & Développement
+  © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
 <script type="module">
@@ -157,8 +330,8 @@ const SUPABASE_PUBLISHABLE_KEY =
 'sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip';
 
 const db = createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
 );
 
 const $ = id => document.getElementById(id);
@@ -166,289 +339,376 @@ const $ = id => document.getElementById(id);
 let user = null;
 let role = 'lecteur';
 let expenses = [];
+let saving = false;
 
 function message(text, type = 'info') {
   const box = $('notice');
-  if (!box) {
-    console.error("Élément notice introuvable.");
-    return;
-  }
+
   box.textContent = text;
   box.className = 'notice';
-  box.style.background = type === 'error' ? '#ffe7e5' : '#e7f5ed';
-  box.style.color = type === 'error' ? '#a32121' : '#174b38';
+
+  box.style.background =
+    type === 'error' ? '#ffe7e5' : '#e7f5ed';
+
+  box.style.color =
+    type === 'error' ? '#a32121' : '#174b38';
 }
 
-function isAdmin(){
-return String(role).trim().toLowerCase()==='admin';
+function isAdmin() {
+  return String(role).trim().toLowerCase() === 'admin';
 }
 
-function formatMoney(value){
-return new Intl.NumberFormat('fr-FR').format(
-Number(value)||0
-)+' FCFA';
+function formatMoney(value) {
+  return new Intl.NumberFormat('fr-FR').format(
+    Number(value) || 0
+  ) + ' FCFA';
 }
 
-function today(){
-return new Date().toISOString().slice(0,10);
+function formatDate(date) {
+  if (!date) return '—';
+
+  const parts = date.split('-');
+
+  if (parts.length !== 3) return date;
+
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
-function showForm(expense=null){
+function today() {
+  const d = new Date();
 
-if(!isAdmin()) return;
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
 
-$('expenseForm').reset();
-
-$('expenseId').value=expense?.id ?? '';
-$('amount').value=expense?.amount ?? '';
-$('description').value=expense?.description ?? '';
-$('expenseDate').value=expense?.expense_date ?? today();
-$('notes').value=expense?.notes ?? '';
-
-$('formTitle').textContent=expense
-?'Modifier une dépense'
-:'Ajouter une dépense';
-
-$('saveButton').textContent=expense
-?'Enregistrer les modifications'
-:'Enregistrer la dépense';
-
-$('formCard').classList.remove('hidden');
-$('formCard').scrollIntoView({behavior:'smooth'});
+  return `${year}-${month}-${day}`;
 }
 
-function closeForm(){
-$('formCard').classList.add('hidden');
-$('expenseForm').reset();
-$('expenseId').value='';
+function showForm(expense = null) {
+
+  if (!isAdmin()) return;
+
+  $('expenseForm').reset();
+
+  $('expenseId').value = expense?.id ?? '';
+  $('amount').value = expense?.amount ?? '';
+  $('description').value = expense?.description ?? '';
+  $('expenseDate').value = expense?.expense_date ?? today();
+  $('notes').value = expense?.notes ?? '';
+
+  $('formTitle').textContent = expense
+    ? 'Modifier une dépense'
+    : 'Ajouter une dépense';
+
+  $('saveButton').textContent = expense
+    ? 'Enregistrer les modifications'
+    : 'Enregistrer la dépense';
+
+  $('formCard').classList.remove('hidden');
+
+  $('formCard').scrollIntoView({
+    behavior: 'smooth'
+  });
 }
 
-function render(){
-
-const total=expenses.reduce(
-(sum,e)=>sum+Number(e.amount||0),0
-);
-
-$('expensesTotal').textContent=formatMoney(total);
-$('count').textContent=
-expenses.length+' dépense(s) enregistrée(s).';
-
-const history=$('history');
-history.replaceChildren();
-
-if(!expenses.length){
-const tr=document.createElement('tr');
-const td=document.createElement('td');
-td.colSpan=isAdmin()?5:4;
-td.textContent='Aucune dépense enregistrée.';
-tr.appendChild(td);
-history.appendChild(tr);
-return;
+function closeForm() {
+  $('formCard').classList.add('hidden');
+  $('expenseForm').reset();
+  $('expenseId').value = '';
 }
 
-for(const e of expenses){
+function render() {
 
-const tr=document.createElement('tr');
+  const total = expenses.reduce(
+    (sum, e) => sum + Number(e.amount || 0),
+    0
+  );
 
-const values=[
-e.expense_date || '-',
-e.description || '-',
-e.notes || '-',
-formatMoney(e.amount)
-];
+  $('expensesTotal').textContent = formatMoney(total);
 
-for(const value of values){
-const td=document.createElement('td');
-td.textContent=value;
-tr.appendChild(td);
+  $('count').textContent =
+    expenses.length + ' dépense(s) enregistrée(s).';
+
+  const history = $('history');
+
+  history.replaceChildren();
+
+  if (!expenses.length) {
+
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+
+    td.colSpan = isAdmin() ? 5 : 4;
+    td.textContent = 'Aucune dépense enregistrée.';
+
+    tr.appendChild(td);
+    history.appendChild(tr);
+
+    return;
+  }
+
+  for (const e of expenses) {
+
+    const tr = document.createElement('tr');
+
+    const values = [
+      formatDate(e.expense_date),
+      e.description || '—',
+      e.notes || '—',
+      formatMoney(e.amount)
+    ];
+
+    for (let i = 0; i < values.length; i++) {
+
+      const td = document.createElement('td');
+
+      td.textContent = values[i];
+
+      if (i === 3) {
+        td.className = 'expense-total';
+      }
+
+      tr.appendChild(td);
+    }
+
+    if (isAdmin()) {
+
+      const td = document.createElement('td');
+
+      const edit = document.createElement('button');
+
+      edit.type = 'button';
+      edit.textContent = 'Modifier';
+
+      edit.addEventListener('click', () => showForm(e));
+
+      const del = document.createElement('button');
+
+      del.type = 'button';
+      del.textContent = 'Supprimer';
+      del.className = 'danger';
+
+      del.addEventListener('click', () => deleteExpense(e.id));
+
+      td.append(edit, del);
+
+      tr.appendChild(td);
+    }
+
+    history.appendChild(tr);
+  }
 }
 
-if(isAdmin()){
-const td=document.createElement('td');
+async function loadExpenses() {
 
-const edit=document.createElement('button');
-edit.textContent='Modifier';
-edit.addEventListener('click',()=>showForm(e));
+  const { data, error } = await db
+    .from('expenses')
+    .select('id,description,amount,expense_date,notes,created_by,created_at')
+    .order('expense_date', { ascending: false })
+    .order('created_at', { ascending: false });
 
-const del=document.createElement('button');
-del.textContent='Supprimer';
-del.className='danger';
+  if (error) throw error;
 
-del.addEventListener('click',()=>deleteExpense(e.id));
+  expenses = data || [];
 
-td.append(edit,del);
-tr.appendChild(td);
+  render();
 }
 
-history.appendChild(tr);
+async function initialise() {
+
+  try {
+
+    const { data, error } = await db.auth.getSession();
+
+    if (error) throw error;
+
+    user = data.session?.user;
+
+    if (!user) {
+      window.location.replace('./index.html');
+      return;
+    }
+
+    const { data: profile, error: profileError } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (profileError) throw profileError;
+
+    role = String(profile?.role || 'lecteur')
+      .trim()
+      .toLowerCase();
+
+    $('expensesTable').classList.toggle(
+      'admin-table',
+      isAdmin()
+    );
+
+    if (isAdmin()) {
+
+      $('formCard').classList.remove('hidden');
+      $('addButton').classList.remove('hidden');
+      $('actionsHead').classList.remove('hidden');
+
+      closeForm();
+
+      message('Connecté en tant qu’administrateur.');
+
+    } else {
+
+      message(
+        'Mode consultation : les dépenses sont en lecture seule.'
+      );
+
+    }
+
+    await loadExpenses();
+
+  } catch (error) {
+
+    message('Erreur : ' + error.message, 'error');
+
+    console.error(error);
+
+    $('expensesTotal').textContent = '—';
+
+    $('history').innerHTML =
+      '<tr><td colspan="5">Erreur de chargement.</td></tr>';
+  }
 }
+
+async function saveExpense(event) {
+
+  event.preventDefault();
+
+  if (!isAdmin() || !user || saving) {
+    message('Action réservée à l’administrateur.', 'error');
+    return;
+  }
+
+  const id = $('expenseId').value;
+  const amount = Number($('amount').value);
+  const description = $('description').value.trim();
+  const expense_date = $('expenseDate').value;
+  const notes = $('notes').value.trim();
+
+  if (
+    !Number.isFinite(amount) ||
+    amount <= 0 ||
+    !description ||
+    !expense_date
+  ) {
+    message('Vérifie les informations saisies.', 'error');
+    return;
+  }
+
+  const record = {
+    amount,
+    description,
+    expense_date,
+    notes: notes || null
+  };
+
+  saving = true;
+  $('saveButton').disabled = true;
+
+  try {
+
+    let result;
+
+    if (id) {
+
+      result = await db
+        .from('expenses')
+        .update(record)
+        .eq('id', id);
+
+    } else {
+
+      result = await db
+        .from('expenses')
+        .insert({
+          ...record,
+          created_by: user.id
+        });
+
+    }
+
+    if (result.error) throw result.error;
+
+    closeForm();
+
+    await loadExpenses();
+
+    message(
+      id
+        ? 'Dépense modifiée avec succès.'
+        : 'Dépense enregistrée avec succès.'
+    );
+
+  } catch (error) {
+
+    message('Erreur : ' + error.message, 'error');
+
+    console.error(error);
+
+  } finally {
+
+    saving = false;
+    $('saveButton').disabled = false;
+  }
 }
 
-async function loadExpenses(){
+async function deleteExpense(id) {
 
-$('history').innerHTML=
-'<tr><td colspan="5">Chargement...</td></tr>';
+  if (!isAdmin()) return;
 
-const {data,error}=await db
-.from('expenses')
-.select('id,description,amount,expense_date,notes,created_by,created_at')
-.order('expense_date',{ascending:false})
-.order('created_at',{ascending:false});
+  if (!confirm('Veux-tu vraiment supprimer cette dépense ?')) {
+    return;
+  }
 
-if(error) throw error;
+  try {
 
-expenses=data||[];
-render();
+    const { error } = await db
+      .from('expenses')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    await loadExpenses();
+
+    message('Dépense supprimée avec succès.');
+
+  } catch (error) {
+
+    message('Erreur : ' + error.message, 'error');
+
+    console.error(error);
+  }
 }
 
-async function initialise(){
+$('addButton').addEventListener('click', () => showForm());
 
-try{
+$('cancelButton').addEventListener('click', closeForm);
 
-const {data,error}=await db.auth.getSession();
+$('expenseForm').addEventListener('submit', saveExpense);
 
-if(error) throw error;
+$('refreshButton').addEventListener('click', async () => {
 
-user=data.session?.user;
+  try {
 
-if(!user){
-window.location.replace('./index.html');
-return;
-}
+    await loadExpenses();
 
-const {data:profile,error:profileError}=await db
-.from('profiles')
-.select('role')
-.eq('id',user.id)
-.maybeSingle();
+    message('Liste actualisée.');
 
-if(profileError) throw profileError;
+  } catch (error) {
 
-role=profile?.role || 'lecteur';
-
-if(isAdmin()){
-$('formCard').classList.remove('hidden');
-$('addButton').classList.remove('hidden');
-$('actionsHead').classList.remove('hidden');
-message('Connecté en tant qu’administrateur.');
-}else{
-message('Mode consultation : les dépenses sont en lecture seule.');
-}
-
-await loadExpenses();
-
-}catch(error){
-message('Erreur : '+error.message,'error');
-console.error(error);
-}
-
-}
-
-$('addButton').addEventListener('click',()=>showForm());
-
-$('cancelButton').addEventListener('click',closeForm);
-
-$('refreshButton').addEventListener('click',async()=>{
-try{
-await loadExpenses();
-message('Liste actualisée.');
-}catch(error){
-message(error.message,'error');
-}
+    message(error.message, 'error');
+  }
 });
-
-$('expenseForm').addEventListener('submit',async e=>{
-
-e.preventDefault();
-
-if(!isAdmin()||!user){
-message('Action réservée à l’administrateur.','error');
-return;
-}
-
-const id=$('expenseId').value;
-const amount=Number($('amount').value);
-const description=$('description').value.trim();
-const expense_date=$('expenseDate').value;
-const notes=$('notes').value.trim();
-
-if(!Number.isFinite(amount)||amount<=0||
-!description||!expense_date){
-message('Vérifie les informations saisies.','error');
-return;
-}
-
-$('saveButton').disabled=true;
-
-try{
-
-const record={
-amount,
-description,
-expense_date,
-notes:notes||null
-};
-
-let result;
-
-if(id){
-
-result=await db.from('expenses')
-.update(record)
-.eq('id',id);
-
-}else{
-
-result=await db.from('expenses')
-.insert({
-...record,
-created_by:user.id
-});
-
-}
-
-if(result.error) throw result.error;
-
-closeForm();
-await loadExpenses();
-
-message(id
-?'Dépense modifiée avec succès.'
-:'Dépense enregistrée avec succès.');
-
-}catch(error){
-message('Erreur : '+error.message,'error');
-}finally{
-$('saveButton').disabled=false;
-}
-
-});
-
-async function deleteExpense(id){
-
-if(!isAdmin()) return;
-
-if(!confirm('Veux-tu vraiment supprimer cette dépense ?')){
-return;
-}
-
-try{
-
-const {error}=await db
-.from('expenses')
-.delete()
-.eq('id',id);
-
-if(error) throw error;
-
-await loadExpenses();
-message('Dépense supprimée avec succès.');
-
-}catch(error){
-message('Erreur : '+error.message,'error');
-}
-
-}
 
 initialise();
 
