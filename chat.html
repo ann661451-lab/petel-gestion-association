@@ -2,403 +2,415 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#087354">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087354">
 
-  <title>Messagerie - Petel Association</title>
+<title>Messagerie - Petel Association</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+:root {
+  --green: #087354;
+  --dark: #07563f;
+  --light: #eaf6f0;
+  --background: #f1f6f3;
+  --text: #24332d;
+  --muted: #77847e;
+  --border: #dce7e1;
+}
 
-    :root {
-      --green: #087354;
-      --dark-green: #075640;
-      --light-green: #eaf6f0;
-      --background: #f2f7f4;
-      --text: #26352e;
-      --muted: #78857e;
-      --border: #e2ebe6;
-      --white: #ffffff;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--background);
-      color: var(--text);
-      line-height: 1.6;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+}
 
-    header {
-      background: linear-gradient(135deg, #075640, #0b9870);
-      color: white;
-      padding: 28px 15px;
-      text-align: center;
-    }
+header {
+  background: linear-gradient(135deg, #075d46, #07966c);
+  color: white;
+  text-align: center;
+  padding: 30px 16px;
+}
 
-    .brand {
-      font-size: 26px;
-      font-weight: 800;
-      margin: 0;
-    }
+header h1 {
+  font-size: 29px;
+  margin: 0;
+}
 
-    .subtitle {
-      font-size: 14px;
-      margin: 7px 0 0;
-      opacity: .9;
-    }
+header p {
+  margin: 8px 0 14px;
+  font-size: 16px;
+  opacity: .9;
+}
 
-    .header-label {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 6px 14px;
-      border: 1px solid #ffffff65;
-      border-radius: 30px;
-      font-size: 12px;
-      letter-spacing: .5px;
-    }
+.header-label {
+  display: inline-block;
+  border: 1px solid #ffffff80;
+  border-radius: 30px;
+  padding: 7px 18px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
 
-    main {
-      max-width: 850px;
-      width: 100%;
-      margin: auto;
-      padding: 18px 15px 35px;
-    }
+main {
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  padding: 18px;
+}
 
-    .back-link {
-      display: inline-block;
-      color: var(--green);
-      font-weight: bold;
-      text-decoration: none;
-      margin: 5px 0 15px;
-      font-size: 14px;
-    }
+.back {
+  display: inline-block;
+  color: var(--green);
+  font-weight: bold;
+  text-decoration: none;
+  margin: 12px 0 20px;
+}
 
-    .notice {
-      display: block;
-      padding: 13px 15px;
-      border-radius: 12px;
-      background: var(--light-green);
-      color: var(--dark-green);
-      border: 1px solid #d5eadd;
-      margin: 12px 0;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
+.notice {
+  padding: 14px 17px;
+  border-radius: 14px;
+  background: var(--light);
+  color: var(--dark);
+  border: 1px solid #d2e9dd;
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
 
-    .card {
-      background: var(--white);
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      margin: 18px 0;
-      box-shadow: 0 5px 20px rgba(20, 60, 40, .045);
-    }
+.card {
+  background: white;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 20px #00000008;
+}
 
-    .section-title {
-      font-size: 22px;
-      color: #203c30;
-      margin: 0 0 8px;
-    }
+h2 {
+  font-size: 25px;
+  margin: 0 0 10px;
+}
 
-    .section-description {
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0 0 20px;
-    }
+.description {
+  color: var(--muted);
+  margin-bottom: 24px;
+}
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin: 16px 0 7px;
-      font-size: 14px;
-    }
+label {
+  display: block;
+  font-weight: bold;
+  margin: 17px 0 8px;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #dce5df;
-      border-radius: 12px;
-      background: #fbfdfc;
-      color: var(--text);
-      font: inherit;
-      font-size: 15px;
-      outline: none;
-    }
+input, select, textarea {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #d7e1dc;
+  border-radius: 14px;
+  background: #fbfdfc;
+  font: inherit;
+  color: var(--text);
+  outline: none;
+}
 
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(8, 115, 84, .09);
-    }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px #08735415;
+}
 
-    textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
+textarea {
+  min-height: 145px;
+  resize: vertical;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--green);
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      margin-top: 15px;
-      cursor: pointer;
-    }
+button {
+  font: inherit;
+  cursor: pointer;
+}
 
-    button:active {
-      background: var(--dark-green);
-    }
+.primary-button {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 17px;
+  margin-top: 20px;
+  background: linear-gradient(120deg, #087354, #07966c);
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
 
-    button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
+.primary-button:disabled {
+  opacity: .6;
+}
 
-    .send-button {
-      background: linear-gradient(135deg, #087354, #0b9870);
-    }
+.refresh-button {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #cfe4d9;
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 14px;
+  font-weight: bold;
+  margin: 16px 0 22px;
+}
 
-    .refresh-button {
-      background: var(--light-green);
-      color: var(--dark-green);
-      border: 1px solid #d5eadd;
-      margin-bottom: 12px;
-    }
+.message-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--green);
+  border-radius: 19px;
+  padding: 19px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px #00000006;
+  overflow-wrap: anywhere;
+}
 
-    .message {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--green);
-      border-radius: 16px;
-      padding: 19px;
-      margin: 18px 0;
-      box-shadow: 0 4px 14px rgba(20, 60, 40, .04);
-      overflow-wrap: anywhere;
-    }
+.message-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
-    .message h3 {
-      font-size: 19px;
-      margin: 0 0 7px;
-      color: #203c30;
-    }
+.category {
+  display: inline-block;
+  padding: 6px 13px;
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
-    .meta {
-      color: var(--muted);
-      font-size: 12px;
-      margin: 5px 0 15px;
-    }
+.status {
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: bold;
+}
 
-    .type-label {
-      display: inline-block;
-      padding: 5px 11px;
-      background: var(--light-green);
-      color: var(--dark-green);
-      border-radius: 30px;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
+.status.pending {
+  background: #fff3d9;
+  color: #956000;
+}
 
-    .bodytext {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: 15px;
-      line-height: 1.7;
-      margin: 10px 0;
-    }
+.status.answered {
+  background: #e1f5e9;
+  color: #087044;
+}
 
-    .reply {
-      background: var(--light-green);
-      border: 1px solid #dcefe4;
-      padding: 15px;
-      margin-top: 18px;
-      border-radius: 13px;
-    }
+.message-card h3 {
+  font-size: 21px;
+  margin: 17px 0 5px;
+}
 
-    .reply-title {
-      color: var(--dark-green);
-      font-weight: bold;
-      font-size: 13px;
-      margin: 0 0 8px;
-    }
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 5px 0 16px;
+}
 
-    .reply p {
-      margin: 5px 0;
-    }
+.message-content {
+  font-size: 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 15px 0;
+}
 
-    .message form {
-      margin-top: 18px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border);
-    }
+.reply-section {
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+}
 
-    .message form button {
-      background: #245d49;
-    }
+.reply-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--green);
+  margin-bottom: 12px;
+}
 
-    .empty-state {
-      text-align: center;
-      padding: 30px 12px;
-      color: var(--muted);
-    }
+.reply-bubble {
+  background: var(--light);
+  border-radius: 15px 15px 15px 4px;
+  padding: 15px;
+  margin: 12px 0;
+  border: 1px solid #d9ece1;
+}
 
-    .empty-icon {
-      font-size: 40px;
-      display: block;
-      margin-bottom: 10px;
-    }
+.reply-author {
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .hidden {
-      display: none !important;
-    }
+.reply-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 8px 0 0;
+}
 
-    footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 25px 15px;
-      font-size: 13px;
-    }
+.reply-date {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
 
-    @media (max-width: 520px) {
-      header {
-        padding: 25px 12px;
-      }
+.reply-form {
+  background: #f8fbf9;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 17px;
+  border: 1px solid var(--border);
+}
 
-      .brand {
-        font-size: 23px;
-      }
+.reply-form textarea {
+  min-height: 95px;
+}
 
-      main {
-        padding: 13px 12px 28px;
-      }
+.reply-button {
+  width: 100%;
+  background: var(--green);
+  color: white;
+  padding: 13px;
+  border: 0;
+  border-radius: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-      .card {
-        padding: 18px;
-        border-radius: 17px;
-      }
+.empty {
+  padding: 35px 15px;
+  text-align: center;
+  color: var(--muted);
+  background: #f8fbf9;
+  border-radius: 15px;
+}
 
-      .section-title {
-        font-size: 21px;
-      }
+.hidden {
+  display: none;
+}
 
-      .message {
-        padding: 16px;
-      }
-    }
-  </style>
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 25px 15px 35px;
+  font-size: 13px;
+}
+
+@media(max-width: 520px) {
+  header h1 { font-size: 25px; }
+  main { padding: 14px; }
+  .card { padding: 19px; }
+  .message-card { padding: 15px; }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1 class="brand">💬 Petel Association</h1>
-  <p class="subtitle">Solidarité &amp; Développement</p>
+  <h1>💬 Petel Association</h1>
+  <p>Solidarité & Développement</p>
   <span class="header-label">MESSAGERIE COLLECTIVE</span>
 </header>
 
 <main>
 
-  <a class="back-link" href="./dashboard.html">
-    ← Retour au tableau de bord
-  </a>
+<a class="back" href="./dashboard.html">
+  ← Retour au tableau de bord
+</a>
 
-  <div id="notice" class="notice">
-    Initialisation de la messagerie...
-  </div>
+<div id="notice" class="notice" aria-live="polite">
+  Initialisation de la messagerie...
+</div>
 
-  <section id="composer" class="card hidden">
+<section id="composer" class="card hidden">
 
-    <h2 class="section-title">✉️ Nouveau message</h2>
+  <h2>✉️ Nouveau message</h2>
 
-    <p class="section-description">
-      Partagez vos suggestions, réclamations ou informations
-      avec l'administration de l'association.
-    </p>
+  <p class="description">
+    Partagez vos suggestions, réclamations ou informations
+    avec l'administration de l'association.
+  </p>
 
-    <form id="messageForm">
+  <form id="messageForm">
 
-      <label for="type">Catégorie du message</label>
+    <label for="type">Catégorie du message</label>
 
-      <select id="type" required>
-        <option value="suggestion">💡 Suggestion</option>
-        <option value="reclamation">⚠️ Réclamation</option>
-        <option value="information">📢 Information</option>
-      </select>
+    <select id="type" required>
+      <option value="suggestion">💡 Suggestion</option>
+      <option value="reclamation">📢 Réclamation</option>
+      <option value="information">ℹ️ Information</option>
+    </select>
 
-      <label for="subject">Sujet du message</label>
+    <label for="subject">Sujet du message</label>
 
-      <input
-        id="subject"
-        maxlength="120"
-        placeholder="Ex : Organisation de la réunion"
-      >
-
-      <label for="messageText">Votre message</label>
-
-      <textarea
-        id="messageText"
-        maxlength="3000"
-        required
-        placeholder="Écrivez votre message ici..."
-      ></textarea>
-
-      <button
-        id="sendButton"
-        class="send-button"
-        type="submit"
-      >
-        ✉️ Publier le message
-      </button>
-
-    </form>
-  </section>
-
-  <section class="card">
-
-    <h2 class="section-title">📨 Messages du chat</h2>
-
-    <p class="section-description">
-      Consultez les messages et les réponses de l'administration.
-    </p>
-
-    <button
-      id="refreshButton"
-      class="refresh-button"
-      type="button"
+    <input
+      id="subject"
+      maxlength="120"
+      placeholder="Ex : Organisation de la réunion"
     >
-      ↻ Actualiser les messages
+
+    <label for="messageText">Votre message</label>
+
+    <textarea
+      id="messageText"
+      maxlength="3000"
+      required
+      placeholder="Écrivez votre message ici..."
+    ></textarea>
+
+    <button class="primary-button" id="sendButton" type="submit">
+      ✉️ Publier le message
     </button>
 
-    <div id="messagesList">
-      Chargement des messages...
-    </div>
+  </form>
+</section>
 
-  </section>
+<section class="card">
+
+  <h2>📨 Messages du chat</h2>
+
+  <p class="description">
+    Consultez les messages et les réponses de l'administration.
+  </p>
+
+  <button id="refreshButton" class="refresh-button" type="button">
+    ↻ Actualiser les messages
+  </button>
+
+  <div id="messagesList">
+    Chargement des messages...
+  </div>
+
+</section>
 
 </main>
 
 <footer>
-  © 2026 Petel Association Solidarité &amp; Développement
+  © 2026 Petel Association Solidarité & Développement
 </footer>
 
 <script type="module">
 
 import { createClient } from
-  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL =
-  "https://evbpmafgciphyfzmkctc.supabase.co";
+"https://evbpmafgciphyfzmkctc.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+"sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
 const db = createClient(
   SUPABASE_URL,
@@ -407,38 +419,60 @@ const db = createClient(
 
 const $ = id => document.getElementById(id);
 
-const notice = $("notice");
-const list = $("messagesList");
-const composer = $("composer");
-const form = $("messageForm");
-const sendButton = $("sendButton");
-
 let currentUser = null;
 let currentRole = "";
 
+const adminRoles = [
+  "admin",
+  "administrateur",
+  "moderateur",
+  "modérateur"
+];
+
+function isAdmin() {
+  return adminRoles.includes(
+    String(currentRole || "").toLowerCase()
+  );
+}
+
 function messageNotice(text) {
-  notice.textContent = text;
+  $("notice").textContent = text;
 }
 
 function dateTexte(value) {
   if (!value) return "Date inconnue";
 
-  return new Date(value).toLocaleString("fr-FR");
+  return new Date(value).toLocaleString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
 
-function typeTexte(type) {
-  const types = {
+function creerElement(tag, className, text) {
+  const element = document.createElement(tag);
+
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+
+  return element;
+}
+
+function categorieTexte(type) {
+  const categories = {
     suggestion: "💡 Suggestion",
-    reclamation: "⚠️ Réclamation",
-    information: "📢 Information"
+    reclamation: "📢 Réclamation",
+    information: "ℹ️ Information"
   };
 
-  return types[type] || "Message";
+  return categories[type] || "💬 Message";
 }
 
 async function chargerMessages() {
 
-  list.textContent = "Chargement des messages...";
+  $("messagesList").textContent = "Chargement des messages...";
 
   const { data, error } = await db
     .from("messages")
@@ -447,52 +481,70 @@ async function chargerMessages() {
     .limit(100);
 
   if (error) {
-    list.textContent =
+    $("messagesList").textContent =
       "Impossible de charger les messages : " + error.message;
     return;
   }
 
   if (!data || data.length === 0) {
-
-    list.innerHTML = `
-      <div class="empty-state">
-        <span class="empty-icon">📭</span>
-        <strong>Aucun message pour le moment.</strong>
-        <p>Les nouveaux messages apparaîtront ici.</p>
-      </div>
-    `;
-
+    $("messagesList").replaceChildren(
+      creerElement(
+        "div",
+        "empty",
+        "📭 Aucun message publié pour le moment."
+      )
+    );
     return;
   }
 
-  list.replaceChildren();
+  const fragment = document.createDocumentFragment();
 
   for (const item of data) {
 
-    const card = document.createElement("article");
-    card.className = "message";
+    const card = creerElement("article", "message-card");
 
-    const badge = document.createElement("span");
-    badge.className = "type-label";
-    badge.textContent = typeTexte(item.type);
+    const top = creerElement("div", "message-top");
 
-    const heading = document.createElement("h3");
-    heading.textContent =
-      item.subject || typeTexte(item.type);
+    const category = creerElement(
+      "span",
+      "category",
+      categorieTexte(item.type)
+    );
 
-    const meta = document.createElement("p");
-    meta.className = "meta";
-    meta.textContent = "Publié le " + dateTexte(item.created_at);
+    top.appendChild(category);
 
-    const body = document.createElement("p");
-    body.className = "bodytext";
-    body.textContent = item.message || "";
+    const heading = creerElement(
+      "h3",
+      "",
+      item.subject || "Message sans sujet"
+    );
 
-    card.append(badge, heading, meta, body);
+    const meta = creerElement(
+      "div",
+      "meta",
+      "Publié le " + dateTexte(item.created_at)
+    );
 
-    const repliesBox = document.createElement("div");
-    repliesBox.className = "reply";
-    repliesBox.textContent = "Chargement des réponses...";
+    const body = creerElement(
+      "p",
+      "message-content",
+      item.message || ""
+    );
+
+    card.append(top, heading, meta, body);
+
+    const replySection = creerElement(
+      "section",
+      "reply-section"
+    );
+
+    const replyTitle = creerElement(
+      "div",
+      "reply-title",
+      "↳ ÉCHANGES AVEC L'ADMINISTRATION"
+    );
+
+    replySection.appendChild(replyTitle);
 
     const { data: replies, error: replyError } = await db
       .from("message_replies")
@@ -500,72 +552,97 @@ async function chargerMessages() {
       .eq("message_id", item.id)
       .order("created_at", { ascending: true });
 
+    const validReplies = replyError ? [] : (replies || []);
+
+    const answered = validReplies.length > 0;
+
+    const status = creerElement(
+      "span",
+      "status " + (answered ? "answered" : "pending"),
+      answered ? "✓ RÉPONDU" : "◷ EN ATTENTE"
+    );
+
+    top.appendChild(status);
+
     if (replyError) {
 
-      repliesBox.textContent =
-        "Les réponses ne peuvent pas être chargées.";
+      replySection.appendChild(
+        creerElement(
+          "p",
+          "meta",
+          "Impossible de charger les réponses."
+        )
+      );
 
-    } else if (!replies || replies.length === 0) {
+    } else if (!answered) {
 
-      repliesBox.textContent =
-        "Aucune réponse pour le moment.";
+      replySection.appendChild(
+        creerElement(
+          "p",
+          "meta",
+          "Aucune réponse pour le moment."
+        )
+      );
 
     } else {
 
-      repliesBox.replaceChildren();
+      for (const answer of validReplies) {
 
-      for (const answer of replies) {
-
-        const replyTitle = document.createElement("p");
-        replyTitle.className = "reply-title";
-        replyTitle.textContent =
-          "✓ Réponse de l'administration";
-
-        const replyDate = document.createElement("p");
-        replyDate.className = "meta";
-        replyDate.textContent = dateTexte(answer.created_at);
-
-        const replyBody = document.createElement("p");
-        replyBody.className = "bodytext";
-        replyBody.textContent = answer.reply || "";
-
-        const replyItem = document.createElement("div");
-
-        replyItem.append(
-          replyTitle,
-          replyDate,
-          replyBody
+        const bubble = creerElement(
+          "div",
+          "reply-bubble"
         );
 
-        repliesBox.appendChild(replyItem);
+        const author = creerElement(
+          "div",
+          "reply-author",
+          "🏛️ Administration"
+        );
+
+        const replyText = creerElement(
+          "p",
+          "reply-text",
+          answer.reply || ""
+        );
+
+        const replyDate = creerElement(
+          "div",
+          "reply-date",
+          "Répondu le " + dateTexte(answer.created_at)
+        );
+
+        bubble.append(author, replyText, replyDate);
+
+        replySection.appendChild(bubble);
       }
     }
 
-    card.appendChild(repliesBox);
+    if (currentUser && isAdmin()) {
 
-    if (
-      currentUser &&
-      [
-        "admin",
-        "administrateur",
-        "moderateur",
-        "modérateur"
-      ].includes(String(currentRole || "").toLowerCase())
-    ) {
+      const replyForm = creerElement(
+        "form",
+        "reply-form"
+      );
 
-      const replyForm = document.createElement("form");
+      const label = creerElement(
+        "label",
+        "",
+        "✍️ Répondre à ce message"
+      );
 
-      const label = document.createElement("label");
-      label.textContent = "✍️ Répondre à ce message";
+      const textarea = creerElement("textarea");
 
-      const textarea = document.createElement("textarea");
       textarea.required = true;
       textarea.maxLength = 2000;
-      textarea.placeholder = "Écrivez votre réponse ici...";
+      textarea.placeholder = "Écrivez votre réponse...";
 
-      const button = document.createElement("button");
+      const button = creerElement(
+        "button",
+        "reply-button",
+        "↗ Envoyer la réponse"
+      );
+
       button.type = "submit";
-      button.textContent = "✓ Envoyer la réponse";
 
       replyForm.append(label, textarea, button);
 
@@ -575,10 +652,7 @@ async function chargerMessages() {
 
         const replyText = textarea.value.trim();
 
-        if (!replyText) {
-          messageNotice("Écris une réponse avant de l'envoyer.");
-          return;
-        }
+        if (!replyText) return;
 
         button.disabled = true;
 
@@ -592,23 +666,17 @@ async function chargerMessages() {
 
           if (profileError) throw profileError;
 
-          const role = String(profile?.role || "").toLowerCase();
+          const role = String(
+            profile?.role || ""
+          ).toLowerCase();
 
-          if (
-            ![
-              "admin",
-              "administrateur",
-              "moderateur",
-              "modérateur"
-            ].includes(role)
-          ) {
-            messageNotice(
-              "Seuls l'administrateur ou un modérateur peuvent répondre."
+          if (!adminRoles.includes(role)) {
+            throw new Error(
+              "Seule l'administration peut répondre."
             );
-            return;
           }
 
-          const { error } = await db
+          const { error: insertError } = await db
             .from("message_replies")
             .insert({
               message_id: item.id,
@@ -616,9 +684,9 @@ async function chargerMessages() {
               reply: replyText
             });
 
-          if (error) throw error;
+          if (insertError) throw insertError;
 
-          messageNotice("Réponse publiée avec succès.");
+          messageNotice("✓ Réponse publiée avec succès.");
 
           await chargerMessages();
 
@@ -633,14 +701,17 @@ async function chargerMessages() {
           button.disabled = false;
 
         }
-
       });
 
-      card.appendChild(replyForm);
+      replySection.appendChild(replyForm);
     }
 
-    list.appendChild(card);
+    card.appendChild(replySection);
+
+    fragment.appendChild(card);
   }
+
+  $("messagesList").replaceChildren(fragment);
 }
 
 async function initialiser() {
@@ -657,53 +728,50 @@ async function initialiser() {
 
   if (currentUser) {
 
-    const { data: profil, error: profilError } = await db
+    const { data: profile, error: profileError } = await db
       .from("profiles")
       .select("role")
       .eq("id", currentUser.id)
       .maybeSingle();
 
-    if (profilError) {
-
+    if (profileError) {
       messageNotice(
         "Impossible de récupérer ton rôle : " +
-        profilError.message
+        profileError.message
       );
-
       return;
     }
 
-    currentRole = String(profil?.role || "").toLowerCase();
-  }
+    currentRole = String(
+      profile?.role || ""
+    ).toLowerCase();
 
-  if (!currentUser) {
+    $("composer").classList.remove("hidden");
 
     messageNotice(
-      "Connecte-toi à Petel Association pour publier un message."
+      isAdmin()
+        ? "Bienvenue dans la messagerie. Accès administration activé."
+        : "Bienvenue dans la messagerie de Petel Association."
     );
-
-    composer.classList.add("hidden");
 
   } else {
 
-    composer.classList.remove("hidden");
+    $("composer").classList.add("hidden");
 
     messageNotice(
-      "Bienvenue dans la messagerie de Petel Association."
+      "Connecte-toi pour publier un message."
     );
   }
 
   await chargerMessages();
 }
 
-form.addEventListener("submit", async event => {
+$("messageForm").addEventListener("submit", async event => {
 
   event.preventDefault();
 
   if (!currentUser) {
-    messageNotice(
-      "Connecte-toi avant de publier un message."
-    );
+    messageNotice("Connecte-toi avant de publier.");
     return;
   }
 
@@ -714,7 +782,8 @@ form.addEventListener("submit", async event => {
     return;
   }
 
-  sendButton.disabled = true;
+  const button = $("sendButton");
+  button.disabled = true;
 
   try {
 
@@ -730,9 +799,9 @@ form.addEventListener("submit", async event => {
 
     if (error) throw error;
 
-    form.reset();
+    $("messageForm").reset();
 
-    messageNotice("Message publié avec succès.");
+    messageNotice("✓ Votre message a été publié avec succès.");
 
     await chargerMessages();
 
@@ -744,7 +813,7 @@ form.addEventListener("submit", async event => {
 
   } finally {
 
-    sendButton.disabled = false;
+    button.disabled = false;
 
   }
 });
@@ -752,36 +821,28 @@ form.addEventListener("submit", async event => {
 $("refreshButton").addEventListener("click", async () => {
 
   const button = $("refreshButton");
-
   button.disabled = true;
   button.textContent = "Actualisation...";
 
   try {
-
     await chargerMessages();
-
   } catch (error) {
-
     messageNotice("Erreur : " + error.message);
-
   } finally {
-
     button.disabled = false;
     button.textContent = "↻ Actualiser les messages";
-
   }
 });
 
 initialiser().catch(error => {
-
   messageNotice(
     "Erreur d'initialisation : " + error.message
   );
-
 });
 
 </script>
 
 </body>
-    </html>
+</html>
+
   
