@@ -2,415 +2,422 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#087354">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087354">
+  <title>Messagerie - Petel Association</title>
 
-<title>Messagerie - Petel Association</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-:root {
-  --green: #087354;
-  --dark: #07563f;
-  --light: #eaf6f0;
-  --background: #f1f6f3;
-  --text: #24332d;
-  --muted: #77847e;
-  --border: #dce7e1;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f7f4;
+      color: #24352e;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    header {
+      background: linear-gradient(120deg, #075b45, #0c9870);
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
-  line-height: 1.6;
-}
+    header h1 {
+      margin: 0;
+      font-size: 29px;
+    }
 
-header {
-  background: linear-gradient(135deg, #075d46, #07966c);
-  color: white;
-  text-align: center;
-  padding: 30px 16px;
-}
+    header p {
+      font-size: 17px;
+      margin: 12px 0 0;
+    }
 
-header h1 {
-  font-size: 29px;
-  margin: 0;
-}
+    .subtitle {
+      display: inline-block;
+      border: 1px solid #ffffff80;
+      border-radius: 30px;
+      padding: 9px 20px;
+      margin-top: 20px;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
 
-header p {
-  margin: 8px 0 14px;
-  font-size: 16px;
-  opacity: .9;
-}
+    main {
+      width: 100%;
+      max-width: 850px;
+      margin: auto;
+      padding: 20px 16px;
+    }
 
-.header-label {
-  display: inline-block;
-  border: 1px solid #ffffff80;
-  border-radius: 30px;
-  padding: 7px 18px;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
+    .back {
+      display: inline-block;
+      color: #087354;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 17px;
+      margin: 15px 0 25px;
+    }
 
-main {
-  width: 100%;
-  max-width: 850px;
-  margin: auto;
-  padding: 18px;
-}
+    .welcome {
+      background: #e8f6ef;
+      border: 1px solid #d2e9dd;
+      padding: 18px;
+      border-radius: 17px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
 
-.back {
-  display: inline-block;
-  color: var(--green);
-  font-weight: bold;
-  text-decoration: none;
-  margin: 12px 0 20px;
-}
+    .card {
+      background: white;
+      border: 1px solid #e0e9e4;
+      border-radius: 22px;
+      padding: 24px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 20px #173d2b0b;
+    }
 
-.notice {
-  padding: 14px 17px;
-  border-radius: 14px;
-  background: var(--light);
-  color: var(--dark);
-  border: 1px solid #d2e9dd;
-  margin-bottom: 18px;
-  overflow-wrap: anywhere;
-}
+    h2 {
+      font-size: 26px;
+      margin: 10px 0 18px;
+    }
 
-.card {
-  background: white;
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  margin-bottom: 22px;
-  box-shadow: 0 5px 20px #00000008;
-}
+    .description {
+      color: #78847e;
+      line-height: 1.7;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
 
-h2 {
-  font-size: 25px;
-  margin: 0 0 10px;
-}
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
 
-.description {
-  color: var(--muted);
-  margin-bottom: 24px;
-}
+    input, select, textarea {
+      display: block;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #d6e0da;
+      background: #fbfdfc;
+      border-radius: 15px;
+      font: inherit;
+      font-size: 16px;
+      color: #24352e;
+      outline: none;
+    }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin: 17px 0 8px;
-}
+    input:focus, select:focus, textarea:focus {
+      border-color: #087f5b;
+      box-shadow: 0 0 0 3px #087f5b18;
+    }
 
-input, select, textarea {
-  width: 100%;
-  padding: 16px;
-  border: 1px solid #d7e1dc;
-  border-radius: 14px;
-  background: #fbfdfc;
-  font: inherit;
-  color: var(--text);
-  outline: none;
-}
+    textarea {
+      min-height: 155px;
+      resize: vertical;
+      line-height: 1.6;
+    }
 
-input:focus, select:focus, textarea:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px #08735415;
-}
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
 
-textarea {
-  min-height: 145px;
-  resize: vertical;
-}
+    .primary {
+      width: 100%;
+      padding: 19px;
+      margin-top: 22px;
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(110deg, #087354, #0c9870);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-button {
-  font: inherit;
-  cursor: pointer;
-}
+    button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
 
-.primary-button {
-  width: 100%;
-  border: 0;
-  border-radius: 15px;
-  padding: 17px;
-  margin-top: 20px;
-  background: linear-gradient(120deg, #087354, #07966c);
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-}
+    .notice {
+      display: none;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      background: #e8f6ef;
+      color: #075b45;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
 
-.primary-button:disabled {
-  opacity: .6;
-}
+    .notice.error {
+      background: #fff0ee;
+      color: #a52a20;
+    }
 
-.refresh-button {
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #cfe4d9;
-  background: var(--light);
-  color: var(--dark);
-  border-radius: 14px;
-  font-weight: bold;
-  margin: 16px 0 22px;
-}
+    .toolbar {
+      margin: 20px 0;
+    }
 
-.message-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-left: 6px solid var(--green);
-  border-radius: 19px;
-  padding: 19px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px #00000006;
-  overflow-wrap: anywhere;
-}
+    .refresh {
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #d2e9dd;
+      border-radius: 15px;
+      background: #e8f6ef;
+      color: #075b45;
+      font-size: 17px;
+      font-weight: bold;
+    }
 
-.message-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+    .search {
+      margin-top: 15px;
+      padding: 17px;
+      border-radius: 15px;
+    }
 
-.category {
-  display: inline-block;
-  padding: 6px 13px;
-  background: var(--light);
-  color: var(--dark);
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+    .message {
+      border: 1px solid #dce7e1;
+      border-left: 7px solid #087f5b;
+      border-radius: 20px;
+      padding: 20px 16px;
+      margin: 22px 0;
+      background: white;
+      overflow-wrap: anywhere;
+    }
 
-.status {
-  padding: 6px 12px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: bold;
-}
+    .message h3 {
+      font-size: 23px;
+      margin: 17px 0 12px;
+    }
 
-.status.pending {
-  background: #fff3d9;
-  color: #956000;
-}
+    .meta {
+      color: #829088;
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
-.status.answered {
-  background: #e1f5e9;
-  color: #087044;
-}
+    .bodytext {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.7;
+      font-size: 17px;
+      margin: 22px 0;
+    }
 
-.message-card h3 {
-  font-size: 21px;
-  margin: 17px 0 5px;
-}
+    .type-badge, .status-badge {
+      display: inline-block;
+      border-radius: 30px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 3px 5px 3px 0;
+    }
 
-.meta {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 5px 0 16px;
-}
+    .type-badge {
+      background: #e8f6ef;
+      color: #075b45;
+    }
 
-.message-content {
-  font-size: 16px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  margin: 15px 0;
-}
+    .pending {
+      background: #fff3d9;
+      color: #91600b;
+    }
 
-.reply-section {
-  margin-top: 20px;
-  padding-top: 17px;
-  border-top: 1px solid var(--border);
-}
+    .answered {
+      background: #e2f5e9;
+      color: #087354;
+    }
 
-.reply-title {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--green);
-  margin-bottom: 12px;
-}
+    .reply {
+      background: #edf7f1;
+      border-radius: 15px;
+      padding: 17px;
+      margin: 15px 0;
+      border: 1px solid #dceee3;
+    }
 
-.reply-bubble {
-  background: var(--light);
-  border-radius: 15px 15px 15px 4px;
-  padding: 15px;
-  margin: 12px 0;
-  border: 1px solid #d9ece1;
-}
+    .reply-title {
+      color: #087354;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-.reply-author {
-  color: var(--dark);
-  font-size: 13px;
-  font-weight: bold;
-}
+    .reply-form {
+      margin-top: 20px;
+      border-top: 1px solid #e4ebe6;
+      padding-top: 15px;
+    }
 
-.reply-text {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  margin: 8px 0 0;
-}
+    .reply-form textarea {
+      min-height: 100px;
+    }
 
-.reply-date {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 8px;
-}
+    .reply-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 10px;
+      background: #087354;
+      color: white;
+      font-weight: bold;
+    }
 
-.reply-form {
-  background: #f8fbf9;
-  padding: 15px;
-  border-radius: 15px;
-  margin-top: 17px;
-  border: 1px solid var(--border);
-}
+    .delete-button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 15px;
+      border: 1px solid #f0c9c5;
+      border-radius: 12px;
+      color: #a52a20;
+      background: #fff5f4;
+      font-weight: bold;
+    }
 
-.reply-form textarea {
-  min-height: 95px;
-}
+    .empty {
+      padding: 30px 10px;
+      text-align: center;
+      color: #78847e;
+      line-height: 1.7;
+    }
 
-.reply-button {
-  width: 100%;
-  background: var(--green);
-  color: white;
-  padding: 13px;
-  border: 0;
-  border-radius: 12px;
-  font-weight: bold;
-  margin-top: 10px;
-}
+    .hidden {
+      display: none !important;
+    }
 
-.empty {
-  padding: 35px 15px;
-  text-align: center;
-  color: var(--muted);
-  background: #f8fbf9;
-  border-radius: 15px;
-}
+    footer {
+      text-align: center;
+      color: #849088;
+      padding: 25px 15px;
+      font-size: 14px;
+    }
 
-.hidden {
-  display: none;
-}
-
-footer {
-  text-align: center;
-  color: var(--muted);
-  padding: 25px 15px 35px;
-  font-size: 13px;
-}
-
-@media(max-width: 520px) {
-  header h1 { font-size: 25px; }
-  main { padding: 14px; }
-  .card { padding: 19px; }
-  .message-card { padding: 15px; }
-}
-</style>
+    @media (max-width: 480px) {
+      header h1 { font-size: 25px; }
+      main { padding: 15px 13px; }
+      .card { padding: 20px 16px; }
+      h2 { font-size: 23px; }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>💬 Petel Association</h1>
-  <p>Solidarité & Développement</p>
-  <span class="header-label">MESSAGERIE COLLECTIVE</span>
+  <p>Solidarité &amp; Développement</p>
+  <div class="subtitle">MESSAGERIE COLLECTIVE</div>
 </header>
 
 <main>
 
-<a class="back" href="./dashboard.html">
-  ← Retour au tableau de bord
-</a>
+  <a class="back" href="./dashboard.html">
+    ← Retour au tableau de bord
+  </a>
 
-<div id="notice" class="notice" aria-live="polite">
-  Initialisation de la messagerie...
-</div>
+  <div id="notice" class="notice"></div>
 
-<section id="composer" class="card hidden">
-
-  <h2>✉️ Nouveau message</h2>
-
-  <p class="description">
-    Partagez vos suggestions, réclamations ou informations
-    avec l'administration de l'association.
-  </p>
-
-  <form id="messageForm">
-
-    <label for="type">Catégorie du message</label>
-
-    <select id="type" required>
-      <option value="suggestion">💡 Suggestion</option>
-      <option value="reclamation">📢 Réclamation</option>
-      <option value="information">ℹ️ Information</option>
-    </select>
-
-    <label for="subject">Sujet du message</label>
-
-    <input
-      id="subject"
-      maxlength="120"
-      placeholder="Ex : Organisation de la réunion"
-    >
-
-    <label for="messageText">Votre message</label>
-
-    <textarea
-      id="messageText"
-      maxlength="3000"
-      required
-      placeholder="Écrivez votre message ici..."
-    ></textarea>
-
-    <button class="primary-button" id="sendButton" type="submit">
-      ✉️ Publier le message
-    </button>
-
-  </form>
-</section>
-
-<section class="card">
-
-  <h2>📨 Messages du chat</h2>
-
-  <p class="description">
-    Consultez les messages et les réponses de l'administration.
-  </p>
-
-  <button id="refreshButton" class="refresh-button" type="button">
-    ↻ Actualiser les messages
-  </button>
-
-  <div id="messagesList">
-    Chargement des messages...
+  <div class="welcome">
+    Bienvenue dans la messagerie de Petel Association.
+    <br>
+    Partagez vos suggestions et réclamations avec l'administration.
   </div>
 
-</section>
+  <section id="composer" class="card hidden">
+
+    <h2>✉️ Nouveau message</h2>
+
+    <p class="description">
+      Partagez vos suggestions, réclamations ou informations
+      avec l'administration de l'association.
+    </p>
+
+    <form id="messageForm">
+
+      <label for="type">Catégorie du message</label>
+
+      <select id="type" required>
+        <option value="suggestion">💡 Suggestion</option>
+        <option value="reclamation">⚠️ Réclamation</option>
+        <option value="information">📢 Information</option>
+      </select>
+
+      <label for="subject">Sujet du message</label>
+
+      <input
+        id="subject"
+        type="text"
+        maxlength="120"
+        placeholder="Ex : Organisation de la réunion"
+      >
+
+      <label for="messageText">Votre message</label>
+
+      <textarea
+        id="messageText"
+        maxlength="3000"
+        required
+        placeholder="Écrivez votre message ici..."
+      ></textarea>
+
+      <button id="sendButton" class="primary" type="submit">
+        ✉️ Publier le message
+      </button>
+
+    </form>
+  </section>
+
+  <section class="card">
+
+    <h2>📨 Messages du chat</h2>
+
+    <p class="description">
+      Consultez les messages et les réponses de l'administration.
+    </p>
+
+    <div class="toolbar">
+
+      <button id="refreshButton" class="refresh" type="button">
+        ↻ Actualiser les messages
+      </button>
+
+      <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="🔎 Rechercher un message..."
+      >
+
+    </div>
+
+    <p id="resultCount" class="meta"></p>
+
+    <div id="messagesList">
+      Chargement des messages...
+    </div>
+
+  </section>
 
 </main>
 
 <footer>
-  © 2026 Petel Association Solidarité & Développement
+  © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
 <script type="module">
 
 import { createClient } from
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL =
-"https://evbpmafgciphyfzmkctc.supabase.co";
+  "https://evbpmafgciphyfzmkctc.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+  "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
 const db = createClient(
   SUPABASE_URL,
@@ -421,217 +428,227 @@ const $ = id => document.getElementById(id);
 
 let currentUser = null;
 let currentRole = "";
+let currentProfile = null;
+let messagesData = [];
+let profilesData = [];
 
-const adminRoles = [
-  "admin",
-  "administrateur",
-  "moderateur",
-  "modérateur"
-];
-
-function isAdmin() {
-  return adminRoles.includes(
-    String(currentRole || "").toLowerCase()
-  );
-}
-
-function messageNotice(text) {
-  $("notice").textContent = text;
+function messageNotice(text, isError = false) {
+  const box = $("notice");
+  box.textContent = text;
+  box.classList.toggle("error", isError);
+  box.style.display = "block";
 }
 
 function dateTexte(value) {
   if (!value) return "Date inconnue";
 
   return new Date(value).toLocaleString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
+    dateStyle: "short",
+    timeStyle: "short"
   });
 }
 
-function creerElement(tag, className, text) {
-  const element = document.createElement(tag);
-
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-
-  return element;
+function estAdmin() {
+  return [
+    "admin",
+    "administrateur"
+  ].includes(currentRole);
 }
 
-function categorieTexte(type) {
-  const categories = {
-    suggestion: "💡 Suggestion",
-    reclamation: "📢 Réclamation",
-    information: "ℹ️ Information"
-  };
-
-  return categories[type] || "💬 Message";
+function peutRepondre() {
+  return [
+    "admin",
+    "administrateur",
+    "moderateur",
+    "modérateur"
+  ].includes(currentRole);
 }
 
-async function chargerMessages() {
-
-  $("messagesList").textContent = "Chargement des messages...";
-
-  const { data, error } = await db
-    .from("messages")
-    .select("id, member_id, type, subject, message, status, created_at")
-    .order("created_at", { ascending: false })
-    .limit(100);
-
-  if (error) {
-    $("messagesList").textContent =
-      "Impossible de charger les messages : " + error.message;
-    return;
+function nomAuteur(memberId) {
+  if (!memberId) {
+    return "Auteur non identifié";
   }
 
-  if (!data || data.length === 0) {
-    $("messagesList").replaceChildren(
+  const profile = profilesData.find(
+    p => String(p.member_id) === String(memberId)
+  );
+
+  if (profile?.full_name?.trim()) {
+    return profile.full_name.trim();
+  }
+
+  return "Membre";
+}
+
+function creerElement(tag, className, content) {
+  const el = document.createElement(tag);
+
+  if (className) el.className = className;
+
+  if (content !== undefined) {
+    el.textContent = content;
+  }
+
+  return el;
+}
+
+function afficherMessages() {
+
+  const list = $("messagesList");
+  const recherche = $("searchInput").value
+    .trim()
+    .toLowerCase();
+
+  list.replaceChildren();
+
+  const filtered = messagesData.filter(item => {
+
+    const author = nomAuteur(item.member_id);
+
+    const text = [
+      item.subject,
+      item.message,
+      item.type,
+      author
+    ].join(" ").toLowerCase();
+
+    return text.includes(recherche);
+  });
+
+  $("resultCount").textContent =
+    filtered.length + " message(s) affiché(s)";
+
+  if (!filtered.length) {
+    list.appendChild(
       creerElement(
         "div",
         "empty",
-        "📭 Aucun message publié pour le moment."
+        recherche
+          ? "Aucun message ne correspond à votre recherche."
+          : "Aucun message publié pour le moment."
       )
     );
     return;
   }
 
-  const fragment = document.createDocumentFragment();
+  for (const item of filtered) {
 
-  for (const item of data) {
+    const card = creerElement("article", "message");
 
-    const card = creerElement("article", "message-card");
+    const type = String(item.type || "information").toLowerCase();
 
-    const top = creerElement("div", "message-top");
+    const icons = {
+      suggestion: "💡",
+      reclamation: "⚠️",
+      information: "📢"
+    };
 
-    const category = creerElement(
+    const badge = creerElement(
       "span",
-      "category",
-      categorieTexte(item.type)
+      "type-badge",
+      (icons[type] || "📨") + " " + type.toUpperCase()
     );
 
-    top.appendChild(category);
+    const answers = item.replies || [];
 
-    const heading = creerElement(
+    const status = creerElement(
+      "span",
+      "status-badge " + (answers.length ? "answered" : "pending"),
+      answers.length ? "✓ RÉPONDU" : "⏳ EN ATTENTE"
+    );
+
+    const title = creerElement(
       "h3",
       "",
       item.subject || "Message sans sujet"
     );
 
     const meta = creerElement(
-      "div",
+      "p",
       "meta",
       "Publié le " + dateTexte(item.created_at)
     );
 
+    const author = creerElement(
+      "p",
+      "meta",
+      "👤 Auteur : " + nomAuteur(item.member_id)
+    );
+
     const body = creerElement(
       "p",
-      "message-content",
+      "bodytext",
       item.message || ""
     );
 
-    card.append(top, heading, meta, body);
-
-    const replySection = creerElement(
-      "section",
-      "reply-section"
+    card.append(
+      badge,
+      status,
+      title,
+      meta,
+      author,
+      body
     );
 
-    const replyTitle = creerElement(
-      "div",
-      "reply-title",
-      "↳ ÉCHANGES AVEC L'ADMINISTRATION"
-    );
+    const repliesBox = creerElement("div", "");
 
-    replySection.appendChild(replyTitle);
+    if (!answers.length) {
 
-    const { data: replies, error: replyError } = await db
-      .from("message_replies")
-      .select("id, author_id, reply, created_at")
-      .eq("message_id", item.id)
-      .order("created_at", { ascending: true });
-
-    const validReplies = replyError ? [] : (replies || []);
-
-    const answered = validReplies.length > 0;
-
-    const status = creerElement(
-      "span",
-      "status " + (answered ? "answered" : "pending"),
-      answered ? "✓ RÉPONDU" : "◷ EN ATTENTE"
-    );
-
-    top.appendChild(status);
-
-    if (replyError) {
-
-      replySection.appendChild(
+      repliesBox.appendChild(
         creerElement(
-          "p",
-          "meta",
-          "Impossible de charger les réponses."
-        )
-      );
-
-    } else if (!answered) {
-
-      replySection.appendChild(
-        creerElement(
-          "p",
-          "meta",
+          "div",
+          "reply",
           "Aucune réponse pour le moment."
         )
       );
 
     } else {
 
-      for (const answer of validReplies) {
+      for (const answer of answers) {
 
-        const bubble = creerElement(
-          "div",
-          "reply-bubble"
+        const reply = creerElement("div", "reply");
+
+        reply.appendChild(
+          creerElement(
+            "div",
+            "reply-title",
+            "✓ Réponse de l'administration"
+          )
         );
 
-        const author = creerElement(
-          "div",
-          "reply-author",
-          "🏛️ Administration"
+        reply.appendChild(
+          creerElement(
+            "p",
+            "meta",
+            "Réponse publiée le " + dateTexte(answer.created_at)
+          )
         );
 
-        const replyText = creerElement(
-          "p",
-          "reply-text",
-          answer.reply || ""
+        reply.appendChild(
+          creerElement(
+            "p",
+            "bodytext",
+            answer.reply || ""
+          )
         );
 
-        const replyDate = creerElement(
-          "div",
-          "reply-date",
-          "Répondu le " + dateTexte(answer.created_at)
-        );
-
-        bubble.append(author, replyText, replyDate);
-
-        replySection.appendChild(bubble);
+        repliesBox.appendChild(reply);
       }
     }
 
-    if (currentUser && isAdmin()) {
+    card.appendChild(repliesBox);
 
-      const replyForm = creerElement(
-        "form",
-        "reply-form"
-      );
+    if (peutRepondre()) {
+
+      const replyForm = creerElement("form", "reply-form");
 
       const label = creerElement(
         "label",
         "",
-        "✍️ Répondre à ce message"
+        "Répondre à ce message"
       );
 
-      const textarea = creerElement("textarea");
-
+      const textarea = document.createElement("textarea");
       textarea.required = true;
       textarea.maxLength = 2000;
       textarea.placeholder = "Écrivez votre réponse...";
@@ -639,7 +656,7 @@ async function chargerMessages() {
       const button = creerElement(
         "button",
         "reply-button",
-        "↗ Envoyer la réponse"
+        "📩 Envoyer la réponse"
       );
 
       button.type = "submit";
@@ -658,25 +675,29 @@ async function chargerMessages() {
 
         try {
 
-          const { data: profile, error: profileError } = await db
-            .from("profiles")
-            .select("role")
-            .eq("id", currentUser.id)
-            .maybeSingle();
+          const { data: profile, error: profileError } =
+            await db
+              .from("profiles")
+              .select("role")
+              .eq("id", currentUser.id)
+              .maybeSingle();
 
           if (profileError) throw profileError;
 
-          const role = String(
-            profile?.role || ""
-          ).toLowerCase();
+          const role = String(profile?.role || "").toLowerCase();
 
-          if (!adminRoles.includes(role)) {
+          if (![
+            "admin",
+            "administrateur",
+            "moderateur",
+            "modérateur"
+          ].includes(role)) {
             throw new Error(
-              "Seule l'administration peut répondre."
+              "Seuls l'administration et les modérateurs peuvent répondre."
             );
           }
 
-          const { error: insertError } = await db
+          const { error } = await db
             .from("message_replies")
             .insert({
               message_id: item.id,
@@ -684,84 +705,185 @@ async function chargerMessages() {
               reply: replyText
             });
 
-          if (insertError) throw insertError;
+          if (error) throw error;
 
-          messageNotice("✓ Réponse publiée avec succès.");
+          messageNotice("Réponse publiée avec succès.");
 
           await chargerMessages();
 
         } catch (error) {
 
           messageNotice(
-            "Erreur lors de la réponse : " + error.message
+            "Impossible de publier la réponse : " + error.message,
+            true
           );
 
         } finally {
-
           button.disabled = false;
-
         }
       });
 
-      replySection.appendChild(replyForm);
+      card.appendChild(replyForm);
     }
 
-    card.appendChild(replySection);
+    if (estAdmin()) {
 
-    fragment.appendChild(card);
+      const deleteButton = creerElement(
+        "button",
+        "delete-button",
+        "🗑️ Supprimer ce message"
+      );
+
+      deleteButton.type = "button";
+
+      deleteButton.addEventListener("click", async () => {
+
+        if (!confirm(
+          "Voulez-vous vraiment supprimer ce message et ses réponses ?"
+        )) return;
+
+        deleteButton.disabled = true;
+
+        try {
+
+          const { data: profile, error: profileError } =
+            await db
+              .from("profiles")
+              .select("role")
+              .eq("id", currentUser.id)
+              .maybeSingle();
+
+          if (profileError) throw profileError;
+
+          const role = String(profile?.role || "").toLowerCase();
+
+          if (!["admin", "administrateur"].includes(role)) {
+            throw new Error(
+              "Seul un administrateur peut supprimer un message."
+            );
+          }
+
+          const { error: replyDeleteError } = await db
+            .from("message_replies")
+            .delete()
+            .eq("message_id", item.id);
+
+          if (replyDeleteError) throw replyDeleteError;
+
+          const { error: deleteError } = await db
+            .from("messages")
+            .delete()
+            .eq("id", item.id);
+
+          if (deleteError) throw deleteError;
+
+          messageNotice("Message supprimé.");
+
+          await chargerMessages();
+
+        } catch (error) {
+
+          messageNotice(
+            "Suppression impossible : " + error.message +
+            ". Vérifie les autorisations Supabase.",
+            true
+          );
+
+          deleteButton.disabled = false;
+        }
+      });
+
+      card.appendChild(deleteButton);
+    }
+
+    list.appendChild(card);
+  }
+}
+
+async function chargerMessages() {
+
+  $("messagesList").textContent = "Chargement des messages...";
+
+  const { data, error } = await db
+    .from("messages")
+    .select(
+      "id, member_id, type, subject, message, status, created_at"
+    )
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) throw error;
+
+  messagesData = data || [];
+
+  if (!messagesData.length) {
+    afficherMessages();
+    return;
   }
 
-  $("messagesList").replaceChildren(fragment);
+  const ids = messagesData.map(item => item.id);
+
+  const { data: replies, error: replyError } = await db
+    .from("message_replies")
+    .select("id, message_id, author_id, reply, created_at")
+    .in("message_id", ids)
+    .order("created_at", { ascending: true });
+
+  if (replyError) throw replyError;
+
+  for (const item of messagesData) {
+    item.replies = (replies || []).filter(
+      answer => String(answer.message_id) === String(item.id)
+    );
+  }
+
+  afficherMessages();
 }
 
 async function initialiser() {
 
   const { data, error } = await db.auth.getSession();
 
-  if (error) {
-    messageNotice("Erreur de connexion : " + error.message);
+  if (error) throw error;
+
+  currentUser = data.session?.user || null;
+
+  if (!currentUser) {
+
+    messageNotice(
+      "Connecte-toi à Petel Association pour accéder à la messagerie.",
+      true
+    );
+
+    $("composer").classList.add("hidden");
+    $("messagesList").textContent = "Connexion requise.";
+
     return;
   }
 
-  currentUser = data.session?.user || null;
-  currentRole = "";
+  const { data: profile, error: profileError } = await db
+    .from("profiles")
+    .select("role, full_name, member_id")
+    .eq("id", currentUser.id)
+    .maybeSingle();
 
-  if (currentUser) {
+  if (profileError) throw profileError;
 
-    const { data: profile, error: profileError } = await db
-      .from("profiles")
-      .select("role")
-      .eq("id", currentUser.id)
-      .maybeSingle();
+  currentProfile = profile;
+  currentRole = String(profile?.role || "").toLowerCase();
 
-    if (profileError) {
-      messageNotice(
-        "Impossible de récupérer ton rôle : " +
-        profileError.message
-      );
-      return;
-    }
+  // Récupérer les noms des membres disponibles.
+  const { data: profiles, error: profilesError } = await db
+    .from("profiles")
+    .select("member_id, full_name");
 
-    currentRole = String(
-      profile?.role || ""
-    ).toLowerCase();
+  profilesData = profilesError ? [] : (profiles || []);
 
-    $("composer").classList.remove("hidden");
+  $("composer").classList.remove("hidden");
 
-    messageNotice(
-      isAdmin()
-        ? "Bienvenue dans la messagerie. Accès administration activé."
-        : "Bienvenue dans la messagerie de Petel Association."
-    );
-
-  } else {
-
-    $("composer").classList.add("hidden");
-
-    messageNotice(
-      "Connecte-toi pour publier un message."
-    );
-  }
+  messageNotice(
+    "Bienvenue dans la messagerie de Petel Association."
+  );
 
   await chargerMessages();
 }
@@ -771,14 +893,14 @@ $("messageForm").addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!currentUser) {
-    messageNotice("Connecte-toi avant de publier.");
+    messageNotice("Connexion requise.", true);
     return;
   }
 
   const text = $("messageText").value.trim();
 
   if (!text) {
-    messageNotice("Écris un message avant de publier.");
+    messageNotice("Écris ton message avant de publier.", true);
     return;
   }
 
@@ -787,10 +909,18 @@ $("messageForm").addEventListener("submit", async event => {
 
   try {
 
+    const { data: profile, error: profileError } = await db
+      .from("profiles")
+      .select("member_id")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+    if (profileError) throw profileError;
+
     const { error } = await db
       .from("messages")
       .insert({
-        member_id: null,
+        member_id: profile?.member_id || null,
         type: $("type").value,
         subject: $("subject").value.trim() || null,
         message: text,
@@ -801,20 +931,19 @@ $("messageForm").addEventListener("submit", async event => {
 
     $("messageForm").reset();
 
-    messageNotice("✓ Votre message a été publié avec succès.");
+    messageNotice("Ton message a été publié avec succès.");
 
     await chargerMessages();
 
   } catch (error) {
 
     messageNotice(
-      "Publication impossible : " + error.message
+      "Publication impossible : " + error.message,
+      true
     );
 
   } finally {
-
     button.disabled = false;
-
   }
 });
 
@@ -822,22 +951,33 @@ $("refreshButton").addEventListener("click", async () => {
 
   const button = $("refreshButton");
   button.disabled = true;
-  button.textContent = "Actualisation...";
 
   try {
     await chargerMessages();
+    messageNotice("Messages actualisés.");
   } catch (error) {
-    messageNotice("Erreur : " + error.message);
+    messageNotice(
+      "Actualisation impossible : " + error.message,
+      true
+    );
   } finally {
     button.disabled = false;
-    button.textContent = "↻ Actualiser les messages";
   }
 });
 
+$("searchInput").addEventListener("input", afficherMessages);
+
 initialiser().catch(error => {
+
   messageNotice(
-    "Erreur d'initialisation : " + error.message
+    "Erreur d'initialisation : " + error.message,
+    true
   );
+
+  $("messagesList").textContent =
+    "Impossible de démarrer la messagerie.";
+  
+  console.error(error);
 });
 
 </script>
@@ -845,4 +985,3 @@ initialiser().catch(error => {
 </body>
 </html>
 
-  
