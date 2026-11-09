@@ -4,151 +4,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f5b">
 <title>Rapports - Petel Association</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f1f7f4;
- color:#24312b;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f7f4;
+  color:#24312b;
 }
 
 header{
- background:#087f5b;
- color:white;
- padding:22px 15px;
- text-align:center;
+  background:#087f5b;
+  color:white;
+  padding:22px 15px;
+  text-align:center;
 }
 
-header h1{margin:0 0 8px}
+header h1{
+  margin:0 0 8px;
+  font-size:25px;
+}
+
+header p{
+  margin:0;
+}
 
 main{
- max-width:950px;
- margin:auto;
- padding:16px;
+  max-width:950px;
+  margin:auto;
+  padding:16px;
 }
 
-a{
- color:#087f5b;
- font-weight:bold;
- text-decoration:none;
+.back{
+  display:inline-block;
+  color:#087f5b;
+  font-weight:bold;
+  text-decoration:none;
+  margin:12px 0;
 }
 
 .card{
- background:white;
- padding:20px;
- border-radius:16px;
- margin:16px 0;
- box-shadow:0 3px 14px #0000000b;
+  background:white;
+  padding:20px;
+  border-radius:18px;
+  margin:16px 0;
+  box-shadow:0 3px 14px #0000000b;
 }
 
-h2{margin-top:0}
+h2{
+  margin-top:0;
+  font-size:23px;
+}
 
 .stats{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:12px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
 }
 
 .stat{
- background:#e7f5ed;
- padding:16px;
- border-radius:12px;
+  background:#e7f5ed;
+  padding:17px;
+  border-radius:13px;
+  min-width:0;
 }
 
-.stat span{
- display:block;
- font-size:14px;
- color:#53645c;
+.stat p{
+  margin:0;
+  color:#53645c;
 }
 
 .stat strong{
- display:block;
- color:#087f5b;
- font-size:24px;
- margin-top:10px;
- overflow-wrap:anywhere;
+  display:block;
+  color:#087f5b;
+  font-size:25px;
+  margin-top:12px;
+  overflow-wrap:anywhere;
+}
+
+.balance{
+  border:1px solid #cce8d8;
+}
+
+.negative{
+  color:#b42318!important;
 }
 
 label{
- display:block;
- font-weight:bold;
- margin:13px 0 6px;
+  display:block;
+  font-weight:bold;
+  margin:15px 0 7px;
 }
 
-input,button{
- width:100%;
- padding:13px;
- border-radius:9px;
- border:1px solid #ccd8d0;
- font-size:16px;
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccd5d0;
+  border-radius:10px;
+  font-size:16px;
+  background:white;
+  color:#24312b;
 }
 
 button{
- background:#087f5b;
- color:white;
- border:0;
- font-weight:bold;
- cursor:pointer;
- margin-top:12px;
+  width:100%;
+  background:#087f5b;
+  color:white;
+  border:0;
+  border-radius:10px;
+  padding:15px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
 }
 
-.secondary{background:#586761}
+button.secondary{
+  background:#586761;
+}
+
+button.pdf{
+  background:#087f5b;
+}
+
+button:disabled{
+  opacity:.6;
+}
 
 .notice{
- padding:12px;
- margin:12px 0;
- border-radius:8px;
- background:#e7f5ed;
- overflow-wrap:anywhere;
+  padding:14px;
+  margin:12px 0;
+  border-radius:10px;
+  background:#e7f5ed;
+  color:#174b38;
+  overflow-wrap:anywhere;
 }
 
-.table-wrap{overflow-x:auto}
+.table-wrap{
+  width:100%;
+}
 
 table{
- width:100%;
- min-width:550px;
- border-collapse:collapse;
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
 }
 
 th,td{
- padding:12px;
- border-bottom:1px solid #ddd;
- text-align:left;
+  padding:13px 10px;
+  border-bottom:1px solid #e2e9e5;
+  text-align:left;
+  font-size:14px;
+  overflow-wrap:anywhere;
+  vertical-align:middle;
 }
 
 th{
- background:#e7f5ed;
- color:#174b38;
+  background:#e7f5ed;
+  color:#174b38;
 }
 
-.entry{color:#087f5b;font-weight:bold}
-.exit{color:#b42318;font-weight:bold}
+.entry{
+  color:#087f5b;
+  font-weight:bold;
+}
+
+.exit{
+  color:#b42318;
+  font-weight:bold;
+}
 
 footer{
- text-align:center;
- color:#666;
- padding:25px 10px;
+  text-align:center;
+  color:#666;
+  padding:25px 12px;
+  line-height:1.5;
 }
 
 @media(max-width:600px){
- main{padding:12px}
- .card{padding:15px}
- .stats{grid-template-columns:1fr}
+
+  main{
+    padding:12px;
+  }
+
+  .card{
+    padding:17px;
+  }
+
+  header h1{
+    font-size:22px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .stat strong{
+    font-size:27px;
+  }
+
+  .table-wrap{
+    overflow:visible;
+  }
+
+  table{
+    width:100%;
+    table-layout:auto;
+  }
+
+  thead{
+    display:none;
+  }
+
+  tbody{
+    display:block;
+  }
+
+  tbody tr{
+    display:block;
+    border:1px solid #e2ebe5;
+    border-radius:13px;
+    padding:10px 13px;
+    margin-bottom:14px;
+    background:white;
+  }
+
+  tbody td{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid #edf1ee;
+    text-align:right;
+    font-size:15px;
+  }
+
+  tbody td:last-child{
+    border-bottom:0;
+  }
+
+  tbody td::before{
+    content:attr(data-label);
+    color:#174b38;
+    font-weight:bold;
+    text-align:left;
+    flex:0 0 35%;
+  }
+
+  tbody td[colspan]{
+    display:block;
+    text-align:center;
+  }
+
+  tbody td[colspan]::before{
+    content:none;
+  }
 }
 
 @media print{
- body{background:white}
- header{background:white;color:#174b38}
- .no-print{display:none!important}
- main{max-width:100%;padding:0}
- .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
- table{min-width:0;font-size:11px}
- th,td{padding:7px}
- footer{padding:10px}
+
+  body{
+    background:white;
+  }
+
+  header{
+    background:white;
+    color:#087f5b;
+  }
+
+  main{
+    max-width:100%;
+  }
+
+  .no-print,
+  .back,
+  footer{
+    display:none!important;
+  }
+
+  .card{
+    box-shadow:none;
+    border:1px solid #ddd;
+    break-inside:avoid;
+  }
+
+  thead{
+    display:table-header-group;
+  }
+
+  table{
+    table-layout:auto;
+  }
+
+  tbody{
+    display:table-row-group;
+  }
+
+  tbody tr{
+    display:table-row;
+    border:0;
+  }
+
+  tbody td{
+    display:table-cell;
+    text-align:left;
+  }
+
+  tbody td::before{
+    content:none;
+  }
 }
 </style>
 </head>
@@ -156,104 +327,115 @@ footer{
 <body>
 
 <header>
-<h1>Petel Association</h1>
-<p>Solidarité &amp; Développement — Rapports financiers</p>
+  <h1>Petel Association</h1>
+  <p>Solidarité &amp; Développement — Rapports</p>
 </header>
 
 <main>
 
-<p class="no-print">
-<a href="./dashboard.html">← Retour au tableau de bord</a>
+<p>
+  <a class="back" href="./dashboard.html">
+    ← Retour au tableau de bord
+  </a>
 </p>
 
 <div id="notice" class="notice">
-Chargement des rapports...
+  Chargement des rapports...
 </div>
 
 <section class="card">
-<h2>Bilan financier</h2>
 
-<div class="stats">
+  <h2>Bilan financier</h2>
 
-<div class="stat">
-<span>Total des cotisations</span>
-<strong id="cotisations">—</strong>
-</div>
+  <div class="stats">
 
-<div class="stat">
-<span>Total des entrées</span>
-<strong id="entrees">—</strong>
-</div>
+    <div class="stat">
+      <p>Total des cotisations</p>
+      <strong id="cotisations">—</strong>
+    </div>
 
-<div class="stat">
-<span>Total des dépenses</span>
-<strong id="sorties">—</strong>
-</div>
+    <div class="stat">
+      <p>Total des entrées</p>
+      <strong id="entrees">—</strong>
+    </div>
 
-<div class="stat">
-<span>Solde disponible</span>
-<strong id="solde">—</strong>
-</div>
+    <div class="stat">
+      <p>Total des dépenses</p>
+      <strong id="sorties">—</strong>
+    </div>
 
-</div>
+    <div class="stat balance">
+      <p>Solde disponible</p>
+      <strong id="solde">—</strong>
+    </div>
 
-<p id="compteur">Chargement...</p>
+  </div>
+
+  <p id="compteur"></p>
+
 </section>
 
 <section class="card no-print">
-<h2>Filtrer les rapports</h2>
 
-<label for="debut">Date de début</label>
-<input type="date" id="debut">
+  <h2>Filtres des opérations</h2>
 
-<label for="fin">Date de fin</label>
-<input type="date" id="fin">
+  <label for="debut">Date de début</label>
+  <input type="date" id="debut">
 
-<button type="button" id="filtrer">
-Appliquer le filtre
-</button>
+  <label for="fin">Date de fin</label>
+  <input type="date" id="fin">
 
-<button type="button" class="secondary" id="reset">
-Réinitialiser les filtres
-</button>
+  <button type="button" id="filtrer">
+    Appliquer le filtre
+  </button>
 
-<button type="button" class="secondary" id="actualiser">
-Actualiser les données
-</button>
+  <button type="button" class="secondary" id="reset">
+    Réinitialiser les filtres
+  </button>
 
-<button type="button" id="exporter">
-Exporter le rapport en PDF
-</button>
+  <button type="button" class="secondary" id="actualiser">
+    Actualiser les données
+  </button>
+
+  <button type="button" class="pdf" id="exporter">
+    Exporter le rapport en PDF
+  </button>
+
 </section>
 
 <section class="card">
-<h2>Historique financier</h2>
 
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>Type</th>
-<th>Description</th>
-<th>Montant</th>
-</tr>
-</thead>
+  <h2>Historique financier</h2>
 
-<tbody id="historique">
-<tr>
-<td colspan="4">Chargement...</td>
-</tr>
-</tbody>
-</table>
-</div>
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Montant</th>
+        </tr>
+      </thead>
+
+      <tbody id="historique">
+        <tr>
+          <td colspan="4">Chargement...</td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
 
 </section>
 
 </main>
 
 <footer>
-© 2026 Petel Association Solidarité &amp; Développement
+  © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
 <script type="module">
@@ -268,228 +450,316 @@ const SUPABASE_PUBLISHABLE_KEY =
 'sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip';
 
 const db = createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
 );
 
 const $ = id => document.getElementById(id);
 
 let operations = [];
 
+let totalCotisations = 0;
+
+function format(n){
+
+  return Number(n || 0).toLocaleString('fr-FR')
+    + ' FCFA';
+}
+
 function message(text,error=false){
- $('notice').textContent=text;
- $('notice').style.background=
- error?'#ffe7e5':'#e7f5ed';
- $('notice').style.color=
- error?'#a32121':'#174b38';
+
+  $('notice').textContent = text;
+
+  $('notice').style.background =
+    error ? '#ffe7e5' : '#e7f5ed';
+
+  $('notice').style.color =
+    error ? '#a32121' : '#174b38';
 }
 
-function money(value){
- return new Intl.NumberFormat('fr-FR')
- .format(Number(value)||0)+' FCFA';
+function typeEstSortie(type){
+
+  const value = String(type || '')
+    .toLowerCase()
+    .trim();
+
+  return value.includes('sortie') ||
+         value.includes('expense') ||
+         value === 'out';
 }
 
-function dateFormat(date){
- if(!date)return '—';
- const parts=date.split('-');
- if(parts.length!==3)return date;
- return parts[2]+'/'+parts[1]+'/'+parts[0];
-}
+function afficherOperations(){
 
-function memberName(member){
- if(Array.isArray(member))member=member[0];
+  const debut = $('debut').value;
+  const fin = $('fin').value;
 
- return [
- member?.first_name,
- member?.last_name
- ].filter(Boolean).join(' ')||'Membre';
+  const liste = operations.filter(op => {
+
+    const date = op.transaction_date || '';
+
+    return (!debut || date >= debut) &&
+           (!fin || date <= fin);
+  });
+
+  let entrees = 0;
+  let sorties = 0;
+
+  for(const op of liste){
+
+    if(typeEstSortie(op.transaction_type)){
+      sorties += Number(op.amount || 0);
+    }else{
+      entrees += Number(op.amount || 0);
+    }
+  }
+
+  const solde = entrees - sorties;
+
+  $('cotisations').textContent =
+    format(totalCotisations);
+
+  $('entrees').textContent = format(entrees);
+
+  $('sorties').textContent = format(sorties);
+
+  $('solde').textContent = format(solde);
+
+  $('solde').classList.toggle(
+    'negative',
+    solde < 0
+  );
+
+  $('compteur').textContent =
+    liste.length + ' opération(s) enregistrée(s).';
+
+  const tbody = $('historique');
+
+  tbody.replaceChildren();
+
+  if(!liste.length){
+
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+
+    td.colSpan = 4;
+    td.textContent = 'Aucune opération pour cette période.';
+
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+
+    return;
+  }
+
+  const labels = [
+    'Date',
+    'Type',
+    'Description',
+    'Montant'
+  ];
+
+  for(const op of liste){
+
+    const tr = document.createElement('tr');
+
+    const valeurs = [
+
+      op.transaction_date || '—',
+
+      typeEstSortie(op.transaction_type)
+        ? 'Sortie'
+        : 'Entrée',
+
+      op.description || 'Sans description',
+
+      format(op.amount)
+
+    ];
+
+    valeurs.forEach((valeur,index)=>{
+
+      const td = document.createElement('td');
+
+      td.dataset.label = labels[index];
+
+      td.textContent = valeur;
+
+      if(index === 3){
+
+        td.className =
+          typeEstSortie(op.transaction_type)
+            ? 'exit'
+            : 'entry';
+
+      }
+
+      tr.appendChild(td);
+
+    });
+
+    tbody.appendChild(tr);
+
+  }
 }
 
 async function charger(){
 
- message('Chargement des données financières...');
+  message('Chargement des données financières...');
 
- const {data:sessionData,error:sessionError}=
- await db.auth.getSession();
+  const {data:sessionData,error:sessionError} =
+    await db.auth.getSession();
 
- if(sessionError)throw sessionError;
+  if(sessionError){
+    throw sessionError;
+  }
 
- if(!sessionData.session){
- window.location.replace('./index.html');
- return;
- }
+  if(!sessionData.session){
 
- const user=sessionData.session.user;
+    window.location.replace('./index.html');
+    return;
+  }
 
- const {data:profile,error:profileError}=await db
- .from('profiles')
- .select('role')
- .eq('id',user.id)
- .maybeSingle();
+  const userId = sessionData.session.user.id;
 
- if(profileError)throw profileError;
+  const {data:profil,error:profilError} =
+    await db
+      .from('profiles')
+      .select('role')
+      .eq('id',userId)
+      .maybeSingle();
 
- const [contributionResult,expenseResult]=
- await Promise.all([
+  if(profilError){
+    throw profilError;
+  }
 
- db.from('contributions')
- .select('id,member_id,amount,period,payment_date,members(first_name,last_name)'),
+  const [caisseResult,cotisationsResult] =
+    await Promise.all([
 
- db.from('expenses')
- .select('id,description,amount,expense_date')
+      db.from('cash_transactions')
+        .select(
+          'id,transaction_type,amount,description,transaction_date,created_at'
+        )
+        .order('transaction_date',{
+          ascending:false
+        }),
 
- ]);
+      db.from('contributions')
+        .select('amount')
 
- if(contributionResult.error)
- throw contributionResult.error;
+    ]);
 
- if(expenseResult.error)
- throw expenseResult.error;
+  if(caisseResult.error){
+    throw caisseResult.error;
+  }
 
- const contributions=contributionResult.data||[];
- const expenses=expenseResult.data||[];
+  if(cotisationsResult.error){
+    throw cotisationsResult.error;
+  }
 
- const incoming=contributions.map(c=>({
+  operations = caisseResult.data || [];
 
- id:'contribution-'+c.id,
- date:c.payment_date,
- type:'Entrée',
- description:'Cotisation - '+memberName(c.members)+
- (c.period?' - '+c.period:''),
- amount:Number(c.amount)||0
+  totalCotisations =
+    (cotisationsResult.data || [])
+    .reduce(
+      (sum,item)=>sum+Number(item.amount || 0),
+      0
+    );
 
- }));
+  afficherOperations();
 
- const outgoing=expenses.map(e=>({
-
- id:'expense-'+e.id,
- date:e.expense_date,
- type:'Sortie',
- description:e.description||'Dépense',
- amount:Number(e.amount)||0
-
- }));
-
- operations=[...incoming,...outgoing];
-
- operations.sort((a,b)=>
- (b.date||'').localeCompare(a.date||'')
- );
-
- afficher();
-
- message(
- 'Rapports chargés avec succès. Profil : '+
- (profile?.role||'lecteur')+'.'
- );
+  message(
+    'Rapports chargés avec succès. Profil : ' +
+    (profil?.role || 'membre') + '.'
+  );
 }
 
-function afficher(){
+$('filtrer').addEventListener('click',()=>{
 
- const debut=$('debut').value;
- const fin=$('fin').value;
+  const debut = $('debut').value;
+  const fin = $('fin').value;
 
- if(debut&&fin&&debut>fin){
- message('La date de début doit précéder la date de fin.',true);
- return;
- }
+  if(debut && fin && debut > fin){
 
- const liste=operations.filter(op=>
- (!debut||op.date>=debut)&&
- (!fin||op.date<=fin)
- );
+    message(
+      'La date de début doit précéder la date de fin.',
+      true
+    );
 
- const cotisations=liste
- .filter(op=>op.type==='Entrée')
- .reduce((s,op)=>s+op.amount,0);
+    return;
+  }
 
- const sorties=liste
- .filter(op=>op.type==='Sortie')
- .reduce((s,op)=>s+op.amount,0);
+  afficherOperations();
 
- const solde=cotisations-sorties;
-
- $('cotisations').textContent=money(cotisations);
- $('entrees').textContent=money(cotisations);
- $('sorties').textContent=money(sorties);
- $('solde').textContent=money(solde);
-
- $('solde').style.color=
- solde<0?'#b42318':'#087f5b';
-
- $('compteur').textContent=
- liste.length+' opération(s) enregistrée(s).';
-
- const tbody=$('historique');
- tbody.replaceChildren();
-
- if(!liste.length){
- const tr=document.createElement('tr');
- const td=document.createElement('td');
- td.colSpan=4;
- td.textContent='Aucune opération pour cette période.';
- tr.appendChild(td);
- tbody.appendChild(tr);
- return;
- }
-
- for(const op of liste){
-
- const tr=document.createElement('tr');
-
- const values=[
- dateFormat(op.date),
- op.type,
- op.description,
- (op.type==='Entrée'?'+ ':'− ')+money(op.amount)
- ];
-
- values.forEach((value,index)=>{
-
- const td=document.createElement('td');
- td.textContent=value;
-
- if(index===3){
- td.className=
- op.type==='Entrée'?'entry':'exit';
- }
-
- tr.appendChild(td);
-
- });
-
- tbody.appendChild(tr);
- }
-}
-
-$('filtrer').addEventListener('click',afficher);
+});
 
 $('reset').addEventListener('click',()=>{
- $('debut').value='';
- $('fin').value='';
- afficher();
- message('Filtres réinitialisés.');
+
+  $('debut').value = '';
+  $('fin').value = '';
+
+  afficherOperations();
+
+  message('Les filtres ont été réinitialisés.');
+
 });
 
 $('actualiser').addEventListener('click',async()=>{
- try{
- await charger();
- }catch(error){
- console.error(error);
- message('Erreur : '+error.message,true);
- }
+
+  $('actualiser').disabled = true;
+
+  try{
+
+    await charger();
+
+  }catch(error){
+
+    console.error(error);
+
+    message(
+      'Erreur de chargement : ' + error.message,
+      true
+    );
+
+  }finally{
+
+    $('actualiser').disabled = false;
+
+  }
+
 });
 
 $('exporter').addEventListener('click',()=>{
- window.print();
+
+  window.print();
+
 });
 
-charger().catch(error=>{
- console.error(error);
- message('Erreur de chargement : '+error.message,true);
-});
+async function initialiser(){
+
+  try{
+
+    await charger();
+
+  }catch(error){
+
+    console.error(error);
+
+    message(
+      'Impossible de charger les rapports : ' +
+      error.message,
+      true
+    );
+
+    $('historique').innerHTML =
+      '<tr><td colspan="4">Erreur de chargement.</td></tr>';
+
+  }
+
+}
+
+initialiser();
 
 </script>
 
 </body>
 </html>
+
