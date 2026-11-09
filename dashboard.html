@@ -1,274 +1,818 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Petel Association - Tableau de bord</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #1f2937;
-      background: #f1f7f4;
-    }
-    header {
-      background: #087f5b;
-      color: white;
-      text-align: center;
-      padding: 28px 12px;
-    }
-    header h1 { margin: 0 0 12px; font-size: 30px; }
-    header p { margin: 0; font-size: 18px; }
-    main { max-width: 900px; margin: auto; padding: 20px; }
-    .welcome, .card, .menu a, .menu button {
-      display: block;
-      padding: 20px;
-      background: white;
-      border: 0;
-      border-radius: 16px;
-      box-shadow: 0 2px 10px #0000000b;
-    }
-    .welcome { margin-bottom: 18px; }
-    .welcome h2 { font-size: 28px; }
-    .cards, .menu {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .card h3 { margin-top: 0; font-size: 19px; }
-    .number {
-      color: #087f5b;
-      font-size: 28px;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-    .menu { margin-top: 20px; }
-    .menu a, .menu button {
-      color: #1f2937;
-      text-decoration: none;
-      text-align: left;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .menu a:active, .menu button:active { background: #e0f2e9; }
-    #notice {
-      display: none;
-      margin: 15px 0;
-      padding: 14px;
-      border-radius: 10px;
-      background: #fff0e0;
-      color: #8a3412;
-      overflow-wrap: anywhere;
-    }
-    .logout {
-      width: 100%;
-      margin-top: 22px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      color: white;
-      background: #b42318;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    @media (max-width: 520px) {
-      .cards, .menu { grid-template-columns: 1fr; }
-      header h1 { font-size: 26px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#075c45">
+
+<title>Petel Association - Tableau de bord</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #087f5b;
+  --dark-green: #075c45;
+  --light-green: #e8f5ef;
+  --background: #f3f7f5;
+  --text: #25332d;
+  --muted: #75827b;
+  --white: #ffffff;
+  --border: #e5ece8;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* EN-TÊTE */
+
+header {
+  background: linear-gradient(135deg, #075c45, #0b9870);
+  color: white;
+  padding: 27px 16px 32px;
+  text-align: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 45px;
+  height: 45px;
+  border: 2px solid #ffffffa8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+header h1 {
+  font-size: 25px;
+  margin: 0;
+}
+
+header p {
+  margin: 9px 0 0;
+  font-size: 14px;
+  opacity: .9;
+}
+
+/* CONTENU */
+
+main {
+  max-width: 1050px;
+  margin: auto;
+  padding: 20px 16px 35px;
+}
+
+/* BIENVENUE */
+
+.welcome {
+  background: white;
+  border-radius: 18px;
+  padding: 23px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 18px #123d2810;
+  border: 1px solid var(--border);
+}
+
+.welcome-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.welcome h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.welcome p {
+  margin: 9px 0 0;
+  color: #64736b;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.role-badge {
+  display: inline-block;
+  background: var(--light-green);
+  color: var(--dark-green);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* TITRES */
+
+.section-title {
+  font-size: 19px;
+  margin: 25px 0 13px;
+  font-weight: bold;
+}
+
+/* STATISTIQUES */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.card {
+  background: white;
+  padding: 17px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 3px 13px #123d2809;
+  min-width: 0;
+}
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #46564d;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--light-green);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.number {
+  font-size: 23px;
+  font-weight: bold;
+  color: var(--green);
+  margin-top: 15px;
+  overflow-wrap: anywhere;
+}
+
+.card-description {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+/* MENU */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.menu-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 15px;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  box-shadow: 0 3px 12px #123d2808;
+  transition: .2s;
+}
+
+.menu-item:active {
+  background: var(--light-green);
+  transform: scale(.98);
+}
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--light-green);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.menu-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.menu-text strong {
+  display: block;
+  font-size: 13px;
+}
+
+.menu-text small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.arrow {
+  color: #94a39b;
+  font-size: 19px;
+}
+
+/* MESSAGES */
+
+#notice {
+  display: none;
+  padding: 12px 15px;
+  margin: 16px 0;
+  background: #fff1e7;
+  color: #994414;
+  border-radius: 10px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+/* DÉCONNEXION */
+
+.logout {
+  width: 100%;
+  margin-top: 27px;
+  padding: 13px;
+  background: white;
+  border: 1px solid #f1c9c5;
+  border-radius: 12px;
+  color: #b42318;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout:active {
+  background: #fff0ee;
+}
+
+/* PIED DE PAGE */
+
+footer {
+  text-align: center;
+  padding: 22px 12px;
+  color: #87938c;
+  font-size: 12px;
+}
+
+/* ORDINATEUR */
+
+@media (min-width: 800px) {
+  main {
+    padding-top: 28px;
+  }
+
+  .welcome {
+    padding: 27px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* TÉLÉPHONE */
+
+@media (max-width: 520px) {
+  header {
+    padding: 22px 12px 25px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  main {
+    padding: 15px 12px 25px;
+  }
+
+  .welcome {
+    padding: 17px;
+    margin-bottom: 17px;
+  }
+
+  .welcome h2 {
+    font-size: 20px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .card {
+    padding: 13px;
+  }
+
+  .card-heading {
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .card-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 17px;
+  }
+
+  .number {
+    font-size: 20px;
+    margin-top: 12px;
+  }
+
+  .card-description {
+    font-size: 11px;
+  }
+
+  .section-title {
+    font-size: 17px;
+    margin-top: 22px;
+  }
+
+  .menu-grid {
+    gap: 9px;
+  }
+
+  .menu-item {
+    padding: 11px 9px;
+    gap: 8px;
+  }
+
+  .menu-icon {
+    width: 33px;
+    height: 33px;
+    font-size: 17px;
+  }
+
+  .menu-text strong {
+    font-size: 11px;
+  }
+
+  .menu-text small {
+    font-size: 10px;
+  }
+
+  .arrow {
+    font-size: 15px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <header>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo">PA</div>
     <h1>Petel Association</h1>
-    <p>Solidarité &amp; Développement</p>
-  </header>
+  </div>
+  <p>Solidarité &amp; Développement</p>
+</header>
 
-  <main>
-    <section class="welcome">
+<main>
+
+  <!-- BIENVENUE -->
+
+  <section class="welcome">
+
+    <div class="welcome-top">
       <h2>Bienvenue 👋</h2>
-      <p>Tableau de bord de votre association.</p>
-      <p id="roleText">Rôle : vérification en cours...</p>
-      <p id="userText"></p>
-    </section>
+      <span id="roleBadge" class="role-badge">
+        Vérification...
+      </span>
+    </div>
 
-    <section class="cards">
-      <article class="card">
-        <h3>👥 Membres</h3>
-        <div class="number" id="membersCount">Chargement...</div>
-        <p>Membres enregistrés</p>
-      </article>
-      <article class="card">
-        <h3>💰 Cotisations</h3>
-        <div class="number" id="contributionsTotal">Chargement...</div>
-        <p>Total des cotisations</p>
-      </article>
-      <article class="card">
-        <h3>💸 Dépenses</h3>
-        <div class="number" id="expensesTotal">Chargement...</div>
-        <p>Total des dépenses</p>
-      </article>
-      <article class="card">
-        <h3>🏦 Caisse</h3>
-        <div class="number" id="cashBalance">Chargement...</div>
-        <p>Solde disponible</p>
-      </article>
-    </section>
+    <p>Votre espace de gestion associative.</p>
 
-    <div id="notice"></div>
+    <p id="roleText">Rôle : vérification en cours...</p>
 
-    <nav class="menu">
-      <a href="./members.html">👥 Gestion des membres</a>
-      <a href="./contributions.html">💰 Cotisations</a>
-      <a href="./caisse.html">🏦 Caisse</a>
-      <a href="./depenses.html">💸 Dépenses</a>
-      <a href="./rapports.html">📊 Rapports</a>
-      <button id="chatButton" hidden>💬 Chat / Réclamations (à créer)</button>
-      <button id="settingsButton" hidden>⚙️ Paramètres (à créer)</button>
-    </nav>
+    <p id="userText"></p>
 
-    <button class="logout" id="logoutButton">Se déconnecter</button>
-  </main>
+  </section>
 
-  <script type="module">
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  <!-- STATISTIQUES -->
 
-    const SUPABASE_URL =
-      "https://evbpmafgciphyfzmkctc.supabase.co";
+  <h2 class="section-title">Vue d'ensemble</h2>
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+  <section class="cards">
 
-    const $ = id => document.getElementById(id);
-    const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+    <article class="card">
+      <div class="card-heading">
+        <span class="card-icon">👥</span>
+        Membres
+      </div>
+      <div class="number" id="membersCount">...</div>
+      <p class="card-description">Membres enregistrés</p>
+    </article>
 
-    function message(texte) {
-      $("notice").textContent = texte;
-      $("notice").style.display = "block";
-    }
+    <article class="card">
+      <div class="card-heading">
+        <span class="card-icon">💰</span>
+        Cotisations
+      </div>
+      <div class="number" id="contributionsTotal">...</div>
+      <p class="card-description">Total des cotisations</p>
+    </article>
 
-    async function startDashboard() {
-      try {
-        const { data, error } = await db.auth.getSession();
-        if (error) throw error;
+    <article class="card">
+      <div class="card-heading">
+        <span class="card-icon">💸</span>
+        Dépenses
+      </div>
+      <div class="number" id="expensesTotal">...</div>
+      <p class="card-description">Total des dépenses</p>
+    </article>
 
-        const session = data.session;
-        if (!session) {
-          window.location.replace("./index.html");
-          return;
-        }
+    <article class="card">
+      <div class="card-heading">
+        <span class="card-icon">🏦</span>
+        Caisse
+      </div>
+      <div class="number" id="cashBalance">...</div>
+      <p class="card-description">Solde disponible</p>
+    </article>
 
-        $("userText").textContent =
-          "Connecté : " + (session.user.email || "");
+  </section>
 
-        const { data: profile, error: roleError } = await db
-          .from("profiles")
-          .select("role")
-          .eq("id", session.user.id)
-          .maybeSingle();
+  <div id="notice" role="status" aria-live="polite"></div>
 
-        if (roleError) {
-          $("roleText").textContent = "Rôle : non vérifié";
-          console.error(roleError);
-        } else {
-          const role = String(profile?.role || "").toLowerCase();
-          const admin = role === "admin" || role === "administrateur";
+  <!-- NAVIGATION -->
 
-          $("roleText").textContent = admin
-            ? "Rôle : Administrateur"
-            : role
-              ? "Rôle : Lecteur"
-              : "Rôle : non défini";
+  <h2 class="section-title">Gestion de l'association</h2>
 
-          $("chatButton").hidden = false;
-          $("settingsButton").hidden = !admin;
-        }
+  <nav class="menu-grid">
 
-        const { count, error: membersError } = await db
-          .from("members")
-          .select("id", { count: "exact", head: true });
+    <a class="menu-item" href="./members.html">
+      <span class="menu-icon">👥</span>
+      <span class="menu-text">
+        <strong>Membres</strong>
+        <small>Gérer les adhérents</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
 
-        if (membersError) {
-          $("membersCount").textContent = "Indisponible";
-          message("Lecture des membres impossible. Vérifie les autorisations de la table members.");
-          console.error(membersError);
-        } else {
-          $("membersCount").textContent = count ?? 0;
-        }
-            const { data: contributions, error: contributionsError } =
-      await db.from("contributions").select("amount");
+    <a class="menu-item" href="./contributions.html">
+      <span class="menu-icon">💰</span>
+      <span class="menu-text">
+        <strong>Cotisations</strong>
+        <small>Suivre les paiements</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
 
-    if (contributionsError) throw contributionsError;
+    <a class="menu-item" href="./depenses.html">
+      <span class="menu-icon">💸</span>
+      <span class="menu-text">
+        <strong>Dépenses</strong>
+        <small>Gérer les dépenses</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
 
-    const totalContributions = (contributions || [])
-      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    <a class="menu-item" href="./caisse.html">
+      <span class="menu-icon">🏦</span>
+      <span class="menu-text">
+        <strong>Caisse</strong>
+        <small>Suivre le solde</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="menu-item" href="./rapports.html">
+      <span class="menu-icon">📊</span>
+      <span class="menu-text">
+        <strong>Rapports</strong>
+        <small>Consulter les bilans</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="menu-item" href="./chat.html" id="chatButton" hidden>
+      <span class="menu-icon">💬</span>
+      <span class="menu-text">
+        <strong>Chat</strong>
+        <small>Réclamations et suggestions</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="menu-item" href="./settings.html" id="settingsButton" hidden>
+      <span class="menu-icon">⚙️</span>
+      <span class="menu-text">
+        <strong>Paramètres</strong>
+        <small>Administration</small>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+  </nav>
+
+  <!-- DÉCONNEXION -->
+
+  <button class="logout" id="logoutButton">
+    ↪ Se déconnecter
+  </button>
+
+</main>
+
+<footer>
+  © 2026 Petel Association Solidarité &amp; Développement
+</footer>
+
+<script type="module">
+
+import { createClient } from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+"https://evbpmafgciphyfzmkctc.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+function message(texte) {
+  $("notice").textContent = texte;
+  $("notice").style.display = "block";
+}
+
+function formaterMontant(valeur) {
+  return Number(valeur || 0).toLocaleString("fr-FR")
+    + " FCFA";
+}
+
+async function chargerStatistiques() {
+
+  // NOMBRE DE MEMBRES
+
+  try {
+    const { count, error } = await db
+      .from("members")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+    if (error) throw error;
+
+    $("membersCount").textContent = count ?? 0;
+
+  } catch (error) {
+    $("membersCount").textContent = "Indisponible";
+    console.error("Erreur membres :", error);
+    message("Impossible de charger le nombre de membres.");
+  }
+
+  // TOTAL DES COTISATIONS
+
+  try {
+    const { data, error } = await db
+      .from("contributions")
+      .select("amount");
+
+    if (error) throw error;
+
+    const total = (data || []).reduce(
+      (sum, item) => sum + Number(item.amount || 0),
+      0
+    );
 
     $("contributionsTotal").textContent =
-      totalContributions.toLocaleString("fr-FR") + " FCFA";
+      formaterMontant(total);
 
-    const { data: expenses, error: expensesError } =
-      await db.from("expenses").select("amount");
+  } catch (error) {
+    $("contributionsTotal").textContent = "Indisponible";
+    console.error("Erreur cotisations :", error);
+    message("Impossible de charger les cotisations.");
+  }
 
-    if (expensesError) throw expensesError;
+  // TOTAL DES DÉPENSES
 
-    const totalExpenses = (expenses || [])
-      .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  try {
+    const { data, error } = await db
+      .from("expenses")
+      .select("amount");
+
+    if (error) throw error;
+
+    const total = (data || []).reduce(
+      (sum, item) => sum + Number(item.amount || 0),
+      0
+    );
 
     $("expensesTotal").textContent =
-      totalExpenses.toLocaleString("fr-FR") + " FCFA";
+      formaterMontant(total);
 
-    const { data: transactions, error: cashError } =
-      await db.from("cash_transactions")
-        .select("transaction_type, amount");
-
-    if (cashError) throw cashError;
-
-    const cashBalance = (transactions || []).reduce((sum, item) => {
-  const amount = Number(item.amount || 0);
-  const type = String(item.transaction_type || "").toLowerCase();
-
-  if (["entrée", "entree", "income", "in", "cotisation"].includes(type)) {
-    return sum + amount;
+  } catch (error) {
+    $("expensesTotal").textContent = "Indisponible";
+    console.error("Erreur dépenses :", error);
+    message("Impossible de charger les dépenses.");
   }
 
-  if (["sortie", "sorties", "out", "expense", "dépense", "depense"].includes(type)) {
-    return sum - amount;
-  }
+  // SOLDE DE LA CAISSE
 
-  return sum;
-}, 0);
+  try {
+    const { data, error } = await db
+      .from("cash_transactions")
+      .select("transaction_type, amount");
+
+    if (error) throw error;
+
+    const solde = (data || []).reduce((sum, item) => {
+
+      const montant = Number(item.amount || 0);
+
+      const type = String(
+        item.transaction_type || ""
+      ).trim().toLowerCase();
+
+      if ([
+        "entrée",
+        "entree",
+        "income",
+        "in",
+        "cotisation"
+      ].includes(type)) {
+        return sum + montant;
+      }
+
+      if ([
+        "sortie",
+        "sorties",
+        "out",
+        "expense",
+        "dépense",
+        "depense"
+      ].includes(type)) {
+        return sum - montant;
+      }
+
+      return sum;
+
+    }, 0);
 
     $("cashBalance").textContent =
-      cashBalance.toLocaleString("fr-FR") + " FCFA";
-      } catch (e) {
-        $("roleText").textContent = "Rôle : erreur de chargement";
-        $("membersCount").textContent = "Erreur";
-        message("Erreur Supabase : " + (e.message || "vérifie la connexion et la clé Publishable."));
-        console.error(e);
-      }
+      formaterMontant(solde);
+
+  } catch (error) {
+    $("cashBalance").textContent = "Indisponible";
+    console.error("Erreur caisse :", error);
+    message("Impossible de charger le solde de la caisse.");
+  }
+}
+
+// DÉMARRAGE DU TABLEAU DE BORD
+
+async function startDashboard() {
+
+  try {
+
+    const { data, error } =
+      await db.auth.getSession();
+
+    if (error) throw error;
+
+    const session = data.session;
+
+    if (!session) {
+      window.location.replace("./index.html");
+      return;
     }
 
-    $("logoutButton").addEventListener("click", async () => {
+    $("userText").textContent =
+      "Connecté : " + (session.user.email || "");
+
+    // VÉRIFICATION DU RÔLE
+
+    const { data: profile, error: roleError } =
+      await db
+        .from("profiles")
+        .select("role")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+    if (roleError) throw roleError;
+
+    if (!profile || !profile.role) {
+      throw new Error(
+        "Profil ou rôle utilisateur introuvable."
+      );
+    }
+
+    const role = String(profile.role)
+      .trim()
+      .toLowerCase();
+
+    const admin = [
+      "admin",
+      "administrateur"
+    ].includes(role);
+
+    $("roleText").textContent = admin
+      ? "Vous avez accès à l'administration."
+      : "Vous disposez d'un accès en consultation.";
+
+    $("roleBadge").textContent = admin
+      ? "ADMINISTRATEUR"
+      : "LECTEUR";
+
+    // ACCÈS AUX MENUS
+
+    $("chatButton").hidden = false;
+
+    $("settingsButton").hidden = !admin;
+
+    // CHARGEMENT DES STATISTIQUES
+
+    await chargerStatistiques();
+
+  } catch (error) {
+
+    console.error(error);
+
+    $("roleText").textContent =
+      "Vérification du compte impossible.";
+
+    $("roleBadge").textContent =
+      "ACCÈS NON VÉRIFIÉ";
+
+    message(
+      "Erreur : " +
+      (error.message || "Connexion Supabase impossible.")
+    );
+  }
+}
+
+// DÉCONNEXION
+
+$("logoutButton").addEventListener(
+  "click",
+  async () => {
+
+    $("logoutButton").disabled = true;
+
+    try {
+
       const { error } = await db.auth.signOut();
-      if (error) {
-        message("Déconnexion impossible : " + error.message);
-      } else {
-        window.location.replace("./index.html");
-      }
-    });
 
-    $("chatButton").addEventListener("click", () => {
-  window.location.href = "./chat.html";
-});
-    $("settingsButton").addEventListener("click", () => {
-  window.location.href = "./settings.html";
-});
+      if (error) throw error;
 
-    startDashboard();
-  </script>
+      window.location.replace("./index.html");
+
+    } catch (error) {
+
+      message(
+        "Déconnexion impossible : " + error.message
+      );
+
+      $("logoutButton").disabled = false;
+    }
+  }
+);
+
+// LANCEMENT
+
+startDashboard();
+
+</script>
+
 </body>
-</html>
+  </html>
 
