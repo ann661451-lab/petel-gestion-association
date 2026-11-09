@@ -23,11 +23,7 @@ header {
   text-align: center;
 }
 
-header h1 {
-  margin: 0 0 8px;
-  font-size: 25px;
-}
-
+header h1 { margin: 0 0 8px; font-size: 25px; }
 header p { margin: 0; }
 
 main {
@@ -72,8 +68,6 @@ input, textarea {
   font-size: 15px;
   font-family: Arial, sans-serif;
 }
-
-textarea { min-height: 80px; }
 
 button {
   padding: 12px 14px;
@@ -126,10 +120,6 @@ th {
   font-weight: bold;
 }
 
-.actions {
-  min-width: 145px;
-}
-
 .hidden { display: none !important; }
 
 footer {
@@ -138,29 +128,21 @@ footer {
   padding: 25px 12px;
 }
 
-/* AFFICHAGE SUR TELEPHONE */
+/* AFFICHAGE MOBILE */
 
 @media (max-width: 600px) {
 
   main { padding: 12px; }
 
   header { padding: 20px 12px; }
-
   header h1 { font-size: 22px; }
-
   header p { font-size: 14px; }
 
   .card { padding: 15px; }
-
   h2 { font-size: 21px; }
-
   .total { font-size: 26px; }
 
-  /* Transformation du tableau en fiches */
-
-  .table-wrap {
-    overflow: visible;
-  }
+  .table-wrap { overflow: visible; }
 
   table {
     width: 100%;
@@ -168,9 +150,7 @@ footer {
     border-spacing: 0;
   }
 
-  thead {
-    display: none;
-  }
+  thead { display: none; }
 
   tbody {
     display: block;
@@ -180,7 +160,7 @@ footer {
   tbody tr {
     display: block;
     width: 100%;
-    background: #ffffff;
+    background: white;
     border: 1px solid #e2ebe5;
     border-radius: 12px;
     padding: 10px 12px;
@@ -194,16 +174,14 @@ footer {
     align-items: flex-start;
     gap: 12px;
     width: 100%;
-    padding: 9px 0;
+    padding: 11px 0;
     border-bottom: 1px solid #edf1ee;
     font-size: 14px;
     text-align: right;
     overflow-wrap: anywhere;
   }
 
-  tbody td:last-child {
-    border-bottom: 0;
-  }
+  tbody td:last-child { border-bottom: 0; }
 
   tbody td::before {
     content: attr(data-label);
@@ -223,9 +201,7 @@ footer {
     text-align: center;
   }
 
-  tbody td[colspan]::before {
-    content: none;
-  }
+  tbody td[colspan]::before { content: none; }
 
   tbody td.actions {
     display: flex;
@@ -292,9 +268,6 @@ footer {
     <label for="expenseDate">Date de la dépense</label>
     <input id="expenseDate" type="date" required>
 
-    <label for="notes">Notes (facultatif)</label>
-    <textarea id="notes" maxlength="1000"></textarea>
-
     <button id="saveButton" type="submit">
       Enregistrer la dépense
     </button>
@@ -317,12 +290,10 @@ footer {
   <div class="table-wrap" style="margin-top:15px">
 
     <table>
-
       <thead>
         <tr>
           <th>Date</th>
           <th>Description</th>
-          <th>Notes</th>
           <th>Montant</th>
           <th id="actionsHead" class="hidden">Actions</th>
         </tr>
@@ -330,10 +301,9 @@ footer {
 
       <tbody id="history">
         <tr>
-          <td colspan="5">Chargement...</td>
+          <td colspan="4">Chargement...</td>
         </tr>
       </tbody>
-
     </table>
 
   </div>
@@ -429,7 +399,6 @@ function showForm(expense = null) {
   $('amount').value = expense?.amount ?? '';
   $('description').value = expense?.description ?? '';
   $('expenseDate').value = expense?.expense_date ?? today();
-  $('notes').value = expense?.notes ?? '';
 
   $('formTitle').textContent = expense
     ? 'Modifier une dépense'
@@ -474,7 +443,7 @@ function render() {
     const tr = document.createElement('tr');
     const td = document.createElement('td');
 
-    td.colSpan = isAdmin() ? 5 : 4;
+    td.colSpan = isAdmin() ? 4 : 3;
     td.textContent = 'Aucune dépense enregistrée.';
 
     tr.appendChild(td);
@@ -490,7 +459,6 @@ function render() {
     const values = [
       ['Date', formatDate(e.expense_date)],
       ['Description', e.description || '—'],
-      ['Notes', e.notes || '—'],
       ['Montant', formatMoney(e.amount)]
     ];
 
@@ -501,7 +469,7 @@ function render() {
       td.dataset.label = values[i][0];
       td.textContent = values[i][1];
 
-      if (i === 3) {
+      if (i === 2) {
         td.className = 'expense-total';
       }
 
@@ -511,26 +479,20 @@ function render() {
     if (isAdmin()) {
 
       const td = document.createElement('td');
-
       td.className = 'actions';
 
       const edit = document.createElement('button');
-
       edit.type = 'button';
       edit.textContent = 'Modifier';
-
       edit.addEventListener('click', () => showForm(e));
 
       const del = document.createElement('button');
-
       del.type = 'button';
       del.textContent = 'Supprimer';
       del.className = 'danger';
-
       del.addEventListener('click', () => deleteExpense(e.id));
 
       td.append(edit, del);
-
       tr.appendChild(td);
     }
 
@@ -542,7 +504,7 @@ async function loadExpenses() {
 
   const { data, error } = await db
     .from('expenses')
-    .select('id,description,amount,expense_date,notes,created_by,created_at')
+    .select('id,description,amount,expense_date,created_by,created_at')
     .order('expense_date', { ascending: false })
     .order('created_at', { ascending: false });
 
@@ -564,7 +526,6 @@ async function initialise() {
     user = data.session?.user;
 
     if (!user) {
-
       window.location.replace('./index.html');
       return;
     }
@@ -602,13 +563,12 @@ async function initialise() {
   } catch (error) {
 
     message('Erreur : ' + error.message, 'error');
-
     console.error(error);
 
     $('expensesTotal').textContent = '—';
 
     $('history').innerHTML =
-      '<tr><td colspan="5">Erreur de chargement.</td></tr>';
+      '<tr><td colspan="4">Erreur de chargement.</td></tr>';
   }
 }
 
@@ -617,12 +577,7 @@ async function saveExpense(event) {
   event.preventDefault();
 
   if (!isAdmin() || !user || saving) {
-
-    message(
-      'Action réservée à l’administrateur.',
-      'error'
-    );
-
+    message('Action réservée à l’administrateur.', 'error');
     return;
   }
 
@@ -630,7 +585,6 @@ async function saveExpense(event) {
   const amount = Number($('amount').value);
   const description = $('description').value.trim();
   const expense_date = $('expenseDate').value;
-  const notes = $('notes').value.trim();
 
   if (
     !Number.isFinite(amount) ||
@@ -638,7 +592,6 @@ async function saveExpense(event) {
     !description ||
     !expense_date
   ) {
-
     message('Vérifie les informations saisies.', 'error');
     return;
   }
@@ -646,8 +599,7 @@ async function saveExpense(event) {
   const record = {
     amount,
     description,
-    expense_date,
-    notes: notes || null
+    expense_date
   };
 
   saving = true;
@@ -737,7 +689,6 @@ $('refreshButton').addEventListener('click', async () => {
   try {
 
     await loadExpenses();
-
     message('Liste actualisée.');
 
   } catch (error) {
@@ -752,3 +703,4 @@ initialise();
 
 </body>
 </html>
+
