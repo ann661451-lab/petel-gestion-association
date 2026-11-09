@@ -64,20 +64,24 @@ label {
   margin: 13px 0 6px;
 }
 
-input, textarea, button {
+input, textarea {
   width: 100%;
   padding: 12px;
   border-radius: 9px;
   border: 1px solid #ccd8d0;
   font-size: 15px;
+  font-family: Arial, sans-serif;
 }
 
 textarea { min-height: 80px; }
 
 button {
+  padding: 12px 14px;
+  border-radius: 9px;
   background: #087f5b;
   color: white;
   border: 0;
+  font-size: 15px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
@@ -87,76 +91,6 @@ button.secondary { background: #586761; }
 button.danger { background: #b42318; }
 button:disabled { opacity: .5; }
 
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-th, td {
-  padding: 11px 8px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-  vertical-align: middle;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-th {
-  background: #e7f5ed;
-  color: #174b38;
-}
-
-/* Largeurs du tableau lecteur */
-
-.expenses-table th:nth-child(1),
-.expenses-table td:nth-child(1) {
-  width: 22%;
-}
-
-.expenses-table th:nth-child(2),
-.expenses-table td:nth-child(2) {
-  width: 30%;
-}
-
-.expenses-table th:nth-child(3),
-.expenses-table td:nth-child(3) {
-  width: 20%;
-}
-
-.expenses-table th:nth-child(4),
-.expenses-table td:nth-child(4) {
-  width: 28%;
-}
-
-/* Tableau administrateur */
-
-.expenses-table.admin-table {
-  min-width: 680px;
-  table-layout: auto;
-}
-
-.expenses-table.admin-table th,
-.expenses-table.admin-table td {
-  font-size: 14px;
-}
-
-.expenses-table.admin-table th:last-child,
-.expenses-table.admin-table td:last-child {
-  min-width: 145px;
-}
-
-.expense-total {
-  color: #087f5b;
-  font-weight: bold;
-}
-
 .notice {
   padding: 12px;
   margin: 12px 0;
@@ -164,17 +98,49 @@ th {
   overflow-wrap: anywhere;
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+th {
+  background: #e7f5ed;
+  color: #174b38;
+}
+
+.expense-total {
+  color: #087f5b;
+  font-weight: bold;
+}
+
+.actions {
+  min-width: 145px;
+}
+
 .hidden { display: none !important; }
 
 footer {
   text-align: center;
   color: #666;
-  padding: 25px 10px;
+  padding: 25px 12px;
 }
 
-/* Adaptation téléphone */
+/* AFFICHAGE SUR TELEPHONE */
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
   main { padding: 12px; }
 
@@ -184,35 +150,101 @@ footer {
 
   header p { font-size: 14px; }
 
-  .card { padding: 14px; }
+  .card { padding: 15px; }
 
   h2 { font-size: 21px; }
 
   .total { font-size: 26px; }
 
-  th, td {
-    padding: 9px 5px;
-    font-size: 12px;
+  /* Transformation du tableau en fiches */
+
+  .table-wrap {
+    overflow: visible;
   }
 
-  .expenses-table th:nth-child(1),
-  .expenses-table td:nth-child(1) {
-    width: 23%;
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
   }
 
-  .expenses-table th:nth-child(2),
-  .expenses-table td:nth-child(2) {
-    width: 30%;
+  thead {
+    display: none;
   }
 
-  .expenses-table th:nth-child(3),
-  .expenses-table td:nth-child(3) {
-    width: 19%;
+  tbody {
+    display: block;
+    width: 100%;
   }
 
-  .expenses-table th:nth-child(4),
-  .expenses-table td:nth-child(4) {
-    width: 28%;
+  tbody tr {
+    display: block;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e2ebe5;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 7px #00000008;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 9px 0;
+    border-bottom: 1px solid #edf1ee;
+    font-size: 14px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    color: #174b38;
+    font-weight: bold;
+    text-align: left;
+    flex: 0 0 34%;
+  }
+
+  tbody td.expense-total {
+    font-size: 16px;
+    color: #087f5b;
+  }
+
+  tbody td[colspan] {
+    display: block;
+    text-align: center;
+  }
+
+  tbody td[colspan]::before {
+    content: none;
+  }
+
+  tbody td.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  tbody td.actions::before {
+    content: "Actions";
+    flex-basis: 100%;
+  }
+
+  tbody td.actions button {
+    width: auto;
+    flex: 1;
+    margin: 0;
+    font-size: 13px;
+    padding: 10px 8px;
   }
 
   footer { font-size: 14px; }
@@ -284,7 +316,7 @@ footer {
 
   <div class="table-wrap" style="margin-top:15px">
 
-    <table id="expensesTable" class="expenses-table">
+    <table>
 
       <thead>
         <tr>
@@ -342,6 +374,7 @@ let expenses = [];
 let saving = false;
 
 function message(text, type = 'info') {
+
   const box = $('notice');
 
   box.textContent = text;
@@ -365,6 +398,7 @@ function formatMoney(value) {
 }
 
 function formatDate(date) {
+
   if (!date) return '—';
 
   const parts = date.split('-');
@@ -375,6 +409,7 @@ function formatDate(date) {
 }
 
 function today() {
+
   const d = new Date();
 
   const year = d.getFullYear();
@@ -412,6 +447,7 @@ function showForm(expense = null) {
 }
 
 function closeForm() {
+
   $('formCard').classList.add('hidden');
   $('expenseForm').reset();
   $('expenseId').value = '';
@@ -452,17 +488,18 @@ function render() {
     const tr = document.createElement('tr');
 
     const values = [
-      formatDate(e.expense_date),
-      e.description || '—',
-      e.notes || '—',
-      formatMoney(e.amount)
+      ['Date', formatDate(e.expense_date)],
+      ['Description', e.description || '—'],
+      ['Notes', e.notes || '—'],
+      ['Montant', formatMoney(e.amount)]
     ];
 
     for (let i = 0; i < values.length; i++) {
 
       const td = document.createElement('td');
 
-      td.textContent = values[i];
+      td.dataset.label = values[i][0];
+      td.textContent = values[i][1];
 
       if (i === 3) {
         td.className = 'expense-total';
@@ -474,6 +511,8 @@ function render() {
     if (isAdmin()) {
 
       const td = document.createElement('td');
+
+      td.className = 'actions';
 
       const edit = document.createElement('button');
 
@@ -525,6 +564,7 @@ async function initialise() {
     user = data.session?.user;
 
     if (!user) {
+
       window.location.replace('./index.html');
       return;
     }
@@ -541,14 +581,8 @@ async function initialise() {
       .trim()
       .toLowerCase();
 
-    $('expensesTable').classList.toggle(
-      'admin-table',
-      isAdmin()
-    );
-
     if (isAdmin()) {
 
-      $('formCard').classList.remove('hidden');
       $('addButton').classList.remove('hidden');
       $('actionsHead').classList.remove('hidden');
 
@@ -561,7 +595,6 @@ async function initialise() {
       message(
         'Mode consultation : les dépenses sont en lecture seule.'
       );
-
     }
 
     await loadExpenses();
@@ -584,7 +617,12 @@ async function saveExpense(event) {
   event.preventDefault();
 
   if (!isAdmin() || !user || saving) {
-    message('Action réservée à l’administrateur.', 'error');
+
+    message(
+      'Action réservée à l’administrateur.',
+      'error'
+    );
+
     return;
   }
 
@@ -600,6 +638,7 @@ async function saveExpense(event) {
     !description ||
     !expense_date
   ) {
+
     message('Vérifie les informations saisies.', 'error');
     return;
   }
@@ -633,7 +672,6 @@ async function saveExpense(event) {
           ...record,
           created_by: user.id
         });
-
     }
 
     if (result.error) throw result.error;
@@ -651,7 +689,6 @@ async function saveExpense(event) {
   } catch (error) {
 
     message('Erreur : ' + error.message, 'error');
-
     console.error(error);
 
   } finally {
@@ -685,7 +722,6 @@ async function deleteExpense(id) {
   } catch (error) {
 
     message('Erreur : ' + error.message, 'error');
-
     console.error(error);
   }
 }
