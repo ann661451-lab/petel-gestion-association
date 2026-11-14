@@ -1,118 +1,372 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#087354">
-<title>Gestion des membres - Petel Association</title>
+<meta name="theme-color" content="#075c45">
+
+<title>Membres - Petel Association</title>
 
 <style>
-* { box-sizing: border-box; }
+:root {
+  --green: #087f5b;
+  --dark: #064c3b;
+  --gold: #c5a45b;
+  --light: #eaf5ef;
+  --bg: #f3f7f5;
+  --text: #20352d;
+  --muted: #75827b;
+  --white: #fff;
+  --border: #e2ebe6;
+  --red: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #eff7f4;
-  color: #263238;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
 }
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden], .hidden {
+  display: none !important;
+}
+
+/* EN-TÊTE */
 
 header {
-  background: #087354;
+  background: linear-gradient(130deg, #064c3b, #087f5b);
   color: white;
   text-align: center;
-  padding: 25px 15px;
+  padding: 27px 15px 30px;
+  border-bottom: 4px solid var(--gold);
 }
 
-header h1 { margin: 0 0 8px; }
+.brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--gold);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f4d994;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+header p {
+  margin: 9px 0;
+  opacity: .9;
+  font-size: 14px;
+}
+
+header h2 {
+  color: white;
+  margin: 13px 0 0;
+  font-size: 20px;
+}
+
+/* CONTENU */
 
 main {
-  max-width: 900px;
-  margin: 25px auto;
-  padding: 15px;
+  max-width: 1000px;
+  margin: auto;
+  padding: 22px 16px 35px;
 }
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 16px;
+  margin-bottom: 18px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 3px 12px #123d2808;
+}
+
+/* CARTES */
 
 .card {
   background: white;
+  border: 1px solid var(--border);
+  border-radius: 19px;
   padding: 22px;
-  margin-bottom: 20px;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px #0000000d;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 18px #123d280a;
 }
 
-h2 {
-  color: #087354;
-  font-size: 24px;
+.card h2 {
+  color: var(--dark);
+  font-size: 19px;
+  margin: 0 0 15px;
+}
+
+.welcome {
+  border-top: 4px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome h2 {
+  font-size: 22px;
+}
+
+.welcome p {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 30px;
+  background: var(--light);
+  color: var(--dark);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* STATISTIQUES */
+
+.member-count {
+  font-size: 38px;
+  font-weight: bold;
+  color: var(--green);
+}
+
+.count-label {
+  color: var(--muted);
+  margin: 0;
+}
+
+.search-box {
+  margin-top: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 12px 0 6px;
+  color: var(--dark);
 }
 
 input {
   width: 100%;
-  padding: 13px;
-  margin: 7px 0 13px;
-  border: 1px solid #ccd8d3;
-  border-radius: 9px;
-  font-size: 16px;
-}
-
-button, .back {
-  display: inline-block;
-  border: none;
-  border-radius: 9px;
-  padding: 12px 17px;
-  margin: 5px 3px;
+  padding: 13px 14px;
+  border: 1px solid #dce6e0;
+  border-radius: 11px;
+  background: #fbfdfc;
+  color: var(--text);
   font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
+  outline: none;
 }
 
-.primary { background: #087354; color: white; }
-.edit { background: #e6a900; color: white; }
-.delete { background: #b42318; color: white; }
-.back { background: #263238; color: white; }
-.cancel { background: #64748b; color: white; }
+input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px #087f5b18;
+}
+
+/* BOUTONS */
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 17px;
+  border: none;
+  border-radius: 11px;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 5px 3px;
+  transition: .2s;
+}
+
+.btn:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.primary {
+  background: linear-gradient(135deg, #075c45, #0a916a);
+  color: white;
+}
+
+.gold {
+  background: #c5a45b;
+  color: #24362e;
+}
+
+.danger {
+  background: #fff0ee;
+  color: var(--red);
+  border: 1px solid #f3d2ce;
+}
+
+.cancel {
+  background: #edf1ef;
+  color: #53635a;
+}
+
+.logout {
+  background: white;
+  color: var(--red);
+  border: 1px solid #efcfca;
+  width: 100%;
+  margin: 15px 0;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+/* FORMULAIRE */
+
+.form-card {
+  border-top: 4px solid var(--gold);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* NOTIFICATIONS */
 
 #notice {
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 15px;
   display: none;
+  padding: 13px 15px;
+  border-radius: 12px;
+  margin: 15px 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* TABLEAU */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  margin-top: 15px;
 }
 
 table {
   width: 100%;
+  min-width: 570px;
   border-collapse: collapse;
-  min-width: 0;
-  table-layout: fixed;
+  background: white;
 }
 
 th, td {
+  padding: 13px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 
-th, td {
-  padding: 10px 6px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-  font-size: 15px;
-  white-space: nowrap;
-}
-
-th { background: #e8f3ee; }
-
-.table-container { overflow-x: auto; }
-
-.member-count {
-  font-size: 28px;
+th {
+  background: #eaf5ef;
+  color: var(--dark);
   font-weight: bold;
-  color: #087354;
 }
 
-.hidden { display: none !important; }
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f7fbf8;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 25px;
+}
+
+/* PIED DE PAGE */
 
 footer {
   text-align: center;
-  padding: 20px;
-  color: #667;
+  color: #87938c;
+  padding: 22px 12px;
+  font-size: 12px;
+}
+
+/* TÉLÉPHONE */
+
+@media(max-width:520px) {
+  header {
+    padding: 23px 12px 25px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  main {
+    padding: 16px 12px 25px;
+  }
+
+  .card {
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .welcome h2 {
+    font-size: 20px;
+  }
+
+  .member-count {
+    font-size: 34px;
+  }
+
+  .btn {
+    padding: 11px 13px;
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 11px 9px;
+    font-size: 12px;
+  }
 }
 </style>
 </head>
@@ -120,9 +374,12 @@ footer {
 <body>
 
 <header>
-  <h1>Petel Association</h1>
-  <p>Solidarité & Développement</p>
-  <h2 style="color:white">Gestion des membres</h2>
+  <div class="brand">
+    <div class="brand-logo">PA</div>
+    <h1>Petel Association</h1>
+  </div>
+  <p>Solidarité &amp; Développement</p>
+  <h2>Gestion des membres</h2>
 </header>
 
 <main>
@@ -131,52 +388,106 @@ footer {
     ← Retour au tableau de bord
   </a>
 
-  <section class="card">
-    <h2>Bienvenue</h2>
+  <!-- BIENVENUE -->
+
+  <section class="card welcome">
+    <h2>Bienvenue 👋</h2>
     <p id="userInfo">Vérification de la connexion...</p>
-    <p id="roleInfo"></p>
+    <p id="roleInfo">Vérification du rôle...</p>
+    <span id="roleBadge" class="role-badge">
+      Vérification...
+    </span>
   </section>
 
   <div id="notice" role="status" aria-live="polite"></div>
 
+  <!-- STATISTIQUES -->
+
   <section class="card">
     <h2>👥 Membres enregistrés</h2>
-    <div class="member-count" id="memberCount">0</div>
-    <p>Total des membres</p>
-    <input
-      id="search"
-      type="search"
-      placeholder="Rechercher un membre..."
-    >
+
+    <div class="member-count" id="memberCount">...</div>
+
+    <p class="count-label">Total des membres</p>
+
+    <div class="search-box">
+      <label for="search">Rechercher un membre</label>
+      <input
+        id="search"
+        type="search"
+        placeholder="Prénom, nom ou téléphone..."
+      >
+    </div>
   </section>
 
-  <section class="card hidden" id="formCard">
+  <!-- FORMULAIRE ADMIN -->
+
+  <section class="card form-card hidden" id="formCard">
+
     <h2 id="formTitle">Ajouter un membre</h2>
 
     <form id="memberForm">
+
       <label for="firstName">Prénom</label>
-      <input id="firstName" required maxlength="100">
+      <input
+        id="firstName"
+        type="text"
+        placeholder="Prénom du membre"
+        required
+        maxlength="100"
+      >
 
       <label for="lastName">Nom</label>
-      <input id="lastName" required maxlength="100">
+      <input
+        id="lastName"
+        type="text"
+        placeholder="Nom du membre"
+        required
+        maxlength="100"
+      >
 
       <label for="phone">Téléphone</label>
-      <input id="phone" type="tel" required maxlength="30">
+      <input
+        id="phone"
+        type="tel"
+        placeholder="Numéro de téléphone"
+        required
+        maxlength="30"
+      >
 
-      <button class="primary" type="submit" id="saveButton">
-        Enregistrer
-      </button>
+      <div class="form-actions">
 
-      <button class="cancel" type="button" id="cancelButton">
-        Annuler
-      </button>
+        <button
+          class="btn primary"
+          type="submit"
+          id="saveButton"
+        >
+          Enregistrer
+        </button>
+
+        <button
+          class="btn cancel"
+          type="button"
+          id="cancelButton"
+        >
+          Annuler
+        </button>
+
+      </div>
     </form>
   </section>
 
+  <!-- LISTE DES MEMBRES -->
+
   <section class="card">
+
     <h2>Liste des membres</h2>
 
-    <button class="primary hidden" id="addButton">
+    <button
+      class="btn primary hidden"
+      id="addButton"
+      type="button"
+    >
       + Ajouter un membre
     </button>
 
@@ -187,35 +498,44 @@ footer {
             <th>Prénom</th>
             <th>Nom</th>
             <th>Téléphone</th>
-            <th id="actionsHeader" class="hidden">Actions</th>
+            <th id="actionsHeader" class="hidden">
+              Actions
+            </th>
           </tr>
         </thead>
+
         <tbody id="membersList">
-          <tr><td colspan="4">Chargement...</td></tr>
+          <tr>
+            <td colspan="4" class="empty">
+              Chargement des membres...
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+
   </section>
 
-  <button class="delete" id="logoutButton">
-    Se déconnecter
+  <!-- DÉCONNEXION -->
+
+  <button class="logout" id="logoutButton" type="button">
+    ↪ Se déconnecter
   </button>
 
 </main>
 
 <footer>
-  © 2026 Petel Association Solidarité & Développement
+  © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
 <script type="module">
+
 import { createClient } from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL =
 "https://evbpmafgciphyfzmkctc.supabase.co";
 
-// IMPORTANT : colle ici exactement la même clé publique
-// sb_publishable_ que celle de ton dashboard.html.
 const SUPABASE_PUBLISHABLE_KEY =
 "sb_publishable_b0oe1ZbLmoW52Ym69nIhfQ_IwfvOiip";
 
@@ -231,26 +551,56 @@ let isAdmin = false;
 let editingId = null;
 let members = [];
 
-function notify(message, error = false) {
+/* NOTIFICATIONS */
+
+function notify(text, error = false) {
+
   const box = $("notice");
-  box.textContent = message;
+
+  box.textContent = text;
   box.style.display = "block";
-  box.style.background = error ? "#fee2e2" : "#dcfce7";
-  box.style.color = error ? "#991b1b" : "#166534";
+
+  box.style.background = error
+    ? "#fee2e2"
+    : "#dcfce7";
+
+  box.style.color = error
+    ? "#991b1b"
+    : "#166534";
+
+  box.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
 }
 
+/* FORMULAIRE */
+
 function clearForm() {
+
   editingId = null;
+
   $("memberForm").reset();
-  $("formTitle").textContent = "Ajouter un membre";
-  $("saveButton").textContent = "Enregistrer";
+
+  $("formTitle").textContent =
+    "Ajouter un membre";
+
+  $("saveButton").textContent =
+    "Enregistrer";
+
   $("formCard").classList.add("hidden");
 }
 
+/* AFFICHAGE DES MEMBRES */
+
 function renderMembers() {
-  const search = $("search").value.toLowerCase().trim();
+
+  const search = $("search").value
+    .toLowerCase()
+    .trim();
 
   const filtered = members.filter(member => {
+
     const text = [
       member.first_name,
       member.last_name,
@@ -263,40 +613,64 @@ function renderMembers() {
   $("memberCount").textContent = members.length;
 
   const list = $("membersList");
+
   list.replaceChildren();
 
   if (!filtered.length) {
+
     const tr = document.createElement("tr");
     const td = document.createElement("td");
-    td.colSpan = 4;
+
+    td.colSpan = isAdmin ? 4 : 3;
+    td.className = "empty";
     td.textContent = "Aucun membre trouvé.";
+
     tr.appendChild(td);
     list.appendChild(tr);
+
     return;
   }
 
   filtered.forEach(member => {
+
     const tr = document.createElement("tr");
 
-    [member.first_name, member.last_name, member.phone]
-      .forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value || "";
-        tr.appendChild(td);
-      });
+    [
+      member.first_name,
+      member.last_name,
+      member.phone
+    ].forEach(value => {
+
+      const td = document.createElement("td");
+
+      td.textContent = value || "—";
+
+      tr.appendChild(td);
+    });
 
     if (isAdmin) {
+
       const td = document.createElement("td");
 
       const edit = document.createElement("button");
-      edit.className = "edit";
+
+      edit.type = "button";
+      edit.className = "btn gold";
       edit.textContent = "Modifier";
-      edit.addEventListener("click", () => editMember(member));
+
+      edit.addEventListener("click", () => {
+        editMember(member);
+      });
 
       const remove = document.createElement("button");
-      remove.className = "delete";
+
+      remove.type = "button";
+      remove.className = "btn danger";
       remove.textContent = "Supprimer";
-      remove.addEventListener("click", () => deleteMember(member));
+
+      remove.addEventListener("click", () => {
+        deleteMember(member);
+      });
 
       td.append(edit, remove);
       tr.appendChild(td);
@@ -306,20 +680,28 @@ function renderMembers() {
   });
 }
 
+/* CHARGEMENT */
+
 async function loadMembers() {
+
+  $("membersList").innerHTML =
+    '<tr><td colspan="4" class="empty">Chargement...</td></tr>';
+
   const { data, error } = await db
     .from("members")
     .select("*");
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   members = data || [];
+
   renderMembers();
 }
 
+/* MODIFICATION */
+
 function editMember(member) {
+
   if (!isAdmin) return;
 
   editingId = member.id;
@@ -328,14 +710,24 @@ function editMember(member) {
   $("lastName").value = member.last_name || "";
   $("phone").value = member.phone || "";
 
-  $("formTitle").textContent = "Modifier un membre";
-  $("saveButton").textContent = "Enregistrer les modifications";
+  $("formTitle").textContent =
+    "Modifier un membre";
+
+  $("saveButton").textContent =
+    "Enregistrer les modifications";
+
   $("formCard").classList.remove("hidden");
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
+/* SUPPRESSION */
+
 async function deleteMember(member) {
+
   if (!isAdmin) return;
 
   const confirmed = confirm(
@@ -344,141 +736,246 @@ async function deleteMember(member) {
 
   if (!confirmed) return;
 
-  const { error } = await db
-    .from("members")
-    .delete()
-    .eq("id", member.id);
-
-  if (error) {
-    notify("Suppression impossible : " + error.message, true);
-    return;
-  }
-
-  notify("Membre supprimé avec succès.");
-  await loadMembers();
-}
-
-$("memberForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (!isAdmin) return;
-
-  const payload = {
-    first_name: $("firstName").value.trim(),
-    last_name: $("lastName").value.trim(),
-    phone: $("phone").value.trim()
-  };
-
-  $("saveButton").disabled = true;
-
   try {
-    let result;
 
-    if (editingId) {
-      result = await db
-        .from("members")
-        .update(payload)
-        .eq("id", editingId);
-    } else {
-      result = await db
-        .from("members")
-        .insert(payload);
-    }
+    const { error } = await db
+      .from("members")
+      .delete()
+      .eq("id", member.id);
 
-    if (result.error) throw result.error;
+    if (error) throw error;
 
-    notify(editingId
-      ? "Membre modifié avec succès."
-      : "Nouveau membre ajouté avec succès."
-    );
+    notify("Membre supprimé avec succès.");
 
-    clearForm();
     await loadMembers();
 
   } catch (error) {
-    notify("Erreur : " + error.message, true);
-  } finally {
-    $("saveButton").disabled = false;
+
+    notify(
+      "Suppression impossible : " + error.message,
+      true
+    );
   }
-});
+}
+
+/* ENREGISTREMENT */
+
+$("memberForm").addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    if (!isAdmin) return;
+
+    const payload = {
+      first_name: $("firstName").value.trim(),
+      last_name: $("lastName").value.trim(),
+      phone: $("phone").value.trim()
+    };
+
+    $("saveButton").disabled = true;
+
+    try {
+
+      let result;
+
+      if (editingId !== null) {
+
+        result = await db
+          .from("members")
+          .update(payload)
+          .eq("id", editingId);
+
+      } else {
+
+        result = await db
+          .from("members")
+          .insert(payload);
+      }
+
+      if (result.error) throw result.error;
+
+      const wasEditing = editingId !== null;
+
+      clearForm();
+
+      await loadMembers();
+
+      notify(
+        wasEditing
+          ? "Membre modifié avec succès."
+          : "Nouveau membre ajouté avec succès."
+      );
+
+    } catch (error) {
+
+      notify("Erreur : " + error.message, true);
+
+    } finally {
+
+      $("saveButton").disabled = false;
+    }
+  }
+);
+
+/* AJOUT */
 
 $("addButton").addEventListener("click", () => {
+
+  if (!isAdmin) return;
+
   clearForm();
+
   $("formCard").classList.remove("hidden");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 });
 
-$("cancelButton").addEventListener("click", clearForm);
+/* ANNULATION */
 
-$("search").addEventListener("input", renderMembers);
+$("cancelButton").addEventListener(
+  "click",
+  clearForm
+);
 
-$("logoutButton").addEventListener("click", async () => {
-  if (!confirm("Voulez-vous vous déconnecter ?")) return;
+/* RECHERCHE */
 
-  const { error } = await db.auth.signOut();
+$("search").addEventListener(
+  "input",
+  renderMembers
+);
 
-  if (error) {
-    notify(error.message, true);
-    return;
-  }
+/* DÉCONNEXION */
 
-  window.location.replace("./index.html");
-});
+$("logoutButton").addEventListener(
+  "click",
+  async () => {
 
-async function startPage() {
-  try {
-    if (SUPABASE_PUBLISHABLE_KEY.startsWith("COLLE_")) {
-      throw new Error("La clé publique Supabase n'a pas été renseignée.");
+    if (!confirm("Voulez-vous vous déconnecter ?")) {
+      return;
     }
 
-    const { data, error } = await db.auth.getSession();
+    $("logoutButton").disabled = true;
+
+    try {
+
+      const { error } = await db.auth.signOut();
+
+      if (error) throw error;
+
+      window.location.replace("./index.html");
+
+    } catch (error) {
+
+      notify(
+        "Déconnexion impossible : " + error.message,
+        true
+      );
+
+      $("logoutButton").disabled = false;
+    }
+  }
+);
+
+/* DÉMARRAGE DE LA PAGE */
+
+async function startPage() {
+
+  try {
+
+    const { data, error } =
+      await db.auth.getSession();
 
     if (error) throw error;
 
     currentUser = data.session?.user;
 
     if (!currentUser) {
+
       window.location.replace("./index.html");
       return;
     }
 
     $("userInfo").textContent =
-      "Connecté : " + currentUser.email;
+      "Connecté : " +
+      (currentUser.email || "Compte utilisateur");
 
-    const { data: profile, error: profileError } = await db
-      .from("profiles")
-      .select("role")
-      .eq("id", currentUser.id)
-      .maybeSingle();
+    /* VÉRIFICATION DU RÔLE */
+
+    const { data: profile, error: profileError } =
+      await db
+        .from("profiles")
+        .select("role")
+        .eq("id", currentUser.id)
+        .maybeSingle();
 
     if (profileError) throw profileError;
 
-    if (!profile) {
-      throw new Error("Profil utilisateur introuvable.");
+    if (!profile || !profile.role) {
+      throw new Error(
+        "Profil utilisateur ou rôle introuvable."
+      );
     }
 
-    const role = String(profile.role || "").toLowerCase();
+    const role = String(profile.role)
+      .trim()
+      .toLowerCase();
 
-    isAdmin = ["admin", "administrateur"].includes(role);
+    isAdmin = [
+      "admin",
+      "administrateur"
+    ].includes(role);
 
-    $("roleInfo").textContent =
-      "Rôle : " + (isAdmin ? "Administrateur" : "Lecteur");
+    $("roleInfo").textContent = isAdmin
+      ? "Vous disposez des droits d'administration."
+      : "Vous disposez d'un accès en consultation.";
+
+    $("roleBadge").textContent = isAdmin
+      ? "ADMINISTRATEUR"
+      : "LECTEUR";
+
+    /* DROITS ADMINISTRATEUR */
 
     if (isAdmin) {
+
       $("addButton").classList.remove("hidden");
+
       $("actionsHeader").classList.remove("hidden");
+
     }
+
+    /* CHARGEMENT DE LA LISTE */
 
     await loadMembers();
 
   } catch (error) {
-    notify("Erreur : " + error.message, true);
-    console.error(error);
+
+    console.error("Erreur Petel Association :", error);
+
+    $("roleInfo").textContent =
+      "Vérification du compte impossible.";
+
+    $("roleBadge").textContent =
+      "ACCÈS NON VÉRIFIÉ";
+
+    notify(
+      "Erreur : " +
+      (error.message || "Connexion impossible."),
+      true
+    );
   }
 }
 
+/* LANCEMENT */
+
 startPage();
+
 </script>
 
 </body>
 </html>
+
