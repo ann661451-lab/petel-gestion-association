@@ -1,279 +1,157 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#075c45">
+<meta name="theme-color" content="#087354">
 
-<title>Membres - Petel Association</title>
+<title>Gestion des membres - Petel Association</title>
 
 <style>
-:root {
-  --green: #087f5b;
-  --dark: #064c3b;
-  --gold: #c5a45b;
-  --light: #eaf5ef;
-  --bg: #f3f7f5;
-  --text: #20352d;
-  --muted: #75827b;
-  --white: #fff;
-  --border: #e2ebe6;
-  --red: #b42318;
-}
-
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --green: #087354;
+  --dark: #075c45;
+  --light: #e8f5ef;
+  --background: #eff7f4;
+  --text: #263832;
+  --border: #dce8e2;
 }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--bg);
+  background: var(--background);
   color: var(--text);
-  line-height: 1.5;
 }
-
-button, input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-[hidden], .hidden {
-  display: none !important;
-}
-
-/* EN-TÊTE */
 
 header {
-  background: linear-gradient(130deg, #064c3b, #087f5b);
+  background: linear-gradient(135deg, #075c45, #0b9870);
   color: white;
   text-align: center;
-  padding: 27px 15px 30px;
-  border-bottom: 4px solid var(--gold);
-}
-
-.brand {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-logo {
-  width: 52px;
-  height: 52px;
-  border: 2px solid var(--gold);
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #f4d994;
-  font-size: 21px;
-  font-weight: bold;
+  padding: 25px 15px;
 }
 
 header h1 {
   margin: 0;
-  font-size: 25px;
+  font-size: 24px;
 }
 
 header p {
-  margin: 9px 0;
-  opacity: .9;
-  font-size: 14px;
+  margin: 8px 0;
 }
 
 header h2 {
   color: white;
-  margin: 13px 0 0;
-  font-size: 20px;
+  margin: 12px 0 0;
+  font-size: 21px;
 }
-
-/* CONTENU */
 
 main {
-  max-width: 1000px;
-  margin: auto;
-  padding: 22px 16px 35px;
+  max-width: 950px;
+  margin: 22px auto;
+  padding: 0 15px 30px;
 }
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  color: var(--dark);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 11px 16px;
-  margin-bottom: 18px;
-  text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 3px 12px #123d2808;
-}
-
-/* CARTES */
 
 .card {
   background: white;
-  border: 1px solid var(--border);
-  border-radius: 19px;
   padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 5px 18px #123d280a;
+  margin-bottom: 20px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 15px #00000008;
 }
 
-.card h2 {
+h2 {
   color: var(--dark);
-  font-size: 19px;
-  margin: 0 0 15px;
+  font-size: 21px;
+  margin-top: 0;
 }
 
-.welcome {
-  border-top: 4px solid var(--gold);
-  position: relative;
-  overflow: hidden;
-}
-
-.welcome h2 {
-  font-size: 22px;
-}
-
-.welcome p {
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
-
-.role-badge {
+.back {
   display: inline-block;
-  padding: 7px 14px;
-  border-radius: 30px;
-  background: var(--light);
-  color: var(--dark);
-  font-size: 12px;
+  background: #263832;
+  color: white;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
   font-weight: bold;
-}
-
-/* STATISTIQUES */
-
-.member-count {
-  font-size: 38px;
-  font-weight: bold;
-  color: var(--green);
-}
-
-.count-label {
-  color: var(--muted);
-  margin: 0;
-}
-
-.search-box {
-  margin-top: 18px;
-}
-
-label {
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 12px 0 6px;
-  color: var(--dark);
 }
 
 input {
   width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #dce6e0;
-  border-radius: 11px;
-  background: #fbfdfc;
+  padding: 14px;
+  margin: 8px 0 15px;
+  border: 1px solid #ccd8d3;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fff;
   color: var(--text);
-  font-size: 15px;
-  outline: none;
 }
 
-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px #087f5b18;
-}
-
-/* BOUTONS */
-
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  padding: 12px 17px;
-  border: none;
-  border-radius: 11px;
+label {
   font-weight: bold;
+  color: var(--dark);
   font-size: 14px;
-  margin: 5px 3px;
-  transition: .2s;
 }
 
-.btn:disabled {
+button {
+  border: none;
+  border-radius: 9px;
+  padding: 12px 15px;
+  margin: 4px 2px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
   opacity: .6;
-  cursor: wait;
+  cursor: not-allowed;
 }
 
 .primary {
-  background: linear-gradient(135deg, #075c45, #0a916a);
+  background: var(--green);
   color: white;
 }
 
-.gold {
-  background: #c5a45b;
-  color: #24362e;
+.edit {
+  background: #e6a900;
+  color: white;
 }
 
-.danger {
-  background: #fff0ee;
-  color: var(--red);
-  border: 1px solid #f3d2ce;
+.delete {
+  background: #b42318;
+  color: white;
 }
 
 .cancel {
-  background: #edf1ef;
-  color: #53635a;
+  background: #64748b;
+  color: white;
 }
-
-.logout {
-  background: white;
-  color: var(--red);
-  border: 1px solid #efcfca;
-  width: 100%;
-  margin: 15px 0;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: bold;
-}
-
-/* FORMULAIRE */
-
-.form-card {
-  border-top: 4px solid var(--gold);
-}
-
-.form-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-/* NOTIFICATIONS */
 
 #notice {
   display: none;
-  padding: 13px 15px;
-  border-radius: 12px;
-  margin: 15px 0;
+  padding: 13px;
+  margin-bottom: 18px;
+  border-radius: 10px;
   font-size: 14px;
   overflow-wrap: anywhere;
+}
+
+.member-count {
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--green);
+  margin: 10px 0;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* TABLEAU */
@@ -283,26 +161,24 @@ input:focus {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: 13px;
-  margin-top: 15px;
 }
 
 table {
   width: 100%;
-  min-width: 570px;
   border-collapse: collapse;
-  background: white;
+  table-layout: fixed;
 }
 
 th, td {
-  padding: 13px 12px;
-  text-align: left;
+  padding: 15px 12px;
   border-bottom: 1px solid var(--border);
-  font-size: 13px;
+  text-align: left;
   overflow-wrap: anywhere;
+  font-size: 14px;
 }
 
 th {
-  background: #eaf5ef;
+  background: var(--light);
   color: var(--dark);
   font-weight: bold;
 }
@@ -311,38 +187,56 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-tbody tr:hover {
-  background: #f7fbf8;
-}
-
-.empty {
+.empty-cell {
   text-align: center;
-  color: var(--muted);
   padding: 25px;
+  color: #718078;
 }
 
-/* PIED DE PAGE */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.actions button {
+  margin: 2px 0;
+}
+
+/* FORMULAIRE */
+
+.form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form-buttons button {
+  flex: 1;
+  min-width: 120px;
+}
 
 footer {
   text-align: center;
-  color: #87938c;
   padding: 22px 12px;
+  color: #75827b;
   font-size: 12px;
 }
 
-/* TÉLÉPHONE */
+/* VERSION TÉLÉPHONE */
 
-@media(max-width:520px) {
+@media (max-width: 600px) {
+
   header {
-    padding: 23px 12px 25px;
+    padding: 22px 12px;
   }
 
   header h1 {
-    font-size: 22px;
+    font-size: 21px;
   }
 
   main {
-    padding: 16px 12px 25px;
+    padding: 0 12px 25px;
   }
 
   .card {
@@ -350,22 +244,77 @@ footer {
     border-radius: 16px;
   }
 
-  .welcome h2 {
-    font-size: 20px;
+  h2 {
+    font-size: 19px;
+  }
+
+  .table-container {
+    overflow: visible;
+    border: none;
+  }
+
+  table,
+  tbody {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    display: block;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 10px 13px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px #00000008;
+  }
+
+  tbody td {
+    display: grid;
+    grid-template-columns: 105px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    padding: 11px 3px;
+    border-bottom: 1px solid #edf1ef;
+    white-space: normal;
+    font-size: 14px;
+    min-width: 0;
+  }
+
+  tbody td:last-child {
+    border-bottom: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: var(--dark);
+  }
+
+  tbody td.empty-cell {
+    display: block;
+    text-align: center;
+  }
+
+  tbody td.empty-cell::before {
+    content: none;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .actions button {
+    font-size: 12px;
+    padding: 10px;
   }
 
   .member-count {
-    font-size: 34px;
-  }
-
-  .btn {
-    padding: 11px 13px;
-    font-size: 13px;
-  }
-
-  th, td {
-    padding: 11px 9px;
-    font-size: 12px;
+    font-size: 32px;
   }
 }
 </style>
@@ -374,10 +323,7 @@ footer {
 <body>
 
 <header>
-  <div class="brand">
-    <div class="brand-logo">PA</div>
-    <h1>Petel Association</h1>
-  </div>
+  <h1>Petel Association</h1>
   <p>Solidarité &amp; Développement</p>
   <h2>Gestion des membres</h2>
 </header>
@@ -388,41 +334,32 @@ footer {
     ← Retour au tableau de bord
   </a>
 
-  <!-- BIENVENUE -->
-
-  <section class="card welcome">
+  <section class="card">
     <h2>Bienvenue 👋</h2>
     <p id="userInfo">Vérification de la connexion...</p>
     <p id="roleInfo">Vérification du rôle...</p>
-    <span id="roleBadge" class="role-badge">
-      Vérification...
-    </span>
+    <p id="roleBadge"></p>
   </section>
 
   <div id="notice" role="status" aria-live="polite"></div>
 
-  <!-- STATISTIQUES -->
-
   <section class="card">
     <h2>👥 Membres enregistrés</h2>
 
-    <div class="member-count" id="memberCount">...</div>
+    <div class="member-count" id="memberCount">0</div>
 
-    <p class="count-label">Total des membres</p>
+    <p>Total des membres</p>
 
-    <div class="search-box">
-      <label for="search">Rechercher un membre</label>
-      <input
-        id="search"
-        type="search"
-        placeholder="Prénom, nom ou téléphone..."
-      >
-    </div>
+    <label for="search">Rechercher un membre</label>
+
+    <input
+      id="search"
+      type="search"
+      placeholder="Prénom, nom ou téléphone..."
+    >
   </section>
 
-  <!-- FORMULAIRE ADMIN -->
-
-  <section class="card form-card hidden" id="formCard">
+  <section class="card hidden" id="formCard">
 
     <h2 id="formTitle">Ajouter un membre</h2>
 
@@ -432,93 +369,75 @@ footer {
       <input
         id="firstName"
         type="text"
-        placeholder="Prénom du membre"
-        required
         maxlength="100"
+        required
       >
 
       <label for="lastName">Nom</label>
       <input
         id="lastName"
         type="text"
-        placeholder="Nom du membre"
-        required
         maxlength="100"
+        required
       >
 
       <label for="phone">Téléphone</label>
       <input
         id="phone"
         type="tel"
-        placeholder="Numéro de téléphone"
-        required
         maxlength="30"
+        required
       >
 
-      <div class="form-actions">
-
-        <button
-          class="btn primary"
-          type="submit"
-          id="saveButton"
-        >
+      <div class="form-buttons">
+        <button class="primary" type="submit" id="saveButton">
           Enregistrer
         </button>
 
-        <button
-          class="btn cancel"
-          type="button"
-          id="cancelButton"
-        >
+        <button class="cancel" type="button" id="cancelButton">
           Annuler
         </button>
-
       </div>
+
     </form>
   </section>
-
-  <!-- LISTE DES MEMBRES -->
 
   <section class="card">
 
     <h2>Liste des membres</h2>
 
-    <button
-      class="btn primary hidden"
-      id="addButton"
-      type="button"
-    >
+    <button class="primary hidden" id="addButton" type="button">
       + Ajouter un membre
     </button>
 
     <div class="table-container">
+
       <table>
+
         <thead>
           <tr>
             <th>Prénom</th>
             <th>Nom</th>
             <th>Téléphone</th>
-            <th id="actionsHeader" class="hidden">
-              Actions
-            </th>
+            <th id="actionsHeader" class="hidden">Actions</th>
           </tr>
         </thead>
 
         <tbody id="membersList">
           <tr>
-            <td colspan="4" class="empty">
+            <td class="empty-cell" colspan="4">
               Chargement des membres...
             </td>
           </tr>
         </tbody>
+
       </table>
+
     </div>
 
   </section>
 
-  <!-- DÉCONNEXION -->
-
-  <button class="logout" id="logoutButton" type="button">
+  <button class="delete" id="logoutButton" type="button">
     ↪ Se déconnecter
   </button>
 
@@ -551,8 +470,6 @@ let isAdmin = false;
 let editingId = null;
 let members = [];
 
-/* NOTIFICATIONS */
-
 function notify(text, error = false) {
 
   const box = $("notice");
@@ -567,14 +484,21 @@ function notify(text, error = false) {
   box.style.color = error
     ? "#991b1b"
     : "#166534";
-
-  box.scrollIntoView({
-    behavior: "smooth",
-    block: "nearest"
-  });
 }
 
-/* FORMULAIRE */
+function showEmpty(text) {
+
+  const tr = document.createElement("tr");
+  const td = document.createElement("td");
+
+  td.colSpan = isAdmin ? 4 : 3;
+  td.className = "empty-cell";
+  td.textContent = text;
+
+  tr.appendChild(td);
+
+  $("membersList").replaceChildren(tr);
+}
 
 function clearForm() {
 
@@ -582,16 +506,22 @@ function clearForm() {
 
   $("memberForm").reset();
 
-  $("formTitle").textContent =
-    "Ajouter un membre";
+  $("formTitle").textContent = "Ajouter un membre";
 
-  $("saveButton").textContent =
-    "Enregistrer";
+  $("saveButton").textContent = "Enregistrer";
 
   $("formCard").classList.add("hidden");
 }
 
-/* AFFICHAGE DES MEMBRES */
+function createCell(label, value) {
+
+  const td = document.createElement("td");
+
+  td.dataset.label = label;
+  td.textContent = value || "";
+
+  return td;
+}
 
 function renderMembers() {
 
@@ -616,17 +546,13 @@ function renderMembers() {
 
   list.replaceChildren();
 
-  if (!filtered.length) {
+  if (filtered.length === 0) {
 
-    const tr = document.createElement("tr");
-    const td = document.createElement("td");
-
-    td.colSpan = isAdmin ? 4 : 3;
-    td.className = "empty";
-    td.textContent = "Aucun membre trouvé.";
-
-    tr.appendChild(td);
-    list.appendChild(tr);
+    showEmpty(
+      search
+        ? "Aucun membre ne correspond à votre recherche."
+        : "Aucun membre enregistré."
+    );
 
     return;
   }
@@ -635,27 +561,32 @@ function renderMembers() {
 
     const tr = document.createElement("tr");
 
-    [
-      member.first_name,
-      member.last_name,
-      member.phone
-    ].forEach(value => {
+    tr.appendChild(
+      createCell("Prénom", member.first_name)
+    );
 
-      const td = document.createElement("td");
+    tr.appendChild(
+      createCell("Nom", member.last_name)
+    );
 
-      td.textContent = value || "—";
-
-      tr.appendChild(td);
-    });
+    tr.appendChild(
+      createCell("Téléphone", member.phone)
+    );
 
     if (isAdmin) {
 
       const td = document.createElement("td");
 
+      td.dataset.label = "Actions";
+
+      const container = document.createElement("div");
+
+      container.className = "actions";
+
       const edit = document.createElement("button");
 
       edit.type = "button";
-      edit.className = "btn gold";
+      edit.className = "edit";
       edit.textContent = "Modifier";
 
       edit.addEventListener("click", () => {
@@ -665,14 +596,17 @@ function renderMembers() {
       const remove = document.createElement("button");
 
       remove.type = "button";
-      remove.className = "btn danger";
+      remove.className = "delete";
       remove.textContent = "Supprimer";
 
       remove.addEventListener("click", () => {
         deleteMember(member);
       });
 
-      td.append(edit, remove);
+      container.append(edit, remove);
+
+      td.appendChild(container);
+
       tr.appendChild(td);
     }
 
@@ -680,25 +614,22 @@ function renderMembers() {
   });
 }
 
-/* CHARGEMENT */
-
 async function loadMembers() {
 
-  $("membersList").innerHTML =
-    '<tr><td colspan="4" class="empty">Chargement...</td></tr>';
+  showEmpty("Chargement des membres...");
 
   const { data, error } = await db
     .from("members")
     .select("*");
 
-  if (error) throw error;
+  if (error) {
+    throw error;
+  }
 
   members = data || [];
 
   renderMembers();
 }
-
-/* MODIFICATION */
 
 function editMember(member) {
 
@@ -707,11 +638,12 @@ function editMember(member) {
   editingId = member.id;
 
   $("firstName").value = member.first_name || "";
+
   $("lastName").value = member.last_name || "";
+
   $("phone").value = member.phone || "";
 
-  $("formTitle").textContent =
-    "Modifier un membre";
+  $("formTitle").textContent = "Modifier un membre";
 
   $("saveButton").textContent =
     "Enregistrer les modifications";
@@ -724,14 +656,14 @@ function editMember(member) {
   });
 }
 
-/* SUPPRESSION */
-
 async function deleteMember(member) {
 
   if (!isAdmin) return;
 
   const confirmed = confirm(
-    "Voulez-vous vraiment supprimer ce membre ?"
+    "Voulez-vous vraiment supprimer " +
+    member.first_name + " " +
+    member.last_name + " ?"
   );
 
   if (!confirmed) return;
@@ -758,7 +690,7 @@ async function deleteMember(member) {
   }
 }
 
-/* ENREGISTREMENT */
+// ENREGISTREMENT
 
 $("memberForm").addEventListener(
   "submit",
@@ -773,6 +705,15 @@ $("memberForm").addEventListener(
       last_name: $("lastName").value.trim(),
       phone: $("phone").value.trim()
     };
+
+    if (
+      !payload.first_name ||
+      !payload.last_name ||
+      !payload.phone
+    ) {
+      notify("Veuillez remplir tous les champs.", true);
+      return;
+    }
 
     $("saveButton").disabled = true;
 
@@ -796,21 +737,22 @@ $("memberForm").addEventListener(
 
       if (result.error) throw result.error;
 
-      const wasEditing = editingId !== null;
+      notify(
+        editingId !== null
+          ? "Membre modifié avec succès."
+          : "Nouveau membre ajouté avec succès."
+      );
 
       clearForm();
 
       await loadMembers();
 
-      notify(
-        wasEditing
-          ? "Membre modifié avec succès."
-          : "Nouveau membre ajouté avec succès."
-      );
-
     } catch (error) {
 
-      notify("Erreur : " + error.message, true);
+      notify(
+        "Erreur d'enregistrement : " + error.message,
+        true
+      );
 
     } finally {
 
@@ -819,7 +761,7 @@ $("memberForm").addEventListener(
   }
 );
 
-/* AJOUT */
+// AJOUTER
 
 $("addButton").addEventListener("click", () => {
 
@@ -835,21 +777,21 @@ $("addButton").addEventListener("click", () => {
   });
 });
 
-/* ANNULATION */
+// ANNULER
 
 $("cancelButton").addEventListener(
   "click",
   clearForm
 );
 
-/* RECHERCHE */
+// RECHERCHE
 
 $("search").addEventListener(
   "input",
   renderMembers
 );
 
-/* DÉCONNEXION */
+// DÉCONNEXION
 
 $("logoutButton").addEventListener(
   "click",
@@ -881,14 +823,13 @@ $("logoutButton").addEventListener(
   }
 );
 
-/* DÉMARRAGE DE LA PAGE */
+// DÉMARRAGE DE LA PAGE
 
 async function startPage() {
 
   try {
 
-    const { data, error } =
-      await db.auth.getSession();
+    const { data, error } = await db.auth.getSession();
 
     if (error) throw error;
 
@@ -897,14 +838,13 @@ async function startPage() {
     if (!currentUser) {
 
       window.location.replace("./index.html");
+
       return;
     }
 
     $("userInfo").textContent =
       "Connecté : " +
-      (currentUser.email || "Compte utilisateur");
-
-    /* VÉRIFICATION DU RÔLE */
+      (currentUser.email || "Utilisateur");
 
     const { data: profile, error: profileError } =
       await db
@@ -916,8 +856,9 @@ async function startPage() {
     if (profileError) throw profileError;
 
     if (!profile || !profile.role) {
+
       throw new Error(
-        "Profil utilisateur ou rôle introuvable."
+        "Profil ou rôle utilisateur introuvable."
       );
     }
 
@@ -932,45 +873,41 @@ async function startPage() {
 
     $("roleInfo").textContent = isAdmin
       ? "Vous disposez des droits d'administration."
-      : "Vous disposez d'un accès en consultation.";
+      : "Vous disposez des droits de consultation.";
 
     $("roleBadge").textContent = isAdmin
       ? "ADMINISTRATEUR"
       : "LECTEUR";
 
-    /* DROITS ADMINISTRATEUR */
+    $("roleBadge").style.display = "inline-block";
+    $("roleBadge").style.background = "#e8f5ef";
+    $("roleBadge").style.color = "#075c45";
+    $("roleBadge").style.padding = "8px 13px";
+    $("roleBadge").style.borderRadius = "20px";
+    $("roleBadge").style.fontWeight = "bold";
 
     if (isAdmin) {
 
       $("addButton").classList.remove("hidden");
 
       $("actionsHeader").classList.remove("hidden");
-
     }
-
-    /* CHARGEMENT DE LA LISTE */
 
     await loadMembers();
 
   } catch (error) {
 
-    console.error("Erreur Petel Association :", error);
+    console.error("Erreur de démarrage :", error);
+
+    notify(
+      "Erreur : " + error.message,
+      true
+    );
 
     $("roleInfo").textContent =
       "Vérification du compte impossible.";
-
-    $("roleBadge").textContent =
-      "ACCÈS NON VÉRIFIÉ";
-
-    notify(
-      "Erreur : " +
-      (error.message || "Connexion impossible."),
-      true
-    );
   }
 }
-
-/* LANCEMENT */
 
 startPage();
 
