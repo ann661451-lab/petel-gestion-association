@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#075c45">
+<meta name="theme-color" content="#087354">
 
 <title>Gestion des membres - Petel Association</title>
 
@@ -13,30 +13,17 @@
   box-sizing: border-box;
 }
 
-:root {
-  --green: #087f5b;
-  --dark: #075c45;
-  --light: #e8f5ef;
-  --background: #eff7f4;
-  --text: #263832;
-  --muted: #75827b;
-  --border: #dce8e2;
-}
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
+  background: #eff7f4;
+  color: #263832;
   line-height: 1.5;
-}
-
-[hidden], .hidden {
-  display: none !important;
+  overflow-x: hidden;
 }
 
 header {
-  background: linear-gradient(135deg, #075c45, #0b9870);
+  background: linear-gradient(135deg,#075c45,#0b9870);
   color: white;
   text-align: center;
   padding: 25px 15px;
@@ -53,93 +40,94 @@ header p {
 
 header h2 {
   color: white;
-  margin: 12px 0 0;
+  font-size: 21px;
 }
 
 main {
-  max-width: 950px;
-  margin: auto;
-  padding: 20px 15px 35px;
+  width: 100%;
+  max-width: 900px;
+  margin: 22px auto;
+  padding: 12px;
 }
 
 .card {
   background: white;
   padding: 22px;
-  margin: 18px 0;
+  margin-bottom: 20px;
   border-radius: 20px;
-  border: 1px solid var(--border);
-  box-shadow: 0 4px 18px #123d2809;
+  border: 1px solid #dce9e3;
+  box-shadow: 0 4px 18px #123d2810;
+  min-width: 0;
 }
 
 h2 {
-  color: var(--dark);
-  font-size: 22px;
-  margin: 0 0 18px;
+  color: #075c45;
+  font-size: 23px;
+  margin-top: 0;
 }
 
 p {
   overflow-wrap: anywhere;
 }
 
-.role-badge {
+.back {
   display: inline-block;
-  background: var(--light);
-  color: var(--dark);
-  padding: 10px 18px;
-  border-radius: 30px;
+  padding: 12px 16px;
+  margin-bottom: 17px;
+  background: #263832;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
   font-weight: bold;
-  margin-top: 10px;
 }
 
-.member-count {
-  font-size: 42px;
-  font-weight: bold;
-  color: var(--green);
-  margin: 12px 0;
+#notice {
+  display: none;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccd8d3;
+  border-radius: 12px;
+  font-size: 16px;
+  background: #fbfdfc;
+  color: #263832;
+}
+
+input:focus {
+  outline: 2px solid #087f5b;
+  border-color: #087f5b;
 }
 
 label {
   display: block;
   font-weight: bold;
-  color: var(--dark);
-  margin: 12px 0 5px;
+  color: #075c45;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  margin: 5px 0 12px;
-  border: 1px solid #ccd8d3;
-  border-radius: 12px;
-  font-size: 16px;
-  background: #fbfdfc;
-  color: var(--text);
-}
-
-input:focus {
-  outline: 2px solid #9bd5bd;
-  border-color: var(--green);
-}
-
-button, .back {
-  display: inline-block;
+button {
   border: none;
-  border-radius: 11px;
+  border-radius: 12px;
   padding: 13px 17px;
   margin: 5px 3px;
   font-size: 15px;
   font-weight: bold;
   cursor: pointer;
-  text-decoration: none;
 }
 
 button:disabled {
   opacity: .6;
-  cursor: not-allowed;
+  cursor: wait;
 }
 
-.primary, .back {
-  background: var(--green);
+.primary {
+  background: #087f5b;
   color: white;
 }
 
@@ -158,114 +146,113 @@ button:disabled {
   color: white;
 }
 
-#notice {
-  display: none;
-  padding: 14px;
-  border-radius: 11px;
-  margin: 15px 0;
-  overflow-wrap: anywhere;
+.member-count {
+  font-size: 45px;
+  font-weight: bold;
+  color: #087f5b;
+  margin: 12px 0;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 9px 19px;
+  border-radius: 30px;
+  background: #e8f5ef;
+  color: #075c45;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* CARTES DES MEMBRES */
+
+.members-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 15px;
 }
 
 .member-card {
-  border: 1px solid var(--border);
+  border: 1px solid #dce9e3;
   border-radius: 17px;
   padding: 18px;
-  margin: 12px 0;
-  background: white;
+  background: #ffffff;
+  min-width: 0;
 }
 
-.member-line {
+.member-row {
   display: grid;
-  grid-template-columns: 38% 62%;
-  gap: 5px;
-  padding: 10px 0;
-  border-bottom: 1px solid #edf1ef;
-  overflow-wrap: anywhere;
+  grid-template-columns: minmax(105px, 38%) minmax(0, 1fr);
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9efec;
+  align-items: center;
 }
 
-.member-line strong {
-  color: var(--dark);
+.member-label {
+  font-weight: bold;
+  color: #075c45;
+}
+
+.member-value {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .member-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .member-actions button {
   flex: 1;
-  min-width: 100px;
+  min-width: 105px;
+  margin: 0;
+  padding: 13px 9px;
 }
 
-.table-container {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 13px 10px;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  overflow-wrap: anywhere;
-}
-
-th {
-  background: var(--light);
-  color: var(--dark);
-}
-
-.desktop-table {
-  display: none;
+.empty {
+  text-align: center;
+  color: #75827b;
+  padding: 25px 10px;
 }
 
 .logout {
   background: #b42318;
   color: white;
-  margin-top: 20px;
+  padding: 15px 20px;
+  margin: 10px 0 25px;
 }
 
 footer {
   text-align: center;
-  padding: 22px 12px;
-  color: var(--muted);
+  padding: 25px 12px;
+  color: #75827b;
   font-size: 13px;
 }
 
-@media (min-width: 750px) {
-  .mobile-list {
-    display: none;
-  }
-
-  .desktop-table {
-    display: block;
+@media (max-width: 380px) {
+  .card {
+    padding: 15px;
   }
 
   .member-card {
-    padding: 22px;
-  }
-}
-
-@media (max-width: 480px) {
-  main {
-    padding: 12px;
+    padding: 13px;
   }
 
-  .card {
-    padding: 17px;
+  .member-row {
+    grid-template-columns: 105px minmax(0,1fr);
+    gap: 7px;
   }
 
-  header h1 {
-    font-size: 22px;
-  }
-
-  h2 {
-    font-size: 20px;
+  .member-actions button {
+    min-width: 95px;
+    font-size: 13px;
   }
 }
 </style>
@@ -281,118 +268,118 @@ footer {
 
 <main>
 
-  <a class="back" href="./dashboard.html">
-    ← Retour au tableau de bord
-  </a>
+<a class="back" href="./dashboard.html">
+  ← Retour au tableau de bord
+</a>
 
-  <section class="card">
-    <h2>Bienvenue 👋</h2>
-    <p id="userInfo">Vérification de la connexion...</p>
-    <p id="roleInfo">Vérification du rôle...</p>
-    <span class="role-badge" id="roleBadge">Vérification...</span>
-  </section>
+<section class="card">
+  <h2>Bienvenue 👋</h2>
 
-  <div id="notice" role="status" aria-live="polite"></div>
+  <p id="userInfo">Vérification de la connexion...</p>
 
-  <section class="card">
-    <h2>👥 Membres enregistrés</h2>
+  <p id="roleDescription">
+    Vérification des droits...
+  </p>
 
-    <div class="member-count" id="memberCount">0</div>
+  <span id="roleBadge" class="role-badge">
+    Vérification...
+  </span>
+</section>
 
-    <p>Total des membres</p>
+<div id="notice" role="status" aria-live="polite"></div>
 
-    <label for="search">Rechercher un membre</label>
+<section class="card">
 
+  <h2>👥 Membres enregistrés</h2>
+
+  <div class="member-count" id="memberCount">...</div>
+
+  <p>Total des membres</p>
+
+  <label for="search">Rechercher un membre</label>
+
+  <input
+    type="search"
+    id="search"
+    placeholder="Prénom, nom ou téléphone..."
+  >
+
+</section>
+
+<section class="card hidden" id="formCard">
+
+  <h2 id="formTitle">Ajouter un membre</h2>
+
+  <form id="memberForm">
+
+    <label for="firstName">Prénom</label>
     <input
-      id="search"
-      type="search"
-      placeholder="Prénom, nom ou téléphone..."
+      id="firstName"
+      type="text"
+      maxlength="100"
+      required
+      autocomplete="given-name"
     >
-  </section>
 
-  <section class="card hidden" id="formCard">
+    <label for="lastName">Nom</label>
+    <input
+      id="lastName"
+      type="text"
+      maxlength="100"
+      required
+      autocomplete="family-name"
+    >
 
-    <h2 id="formTitle">Ajouter un membre</h2>
+    <label for="phone">Téléphone</label>
+    <input
+      id="phone"
+      type="tel"
+      maxlength="30"
+      required
+      autocomplete="tel"
+    >
 
-    <form id="memberForm">
-
-      <label for="firstName">Prénom</label>
-      <input
-        id="firstName"
-        type="text"
-        maxlength="100"
-        required
-      >
-
-      <label for="lastName">Nom</label>
-      <input
-        id="lastName"
-        type="text"
-        maxlength="100"
-        required
-      >
-
-      <label for="phone">Téléphone</label>
-      <input
-        id="phone"
-        type="tel"
-        maxlength="30"
-        required
-      >
-
-      <button class="primary" type="submit" id="saveButton">
-        Enregistrer
-      </button>
-
-      <button class="cancel" type="button" id="cancelButton">
-        Annuler
-      </button>
-
-    </form>
-  </section>
-
-  <section class="card">
-
-    <h2>Liste des membres</h2>
-
-    <button class="primary hidden" id="addButton">
-      + Ajouter un membre
+    <button
+      class="primary"
+      type="submit"
+      id="saveButton"
+    >
+      Enregistrer
     </button>
 
-    <!-- AFFICHAGE TÉLÉPHONE -->
+    <button
+      class="cancel"
+      type="button"
+      id="cancelButton"
+    >
+      Annuler
+    </button>
 
-    <div class="mobile-list" id="mobileList">
-      Chargement des membres...
-    </div>
+  </form>
 
-    <!-- AFFICHAGE ORDINATEUR -->
+</section>
 
-    <div class="desktop-table table-container">
+<section class="card">
 
-      <table>
-        <thead>
-          <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Téléphone</th>
-            <th id="actionsHeader" class="hidden">Actions</th>
-          </tr>
-        </thead>
+  <h2>Liste des membres</h2>
 
-        <tbody id="membersList">
-          <tr>
-            <td colspan="4">Chargement...</td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-
-  </section>
-
-  <button class="logout" id="logoutButton">
-    ↪ Se déconnecter
+  <button
+    class="primary hidden"
+    id="addButton"
+    type="button"
+  >
+    + Ajouter un membre
   </button>
+
+  <div id="membersList" class="members-list">
+    <div class="empty">Chargement des membres...</div>
+  </div>
+
+</section>
+
+<button class="logout" id="logoutButton" type="button">
+  ↪ Se déconnecter
+</button>
 
 </main>
 
@@ -405,6 +392,8 @@ footer {
 import { createClient } from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+/* CONFIGURATION SUPABASE */
+
 const SUPABASE_URL =
 "https://evbpmafgciphyfzmkctc.supabase.co";
 
@@ -416,6 +405,8 @@ const db = createClient(
   SUPABASE_PUBLISHABLE_KEY
 );
 
+/* VARIABLES */
+
 const $ = id => document.getElementById(id);
 
 let currentUser = null;
@@ -423,11 +414,14 @@ let isAdmin = false;
 let editingId = null;
 let members = [];
 
+/* MESSAGES */
+
 function notify(text, error = false) {
 
   const box = $("notice");
 
   box.textContent = text;
+
   box.style.display = "block";
 
   box.style.background = error
@@ -438,11 +432,9 @@ function notify(text, error = false) {
     ? "#991b1b"
     : "#166534";
 
-  box.scrollIntoView({
-    behavior: "smooth",
-    block: "nearest"
-  });
 }
+
+/* FORMULAIRE */
 
 function clearForm() {
 
@@ -457,23 +449,155 @@ function clearForm() {
     "Enregistrer";
 
   $("formCard").classList.add("hidden");
+
 }
 
-function createLine(label, value) {
+/* AFFICHAGE DES MEMBRES */
 
-  const line = document.createElement("div");
-  line.className = "member-line";
+function renderMembers() {
 
-  const strong = document.createElement("strong");
-  strong.textContent = label;
+  const search = $("search")
+    .value
+    .trim()
+    .toLowerCase();
 
-  const span = document.createElement("span");
-  span.textContent = value || "Non renseigné";
+  const filtered = members.filter(member => {
 
-  line.append(strong, span);
+    const text = [
+      member.first_name,
+      member.last_name,
+      member.phone
+    ].join(" ").toLowerCase();
 
-  return line;
+    return text.includes(search);
+
+  });
+
+  $("memberCount").textContent = members.length;
+
+  const list = $("membersList");
+
+  list.replaceChildren();
+
+  if (filtered.length === 0) {
+
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+
+    empty.textContent = members.length === 0
+      ? "Aucun membre enregistré."
+      : "Aucun résultat trouvé.";
+
+    list.appendChild(empty);
+
+    return;
+  }
+
+  filtered.forEach(member => {
+
+    const card = document.createElement("article");
+
+    card.className = "member-card";
+
+    function addRow(label, value) {
+
+      const row = document.createElement("div");
+
+      row.className = "member-row";
+
+      const title = document.createElement("span");
+
+      title.className = "member-label";
+
+      title.textContent = label;
+
+      const content = document.createElement("span");
+
+      content.className = "member-value";
+
+      content.textContent = value || "Non renseigné";
+
+      row.append(title, content);
+
+      card.appendChild(row);
+
+    }
+
+    addRow("Prénom", member.first_name);
+
+    addRow("Nom", member.last_name);
+
+    addRow("Téléphone", member.phone);
+
+    /* ACTIONS ADMIN UNIQUEMENT */
+
+    if (isAdmin) {
+
+      const actions = document.createElement("div");
+
+      actions.className = "member-actions";
+
+      const editButton = document.createElement("button");
+
+      editButton.className = "edit";
+
+      editButton.textContent = "Modifier";
+
+      editButton.type = "button";
+
+      editButton.addEventListener("click", () => {
+
+        editMember(member);
+
+      });
+
+      const deleteButton = document.createElement("button");
+
+      deleteButton.className = "delete";
+
+      deleteButton.textContent = "Supprimer";
+
+      deleteButton.type = "button";
+
+      deleteButton.addEventListener("click", () => {
+
+        deleteMember(member);
+
+      });
+
+      actions.append(editButton, deleteButton);
+
+      card.appendChild(actions);
+
+    }
+
+    list.appendChild(card);
+
+  });
+
 }
+
+/* CHARGEMENT DES MEMBRES */
+
+async function loadMembers() {
+
+  $("membersList").textContent =
+    "Chargement des membres...";
+
+  const { data, error } = await db
+    .from("members")
+    .select("id, first_name, last_name, phone");
+
+  if (error) throw error;
+
+  members = data || [];
+
+  renderMembers();
+
+}
+
+/* MODIFICATION */
 
 function editMember(member) {
 
@@ -481,14 +605,11 @@ function editMember(member) {
 
   editingId = member.id;
 
-  $("firstName").value =
-    member.first_name || "";
+  $("firstName").value = member.first_name || "";
 
-  $("lastName").value =
-    member.last_name || "";
+  $("lastName").value = member.last_name || "";
 
-  $("phone").value =
-    member.phone || "";
+  $("phone").value = member.phone || "";
 
   $("formTitle").textContent =
     "Modifier un membre";
@@ -502,14 +623,19 @@ function editMember(member) {
     top: 0,
     behavior: "smooth"
   });
+
 }
+
+/* SUPPRESSION */
 
 async function deleteMember(member) {
 
   if (!isAdmin) return;
 
   const confirmed = confirm(
-    "Voulez-vous vraiment supprimer ce membre ?"
+    "Voulez-vous vraiment supprimer le membre " +
+    member.first_name + " " +
+    member.last_name + " ?"
   );
 
   if (!confirmed) return;
@@ -533,161 +659,12 @@ async function deleteMember(member) {
       "Suppression impossible : " + error.message,
       true
     );
-  }
-}
 
-function renderMembers() {
-
-  const search = $("search")
-    .value
-    .toLowerCase()
-    .trim();
-
-  const filtered = members.filter(member => {
-
-    const text = [
-      member.first_name,
-      member.last_name,
-      member.phone
-    ].join(" ").toLowerCase();
-
-    return text.includes(search);
-  });
-
-  $("memberCount").textContent =
-    members.length;
-
-  const mobile = $("mobileList");
-  const desktop = $("membersList");
-
-  mobile.replaceChildren();
-  desktop.replaceChildren();
-
-  if (filtered.length === 0) {
-
-    const empty = document.createElement("p");
-
-    empty.textContent =
-      "Aucun membre trouvé.";
-
-    mobile.appendChild(empty);
-
-    const tr = document.createElement("tr");
-    const td = document.createElement("td");
-
-    td.colSpan = isAdmin ? 4 : 3;
-    td.textContent = "Aucun membre trouvé.";
-
-    tr.appendChild(td);
-    desktop.appendChild(tr);
-
-    return;
   }
 
-  filtered.forEach(member => {
-
-    // CARTE POUR TÉLÉPHONE
-
-    const card = document.createElement("article");
-    card.className = "member-card";
-
-    card.append(
-      createLine("Prénom", member.first_name),
-      createLine("Nom", member.last_name),
-      createLine("Téléphone", member.phone)
-    );
-
-    if (isAdmin) {
-
-      const actions = document.createElement("div");
-      actions.className = "member-actions";
-
-      const edit = document.createElement("button");
-
-      edit.className = "edit";
-      edit.textContent = "Modifier";
-
-      edit.addEventListener("click", () => {
-        editMember(member);
-      });
-
-      const remove = document.createElement("button");
-
-      remove.className = "delete";
-      remove.textContent = "Supprimer";
-
-      remove.addEventListener("click", () => {
-        deleteMember(member);
-      });
-
-      actions.append(edit, remove);
-      card.appendChild(actions);
-    }
-
-    mobile.appendChild(card);
-
-    // TABLEAU POUR ORDINATEUR
-
-    const tr = document.createElement("tr");
-
-    [
-      member.first_name,
-      member.last_name,
-      member.phone
-    ].forEach(value => {
-
-      const td = document.createElement("td");
-
-      td.textContent = value || "";
-
-      tr.appendChild(td);
-    });
-
-    if (isAdmin) {
-
-      const td = document.createElement("td");
-
-      const edit = document.createElement("button");
-
-      edit.className = "edit";
-      edit.textContent = "Modifier";
-
-      edit.addEventListener("click", () => {
-        editMember(member);
-      });
-
-      const remove = document.createElement("button");
-
-      remove.className = "delete";
-      remove.textContent = "Supprimer";
-
-      remove.addEventListener("click", () => {
-        deleteMember(member);
-      });
-
-      td.append(edit, remove);
-      tr.appendChild(td);
-    }
-
-    desktop.appendChild(tr);
-  });
 }
 
-async function loadMembers() {
-
-  const { data, error } = await db
-    .from("members")
-    .select("id, first_name, last_name, phone")
-    .order("id", { ascending: true });
-
-  if (error) throw error;
-
-  members = data || [];
-
-  renderMembers();
-}
-
-// AJOUT ET MODIFICATION
+/* ENREGISTREMENT */
 
 $("memberForm").addEventListener(
   "submit",
@@ -696,22 +673,39 @@ $("memberForm").addEventListener(
     event.preventDefault();
 
     if (!isAdmin) {
-      notify("Action réservée à l'administrateur.", true);
+
+      notify(
+        "Vous ne disposez pas des droits nécessaires.",
+        true
+      );
+
       return;
+
     }
 
     const payload = {
+
       first_name: $("firstName").value.trim(),
+
       last_name: $("lastName").value.trim(),
+
       phone: $("phone").value.trim()
+
     };
 
-    if (!payload.first_name ||
-        !payload.last_name ||
-        !payload.phone) {
+    if (
+      !payload.first_name ||
+      !payload.last_name ||
+      !payload.phone
+    ) {
 
-      notify("Veuillez remplir tous les champs.", true);
+      notify(
+        "Veuillez remplir tous les champs.",
+        true
+      );
+
       return;
+
     }
 
     $("saveButton").disabled = true;
@@ -731,7 +725,8 @@ $("memberForm").addEventListener(
 
         result = await db
           .from("members")
-          .insert([payload]);
+          .insert(payload);
+
       }
 
       if (result.error) throw result.error;
@@ -748,16 +743,21 @@ $("memberForm").addEventListener(
 
     } catch (error) {
 
-      notify("Erreur : " + error.message, true);
+      notify(
+        "Erreur d'enregistrement : " + error.message,
+        true
+      );
 
     } finally {
 
       $("saveButton").disabled = false;
+
     }
+
   }
 );
 
-// OUVRIR LE FORMULAIRE
+/* AJOUT */
 
 $("addButton").addEventListener("click", () => {
 
@@ -771,23 +771,24 @@ $("addButton").addEventListener("click", () => {
     top: 0,
     behavior: "smooth"
   });
+
 });
 
-// ANNULER
+/* ANNULATION */
 
 $("cancelButton").addEventListener(
   "click",
   clearForm
 );
 
-// RECHERCHE
+/* RECHERCHE */
 
 $("search").addEventListener(
   "input",
   renderMembers
 );
 
-// DÉCONNEXION
+/* DÉCONNEXION */
 
 $("logoutButton").addEventListener(
   "click",
@@ -817,11 +818,13 @@ $("logoutButton").addEventListener(
       );
 
       $("logoutButton").disabled = false;
+
     }
+
   }
 );
 
-// DÉMARRAGE DE LA PAGE
+/* DÉMARRAGE DE LA PAGE */
 
 async function startPage() {
 
@@ -837,14 +840,16 @@ async function startPage() {
     if (!currentUser) {
 
       window.location.replace("./index.html");
+
       return;
+
     }
 
     $("userInfo").textContent =
       "Connecté : " +
-      (currentUser.email || "Compte utilisateur");
+      (currentUser.email || "");
 
-    // RÉCUPÉRATION DU RÔLE
+    /* VÉRIFICATION DU RÔLE */
 
     const { data: profile, error: profileError } =
       await db
@@ -858,8 +863,9 @@ async function startPage() {
     if (!profile || !profile.role) {
 
       throw new Error(
-        "Profil ou rôle utilisateur introuvable."
+        "Profil utilisateur ou rôle introuvable."
       );
+
     }
 
     const role = String(profile.role)
@@ -871,50 +877,51 @@ async function startPage() {
       "administrateur"
     ].includes(role);
 
-    // AFFICHAGE DU RÔLE
-
-    $("roleInfo").textContent = isAdmin
-      ? "Vous disposez des droits d'administration."
-      : "Vous disposez des droits de consultation.";
+    /* AFFICHAGE DES DROITS */
 
     $("roleBadge").textContent = isAdmin
       ? "ADMINISTRATEUR"
       : "LECTEUR";
 
-    // DROITS ADMINISTRATEUR
+    $("roleDescription").textContent = isAdmin
+      ? "Vous disposez des droits d'administration."
+      : "Vous disposez des droits de consultation.";
+
+    /* MENU ADMIN */
 
     if (isAdmin) {
 
       $("addButton").classList.remove("hidden");
 
-      $("actionsHeader").classList.remove("hidden");
     }
 
-    // CHARGEMENT DES MEMBRES
+    /* CHARGEMENT DES DONNÉES */
 
     await loadMembers();
 
   } catch (error) {
 
-    console.error("Erreur de démarrage :", error);
-
-    $("roleInfo").textContent =
-      "Vérification du compte impossible.";
-
-    $("roleBadge").textContent =
-      "ACCÈS NON VÉRIFIÉ";
+    console.error(
+      "Erreur de démarrage :",
+      error
+    );
 
     notify(
       "Erreur : " +
-      (error.message || "Erreur de connexion."),
+      (error.message || "Connexion impossible."),
       true
     );
+
   }
+
 }
+
+/* LANCEMENT */
 
 startPage();
 
 </script>
 
 </body>
-</html>
+    </html>
+  
