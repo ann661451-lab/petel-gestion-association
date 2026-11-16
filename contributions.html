@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087354">
 <title>Cotisations - Petel Association</title>
 
 <style>
@@ -12,134 +13,126 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f4f7f5;
-  color:#24312b;
+  background:#eff7f4;
+  color:#263832;
 }
 
 header{
-  background:#087f5b;
+  background:#087354;
   color:white;
-  padding:22px 15px;
   text-align:center;
+  padding:25px 15px;
 }
 
 header h1{margin:0 0 8px;font-size:25px}
 header p{margin:0}
 
 main{
-  max-width:1000px;
+  max-width:950px;
   margin:auto;
-  padding:18px;
+  padding:16px;
 }
 
 .back{
   display:inline-block;
-  margin-bottom:16px;
-  color:#087f5b;
+  margin:10px 0 20px;
+  color:#087354;
   font-weight:bold;
   text-decoration:none;
 }
 
 .card{
   background:white;
-  padding:20px;
-  margin-bottom:18px;
-  border-radius:18px;
-  box-shadow:0 3px 12px #0000000d;
+  padding:22px;
+  margin-bottom:20px;
+  border-radius:20px;
+  box-shadow:0 4px 15px #0000000d;
 }
 
-h2{margin-top:0}
+h2{
+  color:#087354;
+  font-size:23px;
+  margin-top:0;
+}
 
 .total{
-  color:#087f5b;
-  font-size:30px;
+  font-size:32px;
   font-weight:bold;
+  color:#087354;
 }
 
 .notice{
-  white-space:pre-wrap;
+  padding:12px;
+  border-radius:9px;
   margin:12px 0;
   overflow-wrap:anywhere;
 }
 
-.error{color:#b42318}
-.success{color:#087f5b}
-.info{color:#475467}
+.info{background:#e8f3ee;color:#174b38}
+.success{background:#dcfce7;color:#166534}
+.error{background:#fee2e2;color:#991b1b}
 
 label{
   display:block;
-  margin:12px 0 6px;
+  margin:13px 0 6px;
   font-weight:bold;
 }
 
 input,select{
   width:100%;
-  padding:12px;
-  border:1px solid #ccd5d0;
-  border-radius:9px;
+  padding:14px;
+  border:1px solid #ccd8d3;
+  border-radius:10px;
   font-size:16px;
   background:white;
 }
 
 button{
   border:0;
-  border-radius:9px;
-  padding:11px 15px;
-  margin:8px 5px 0 0;
-  background:#087f5b;
+  border-radius:10px;
+  padding:13px 17px;
+  margin:7px 4px 7px 0;
+  background:#087354;
   color:white;
   font-size:15px;
+  font-weight:bold;
   cursor:pointer;
 }
 
-button.secondary{background:#53645c}
-button.danger{background:#b42318}
-button:disabled{opacity:.6}
+button:disabled{
+  opacity:.6;
+}
+
+.secondary{background:#64748b}
+.edit{background:#e6a900}
+.danger{background:#b42318}
 
 .hidden{display:none!important}
 
-/* Tableau ordinateur */
-
 .table-wrap{
   width:100%;
-  overflow:visible;
+  overflow-x:auto;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  table-layout:fixed;
 }
 
 th,td{
-  padding:13px 10px;
+  padding:13px 9px;
   text-align:left;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid #e1e8e4;
   overflow-wrap:anywhere;
-  vertical-align:middle;
 }
 
 th{
-  background:#e8f4ee;
+  background:#e8f3ee;
   color:#174b38;
 }
 
-th:nth-child(1),td:nth-child(1){width:36%}
-th:nth-child(2),td:nth-child(2){width:24%}
-th:nth-child(3),td:nth-child(3){width:22%}
-th:nth-child(4),td:nth-child(4){width:18%}
-
-.actions{
-  white-space:normal;
-}
-
-.actions button{
-  margin:3px;
-  padding:9px 11px;
-}
-
 .amount-positive{
-  color:#087f5b;
+  color:#087354;
   font-weight:bold;
 }
 
@@ -148,18 +141,17 @@ th:nth-child(4),td:nth-child(4){width:18%}
   padding:25px;
 }
 
-/* Cartes sur téléphone */
+footer{
+  text-align:center;
+  padding:25px 12px;
+  color:#78847e;
+}
 
 @media(max-width:600px){
-
   main{padding:12px}
-  header{padding:20px 12px}
+  .card{padding:17px}
   header h1{font-size:22px}
-  header p{font-size:14px}
-
-  .card{padding:15px}
   h2{font-size:21px}
-  .total{font-size:27px}
 
   .table-wrap{overflow:visible}
 
@@ -172,28 +164,23 @@ th:nth-child(4),td:nth-child(4){width:18%}
 
   tbody tr{
     display:block;
-    width:100%;
-    margin-bottom:15px;
-    padding:12px;
+    background:white;
     border:1px solid #dce5e0;
-    border-radius:13px;
-    background:#fff;
+    border-radius:15px;
+    padding:12px;
+    margin-bottom:15px;
   }
 
   tbody td{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:12px;
-    width:100%!important;
-    padding:12px 2px;
-    border-bottom:1px solid #e8eeea;
-    font-size:14px;
+    gap:10px;
+    width:100%;
+    padding:13px 3px;
     text-align:right;
-  }
-
-  tbody td:last-child{
-    border-bottom:0;
+    border-bottom:1px solid #e8eeea;
+    font-size:15px;
   }
 
   tbody td::before{
@@ -201,7 +188,6 @@ th:nth-child(4),td:nth-child(4){width:18%}
     font-weight:bold;
     color:#174b38;
     text-align:left;
-    flex:0 0 auto;
   }
 
   tbody td.actions{
@@ -213,11 +199,6 @@ th:nth-child(4),td:nth-child(4){width:18%}
     margin-right:auto;
   }
 
-  .actions button{
-    font-size:13px;
-    padding:9px 10px;
-  }
-
   tbody td.empty-cell{
     display:block;
     text-align:center;
@@ -227,13 +208,10 @@ th:nth-child(4),td:nth-child(4){width:18%}
     content:none;
   }
 
-  footer{font-size:14px}
-}
-
-footer{
-  text-align:center;
-  color:#666;
-  padding:25px 12px;
+  .actions button{
+    padding:10px;
+    font-size:13px;
+  }
 }
 </style>
 </head>
@@ -242,18 +220,18 @@ footer{
 
 <header>
   <h1>Petel Association</h1>
-  <p>Solidarité &amp; Développement — Cotisations</p>
+  <p>Solidarité & Développement — Cotisations</p>
 </header>
 
 <main>
 
 <a class="back" href="./dashboard.html">
-  ← Retour au tableau de bord
+← Retour au tableau de bord
 </a>
 
-<p id="notice" class="notice info" role="status">
-  Connexion à Supabase...
-</p>
+<div id="notice" class="notice info" role="status">
+Connexion à Supabase...
+</div>
 
 <section class="card">
   <h2>Total des cotisations</h2>
@@ -261,8 +239,7 @@ footer{
   <p id="nombre">Chargement...</p>
 </section>
 
-<section id="formCard" class="card hidden">
-
+<section class="card hidden" id="formCard">
   <h2 id="formTitle">Ajouter une cotisation</h2>
 
   <form id="contributionForm">
@@ -275,7 +252,8 @@ footer{
     </select>
 
     <label for="amount">Montant (FCFA)</label>
-    <input id="amount" type="number" min="1" step="1" required>
+    <input id="amount" type="number"
+      min="1" step="1" required>
 
     <label for="period">Période d'enregistrement</label>
     <input id="period" type="text"
@@ -288,7 +266,8 @@ footer{
       Enregistrer
     </button>
 
-    <button id="cancelButton" type="button" class="secondary">
+    <button id="cancelButton"
+      type="button" class="secondary">
       Annuler
     </button>
 
@@ -296,48 +275,53 @@ footer{
 </section>
 
 <section class="card">
-
   <h2>Liste des cotisations</h2>
 
   <button id="addButton" class="hidden" type="button">
     + Ajouter une cotisation
   </button>
 
+  <label for="search">Rechercher une cotisation</label>
+  <input id="search" type="search"
+    placeholder="Nom du membre ou période...">
+
   <div class="table-wrap" style="margin-top:15px">
-
-    <table id="contributionsTable">
-
+    <table>
       <thead>
         <tr>
           <th>Membre</th>
           <th>Montant</th>
           <th>Date</th>
+          <th>Période</th>
           <th id="actionsHeader" class="hidden">Actions</th>
         </tr>
       </thead>
 
       <tbody id="liste">
         <tr>
-          <td class="empty-cell" colspan="4">
+          <td class="empty-cell" colspan="5">
             Chargement des cotisations...
           </td>
         </tr>
       </tbody>
-
     </table>
   </div>
 </section>
 
+<button id="logoutButton" class="danger">
+  ↪ Se déconnecter
+</button>
+
 </main>
 
 <footer>
-© 2026 Petel Association Solidarité &amp; Développement
+© 2026 Petel Association Solidarité & Développement
 </footer>
 
 <script type="module">
 
-import { createClient }
-from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { createClient } from
+"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 const SUPABASE_URL =
 "https://evbpmafgciphyfzmkctc.supabase.co";
@@ -352,17 +336,19 @@ const supabase = createClient(
 
 const $ = id => document.getElementById(id);
 
-const notice = $("notice");
-const liste = $("liste");
-
 let role = "";
 let membres = [];
 let cotisations = [];
 let enregistrement = false;
 
+function peutGerer(){
+  return ["admin","administrateur"].includes(role);
+}
+
 function message(texte,type="info"){
-  notice.textContent = texte;
-  notice.className = "notice " + type;
+  const box = $("notice");
+  box.textContent = texte;
+  box.className = "notice " + type;
 }
 
 function fcfa(valeur){
@@ -380,13 +366,6 @@ function dateFr(date){
     : d.toLocaleDateString("fr-FR");
 }
 
-function cellule(texte,label){
-  const td = document.createElement("td");
-  td.textContent = texte ?? "";
-  td.dataset.label = label;
-  return td;
-}
-
 function nomMembre(m){
   return [
     m?.first_name,
@@ -394,8 +373,11 @@ function nomMembre(m){
   ].filter(Boolean).join(" ") || "Membre non identifié";
 }
 
-function peutGerer(){
-  return role === "admin";
+function cellule(texte,label){
+  const td = document.createElement("td");
+  td.textContent = texte ?? "";
+  td.dataset.label = label;
+  return td;
 }
 
 function fermerFormulaire(){
@@ -405,7 +387,6 @@ function fermerFormulaire(){
 }
 
 function afficherFormulaire(c=null){
-
   if(!peutGerer()) return;
 
   $("contributionForm").reset();
@@ -432,29 +413,26 @@ async function chargerMembres(){
 
   const {data,error} = await supabase
     .from("members")
-    .select("id, first_name, last_name")
+    .select("id,first_name,last_name")
     .order("first_name");
 
   if(error) throw error;
 
   membres = data || [];
 
-  $("member").replaceChildren();
+  const select = $("member");
+  select.replaceChildren();
 
   const choix = document.createElement("option");
   choix.value = "";
   choix.textContent = "Choisir un membre";
-
-  $("member").appendChild(choix);
+  select.appendChild(choix);
 
   for(const m of membres){
-
     const option = document.createElement("option");
-
     option.value = m.id;
     option.textContent = nomMembre(m);
-
-    $("member").appendChild(option);
+    select.appendChild(option);
   }
 }
 
@@ -475,43 +453,57 @@ async function chargerCotisations(){
   if(error) throw error;
 
   cotisations = data || [];
-
   afficherCotisations();
 }
 
 function afficherCotisations(){
 
-  liste.replaceChildren();
+  const recherche = $("search").value
+    .trim().toLowerCase();
 
   const admin = peutGerer();
 
-  let total = 0;
+  const filtered = cotisations.filter(c => {
+    const m = Array.isArray(c.members)
+      ? c.members[0]
+      : c.members;
 
-  for(const c of cotisations){
-    total += Number(c.amount || 0);
-  }
+    const texte = [
+      nomMembre(m),
+      c.period,
+      c.amount,
+      dateFr(c.payment_date)
+    ].join(" ").toLowerCase();
+
+    return texte.includes(recherche);
+  });
+
+  const total = cotisations.reduce(
+    (s,c) => s + Number(c.amount || 0),0
+  );
 
   $("total").textContent = fcfa(total);
 
   $("nombre").textContent =
     cotisations.length + " cotisation(s) enregistrée(s).";
 
-  if(!cotisations.length){
+  const liste = $("liste");
+  liste.replaceChildren();
 
+  if(!filtered.length){
     const tr = document.createElement("tr");
     const td = document.createElement("td");
 
-    td.colSpan = admin ? 4 : 3;
+    td.colSpan = admin ? 5 : 4;
     td.className = "empty-cell";
-    td.textContent = "Aucune cotisation enregistrée.";
+    td.textContent = "Aucune cotisation trouvée.";
 
     tr.appendChild(td);
     liste.appendChild(tr);
-
     return;
   }
 
-  for(const c of cotisations){
+  for(const c of filtered){
 
     const tr = document.createElement("tr");
 
@@ -524,8 +516,7 @@ function afficherCotisations(){
     );
 
     const montant = cellule(
-      fcfa(c.amount),
-      "Montant"
+      fcfa(c.amount),"Montant"
     );
 
     montant.classList.add("amount-positive");
@@ -535,16 +526,19 @@ function afficherCotisations(){
       cellule(dateFr(c.payment_date),"Date")
     );
 
+    tr.appendChild(
+      cellule(c.period || "—","Période")
+    );
+
     if(admin){
 
       const td = document.createElement("td");
-
       td.className = "actions";
       td.dataset.label = "Actions";
 
       const modifier = document.createElement("button");
-
       modifier.type = "button";
+      modifier.className = "edit";
       modifier.textContent = "Modifier";
 
       modifier.addEventListener("click",()=>{
@@ -552,10 +546,9 @@ function afficherCotisations(){
       });
 
       const supprimer = document.createElement("button");
-
       supprimer.type = "button";
-      supprimer.textContent = "Supprimer";
       supprimer.className = "danger";
+      supprimer.textContent = "Supprimer";
 
       supprimer.addEventListener("click",()=>{
         supprimerCotisation(c);
@@ -610,14 +603,11 @@ async function sauvegarderCotisation(event){
     let result;
 
     if(id){
-
       result = await supabase
         .from("contributions")
         .update(payload)
         .eq("id",id);
-
     }else{
-
       result = await supabase
         .from("contributions")
         .insert(payload);
@@ -626,11 +616,12 @@ async function sauvegarderCotisation(event){
     if(result.error) throw result.error;
 
     fermerFormulaire();
-
     await chargerCotisations();
 
     message(
-      id ? "Cotisation modifiée." : "Cotisation ajoutée.",
+      id
+        ? "Cotisation modifiée avec succès."
+        : "Cotisation ajoutée avec succès.",
       "success"
     );
 
@@ -639,8 +630,7 @@ async function sauvegarderCotisation(event){
     console.error(error);
 
     message(
-      "Enregistrement impossible : " +
-      (error.message || "Erreur inconnue"),
+      "Enregistrement impossible : " + error.message,
       "error"
     );
 
@@ -675,15 +665,17 @@ async function supprimerCotisation(c){
 
     await chargerCotisations();
 
-    message("Cotisation supprimée.","success");
+    message(
+      "Cotisation supprimée avec succès.",
+      "success"
+    );
 
   }catch(error){
 
     console.error(error);
 
     message(
-      "Suppression impossible : " +
-      (error.message || "Erreur inconnue"),
+      "Suppression impossible : " + error.message,
       "error"
     );
   }
@@ -699,23 +691,25 @@ async function demarrer(){
     if(sessionError) throw sessionError;
 
     if(!sessionData.session){
-
       message(
         "Connecte-toi d'abord depuis la page d'accueil.",
         "error"
       );
 
-      liste.innerHTML =
-        '<tr><td class="empty-cell" colspan="4">Connexion requise.</td></tr>';
+      $("total").textContent = "—";
+      $("nombre").textContent = "Connexion requise.";
+      $("liste").replaceChildren();
 
       return;
     }
+
+    const user = sessionData.session.user;
 
     const {data:profil,error:profilError} =
       await supabase
         .from("profiles")
         .select("role")
-        .eq("id",sessionData.session.user.id)
+        .eq("id",user.id)
         .maybeSingle();
 
     if(profilError) throw profilError;
@@ -734,7 +728,7 @@ async function demarrer(){
       $("actionsHeader").classList.remove("hidden");
 
       message(
-        "Connecté avec le rôle : admin.",
+        "Connecté avec les droits administrateur.",
         "success"
       );
 
@@ -755,15 +749,24 @@ async function demarrer(){
 
     message(
       "Impossible de charger les cotisations : " +
-      (error.message || "Erreur inconnue"),
+      error.message,
       "error"
     );
 
     $("total").textContent = "—";
     $("nombre").textContent = "Chargement impossible.";
 
-    liste.innerHTML =
-      '<tr><td class="empty-cell" colspan="4">Erreur de chargement.</td></tr>';
+    $("liste").replaceChildren();
+
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+
+    td.colSpan = 5;
+    td.className = "empty-cell";
+    td.textContent = "Erreur de chargement.";
+
+    tr.appendChild(td);
+    $("liste").appendChild(tr);
   }
 }
 
@@ -780,12 +783,31 @@ $("contributionForm").addEventListener(
   sauvegarderCotisation
 );
 
+$("search").addEventListener("input",()=>{
+  afficherCotisations();
+});
+
+$("logoutButton").addEventListener("click",async()=>{
+
+  if(!confirm("Voulez-vous vous déconnecter ?")) return;
+
+  const {error} = await supabase.auth.signOut();
+
+  if(error){
+    message(error.message,"error");
+    return;
+  }
+
+  window.location.replace("./index.html");
+});
+
 demarrer();
 
 </script>
 
 </body>
 </html>
+
 
 
 
