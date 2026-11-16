@@ -9,10 +9,6 @@
 <title>Petel Association - Tableau de bord</title>
 
 <style>
-/* =================================
-   IDENTITÉ VISUELLE PREMIUM
-================================= */
-
 * {
   box-sizing: border-box;
 }
@@ -46,9 +42,7 @@ button, a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* =================================
-   EN-TÊTE
-================================= */
+/* EN-TÊTE */
 
 header {
   background:
@@ -95,9 +89,7 @@ header p {
   letter-spacing: .5px;
 }
 
-/* =================================
-   CONTENU PRINCIPAL
-================================= */
+/* CONTENU PRINCIPAL */
 
 main {
   max-width: 1120px;
@@ -105,9 +97,7 @@ main {
   padding: 25px 18px 40px;
 }
 
-/* =================================
-   BIENVENUE
-================================= */
+/* BIENVENUE */
 
 .welcome {
   position: relative;
@@ -158,6 +148,27 @@ main {
   overflow-wrap: anywhere;
 }
 
+/* MESSAGE DE MOTIVATION */
+
+.motto-title {
+  position: relative;
+  z-index: 1;
+  margin: 20px 0 5px !important;
+  color: var(--green) !important;
+  font-size: 19px !important;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+.motto-text {
+  position: relative;
+  z-index: 1;
+  margin: 5px 0 0 !important;
+  color: #687970;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
 .role-badge {
   display: inline-block;
   background: var(--light-green);
@@ -170,9 +181,7 @@ main {
   letter-spacing: .5px;
 }
 
-/* =================================
-   TITRES
-================================= */
+/* TITRES */
 
 .section-title {
   font-size: 21px;
@@ -181,9 +190,7 @@ main {
   color: var(--deep-green);
 }
 
-/* =================================
-   CARTES STATISTIQUES
-================================= */
+/* CARTES STATISTIQUES */
 
 .cards {
   display: grid;
@@ -249,9 +256,7 @@ main {
   margin: 5px 0 0;
 }
 
-/* =================================
-   MENU DE NAVIGATION
-================================= */
+/* MENU DE NAVIGATION */
 
 .menu-grid {
   display: grid;
@@ -316,9 +321,7 @@ main {
   font-weight: bold;
 }
 
-/* =================================
-   MESSAGES
-================================= */
+/* MESSAGES */
 
 #notice {
   display: none;
@@ -332,9 +335,7 @@ main {
   overflow-wrap: anywhere;
 }
 
-/* =================================
-   DÉCONNEXION
-================================= */
+/* DÉCONNEXION */
 
 .logout {
   width: 100%;
@@ -360,9 +361,7 @@ main {
   cursor: wait;
 }
 
-/* =================================
-   PIED DE PAGE
-================================= */
+/* PIED DE PAGE */
 
 footer {
   text-align: center;
@@ -371,9 +370,7 @@ footer {
   font-size: 12px;
 }
 
-/* =================================
-   ORDINATEUR
-================================= */
+/* ORDINATEUR */
 
 @media (min-width: 800px) {
   main {
@@ -395,9 +392,7 @@ footer {
   }
 }
 
-/* =================================
-   TABLETTE
-================================= */
+/* TABLETTE */
 
 @media (min-width: 521px) and (max-width: 799px) {
   .cards {
@@ -405,9 +400,7 @@ footer {
   }
 }
 
-/* =================================
-   TÉLÉPHONE
-================================= */
+/* TÉLÉPHONE */
 
 @media (max-width: 520px) {
   header {
@@ -443,6 +436,14 @@ footer {
   }
 
   .welcome p {
+    font-size: 13px;
+  }
+
+  .motto-title {
+    font-size: 17px !important;
+  }
+
+  .motto-text {
     font-size: 13px;
   }
 
@@ -522,9 +523,7 @@ footer {
   }
 }
 
-/* =================================
-   ACCESSIBILITÉ
-================================= */
+/* ACCESSIBILITÉ */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -557,14 +556,24 @@ footer {
 
     <div class="welcome-top">
       <h2>Bienvenue 👋</h2>
+
       <span id="roleBadge" class="role-badge">
         Vérification...
       </span>
     </div>
 
-    <p>Votre espace de gestion associative.</p>
+    <p class="motto-title">
+      🤝 UNIS POUR BÂTIR !
+    </p>
 
-    <p id="roleText">Rôle : vérification en cours...</p>
+    <p class="motto-text">
+      Ensemble, chaque membre apporte sa pierre
+      à la construction de notre localité.
+    </p>
+
+    <p id="roleText">
+      Rôle : vérification en cours...
+    </p>
 
     <p id="userText"></p>
 
@@ -699,9 +708,7 @@ footer {
   © 2026 Petel Association Solidarité &amp; Développement
 </footer>
 
-<!-- =================================
-     CONNEXION SUPABASE
-================================= -->
+<!-- CONNEXION SUPABASE -->
 
 <script type="module">
 
@@ -735,9 +742,7 @@ function formaterMontant(valeur) {
     + " FCFA";
 }
 
-/* =================================
-   CHARGEMENT DES STATISTIQUES
-================================= */
+/* CHARGEMENT DES STATISTIQUES */
 
 async function chargerStatistiques() {
 
@@ -859,9 +864,7 @@ async function chargerStatistiques() {
   }
 }
 
-/* =================================
-   DÉMARRAGE DU TABLEAU DE BORD
-================================= */
+/* DÉMARRAGE DU TABLEAU DE BORD */
 
 async function startDashboard() {
 
@@ -943,9 +946,7 @@ async function startDashboard() {
   }
 }
 
-/* =================================
-   DÉCONNEXION
-================================= */
+/* DÉCONNEXION */
 
 $("logoutButton").addEventListener(
   "click",
@@ -972,14 +973,12 @@ $("logoutButton").addEventListener(
   }
 );
 
-/* =================================
-   LANCEMENT
-================================= */
+/* LANCEMENT */
 
 startDashboard();
 
 </script>
 
 </body>
-  </html>
-  
+</html>
+
